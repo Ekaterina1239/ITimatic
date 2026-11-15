@@ -5,11 +5,17 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 
-from ..models import STAGES, Applicant, Branch, Group  # noqa: F401
+from ..models import Applicant, Branch, ContractStatus, EnrolmentStage, Group, LostReason
 from .common import role_required
 
-LOST_REASONS = ["Price", "Schedule", "Level", "Location", "Other"]
-STEP_STAGE = {"conv": "Group matching", "trial": "Trial completed", "feedback": "Agreement"}
+LOST_REASONS = LostReason.values
+STAGES = EnrolmentStage.values
+# trial step: form field -> (TrialLesson attribute, stage reached)
+TRIAL_FIELDS = {
+    "conv": ("conversation", EnrolmentStage.GROUP_MATCHING),
+    "trial": ("attendance", EnrolmentStage.TRIAL_COMPLETED),
+    "feedback": ("feedback", EnrolmentStage.AGREEMENT),
+}
 
 
 NEXT_STEP = {
@@ -32,19 +38,20 @@ def recommended_group(a):
 
 
 def history(a):
+    test, trial, contract = a.steps()
     items = [("Enquiry received", f"{a.parent_name or a.name} · {a.subject}")]
-    if a.score is not None:
-        items.append(("Knowledge assessment", f"{a.level or a.rec_level} · {a.score} / 100"))
-    elif a.skip_reason:
-        items.append(("Level test skipped", a.skip_reason))
-    if a.conv:
-        items.append(("Teacher conversation", a.conv))
-    if a.trial:
-        items.append(("Free trial", a.trial))
-    if a.feedback:
-        items.append(("Student feedback", a.feedback))
-    if a.contract_recorded:
-        items.append(("Signed contract recorded", a.contract_no))
+    if test.score is not None:
+        items.append(("Knowledge assessment", f"{a.level or test.recommended_level} · {test.score} / 100"))
+    elif test.skip_reason:
+        items.append(("Level test skipped", test.skip_reason))
+    if trial.conversation:
+        items.append(("Teacher conversation", trial.conversation))
+    if trial.attendance:
+        items.append(("Free trial", trial.attendance))
+    if trial.feedback:
+        items.append(("Student feedback", trial.feedback))
+    if contract.is_complete():
+        items.append(("Signed contract recorded", contract.number))
     if a.waiting:
         items.append(("Waiting list", "Family will be notified when a place opens"))
     if a.stage == "Lost":
@@ -105,30 +112,30 @@ def applicant(request, pk):
                 "reasons": LOST_REASONS,
                 "rec": recommended_group(a),
                 "hist": history(a),
+                "t": a.level_test, "tr": a.trial, "c": a.contract,
             },
         )
 
     post, act = request.POST, request.POST.get("act")
     if act == "test":
-        a.test_date = post.get("test_date") or None
-        a.rec_level = post.get("rec_level", "")
+        test = a.level_test
         if post.get("score"):
-            a.score, a.skip_reason, a.stage = int(post["score"]), "", "Assessment"
+            test.record(int(post["score"]), post.get("test_date") or None, post.get("rec_level", ""))
+            a.stage = EnrolmentStage.ASSESSMENT
         elif post.get("skip_reason"):
-            a.score, a.skip_reason = None, post["skip_reason"]
+            test.skip(post["skip_reason"])
         else:
             messages.error(request, _("Enter a score or a reason for skipping."))
-    elif act in STEP_STAGE:
-        setattr(a, act, post["v"])
-        a.stage = STEP_STAGE[act]
+    elif act in TRIAL_FIELDS:
+        field, stage = TRIAL_FIELDS[act]
+        trial = a.trial
+        setattr(trial, field, post["v"])
+        trial.save()
+        a.stage = stage
     elif act == "prepared":
-        a.contract_status = "Prepared"
+        a.contract.prepare()
     elif act == "contract":
-        a.contract_no = post.get("no", "")
-        a.signing_date = post.get("date") or None
-        if request.FILES.get("scan"):
-            a.scan = request.FILES["scan"]
-        if a.record_contract():
+        if a.contract.record(post.get("no", ""), post.get("date"), request.FILES.get("scan")):
             messages.success(request, _("Signed contract recorded. This applicant can now join a group."))
         else:
             messages.error(request, _("Contract number, signing date and a signed scan are required."))

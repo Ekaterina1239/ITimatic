@@ -8,10 +8,10 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.translation import gettext as _
 
-from ..models import Applicant, Branch, Charge, Group, Notification, Payment, Student
+from ..models import PaymentMethod, Applicant, Branch, Charge, Group, Notification, Payment, Student
 from .common import role_required
 
-PAYMENT_METHODS = ("Cash", "Card", "Bank transfer", "Payme", "Click")
+PAYMENT_METHODS = PaymentMethod.values
 
 
 def ledger_rows(month):

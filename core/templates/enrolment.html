@@ -39,7 +39,7 @@
         <tr class="{% if a == sel %}sel{% endif %}">
           <td><a class="who" href="?sel={{ a.pk }}&amp;tab={{ tab }}&amp;stage={{ st|urlencode }}" style="color:inherit"><span class="av">{{ a.name|initials }}</span>
             <span>{{ a.name }}<span class="sub">{% trans "Parent" %}: {{ a.parent_name|default:"–" }}</span></span></a></td>
-          <td>{{ a.level|default:"–" }} · {% trans a.subject %}<span class="sub">{% if a.score is not None %}{% trans "Assessment" %}: {{ a.score }} / 100{% else %}{% trans "Level not yet assessed" %}{% endif %}</span></td>
+          <td>{{ a.level|default:"–" }} · {% trans a.subject %}<span class="sub">{% if a.level_test.score is not None %}{% trans "Assessment" %}: {{ a.level_test.score }} / 100{% else %}{% trans "Level not yet assessed" %}{% endif %}</span></td>
           <td><span class="pill {% if a.waiting %}warn{% else %}{{ a.stage|pill }}{% endif %}">{% if a.waiting %}{% trans "Waiting list" %}{% else %}{% trans a.stage %}{% endif %}</span></td>
           <td>{% trans nxt %}<span class="sub"><a href="{% url 'applicant' a.pk %}">{% trans "Open applicant" %} →</a></span></td>
         </tr>
@@ -54,11 +54,11 @@
   <div class="card">
     <h2 style="font-size:17px">{{ sel.name }}</h2>
     <div class="mu">{% trans "Application" %} EN-{{ sel.pk|add:1047 }}</div>
-    <div class="row" style="margin:10px 0"><span class="pill {{ sel.stage|pill }}">{% trans sel.stage %}</span>{% if sel.trial %}<span class="pill ok">{% trans "Trial" %}: {% trans sel.trial %}</span>{% endif %}</div>
+    <div class="row" style="margin:10px 0"><span class="pill {{ sel.stage|pill }}">{% trans sel.stage %}</span>{% if sel.trial.attendance %}<span class="pill ok">{% trans "Trial" %}: {% trans sel.trial.attendance %}</span>{% endif %}</div>
     <div class="kv">
       <div><span class="mu">{% trans "Parent / agreement signer" %}</span>{{ sel.parent_name|default:"–" }}</div>
       <div><span class="mu">{% trans "Phone" %}</span>{{ sel.phone }}</div>
-      <div><span class="mu">{% trans "Assessed level" %}</span>{% trans sel.subject %} · {{ sel.level|default:"–" }}{% if sel.score is not None %} ({{ sel.score }} / 100){% endif %}</div>
+      <div><span class="mu">{% trans "Assessed level" %}</span>{% trans sel.subject %} · {{ sel.level|default:"–" }}{% if sel.level_test.score is not None %} ({{ sel.level_test.score }} / 100){% endif %}</div>
       <div><span class="mu">{% trans "Branch" %}</span>{{ sel.branch }}</div>
     </div>
     <hr style="border:0;border-top:1px solid var(--line2);margin:16px 0">

@@ -4,7 +4,7 @@ The classes are grouped by sub-system (the same packages are used in the
 UML architecture diagram):
 
 * Accounts       - User, UserRole, Branch
-* Enrolment      - Applicant
+* Enrolment      - Applicant, EnrolmentStep (abstract), LevelTest, TrialLesson, Contract
 * Academic       - Group, Student, Lesson, Attendance, AbsenceReport,
                    Assessment, Certificate
 * Finance        - MonthlyAmount (abstract), Charge, Payment
@@ -18,26 +18,123 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 
-ROLES = [
-    ("admin", "Administrator"),
-    ("teacher", "Teacher"),
-    ("parent", "Parent"),
-    ("student", "Student"),
-    ("edmgr", "Education manager"),
-    ("accountant", "Accountant"),
-    ("director", "Director"),
-]
-LANGUAGES = [("en", "English"), ("ru", "Русский"), ("uz", "O‘zbekcha")]
-STAGES = [
-    "Enquiry",
-    "Assessment",
-    "Group matching",
-    "Trial booked",
-    "Trial completed",
-    "Agreement",
-    "Confirmed",
-    "Lost",
-]
+# --------------------------------------------------------------------------
+# Enumerations (UML «enumeration»). The stored value is the first string.
+# --------------------------------------------------------------------------
+class Role(models.TextChoices):
+    ADMIN = "admin", "Administrator"
+    TEACHER = "teacher", "Teacher"
+    PARENT = "parent", "Parent"
+    STUDENT = "student", "Student"
+    EDUCATION_MANAGER = "edmgr", "Education manager"
+    ACCOUNTANT = "accountant", "Accountant"
+    DIRECTOR = "director", "Director"
+
+
+class Language(models.TextChoices):
+    EN = "en", "English"
+    RU = "ru", "Русский"
+    UZ = "uz", "O‘zbekcha"
+
+
+class EnrolmentStage(models.TextChoices):
+    ENQUIRY = "Enquiry"
+    ASSESSMENT = "Assessment"
+    GROUP_MATCHING = "Group matching"
+    TRIAL_BOOKED = "Trial booked"
+    TRIAL_COMPLETED = "Trial completed"
+    AGREEMENT = "Agreement"
+    CONFIRMED = "Confirmed"
+    LOST = "Lost"
+
+
+class LostReason(models.TextChoices):
+    PRICE = "Price"
+    SCHEDULE = "Schedule"
+    LEVEL = "Level"
+    LOCATION = "Location"
+    OTHER = "Other"
+
+
+class Conversation(models.TextChoices):
+    ACCEPTED = "Accepted"
+    NOT_SUITABLE = "Not suitable"
+
+
+class TrialAttendance(models.TextChoices):
+    ATTENDED = "Attended"
+    DID_NOT_ATTEND = "Did not attend"
+
+
+class Feedback(models.TextChoices):
+    WANTS_TO_JOIN = "Wants to join"
+    WANTS_ANOTHER_GROUP = "Wants another group"
+    DECLINES = "Declines"
+
+
+class ContractStatus(models.TextChoices):
+    PREPARED = "Prepared"
+    SIGNED = "Signed"
+
+
+class GroupStatus(models.TextChoices):
+    ACTIVE = "active", "Active"
+    CLOSED = "closed", "Closed"
+    ARCHIVED = "archived", "Archived"
+
+
+class AttendanceStatus(models.TextChoices):
+    PRESENT = "present", "Present"
+    LATE = "late", "Late"
+    ABSENT = "absent", "Absent"
+    EXCUSED = "excused", "Excused"
+    UNEXPLAINED = "unexplained", "Unexplained"
+    NOT_MARKED = "not_marked", "Not marked"
+
+
+class AbsenceKind(models.TextChoices):
+    ABSENT = "absent", "Absent"
+    LATE = "late", "Late"
+
+
+class AbsenceReason(models.TextChoices):
+    ILLNESS = "Illness"
+    FAMILY = "Family"
+    TRAVEL = "Travel"
+    SCHOOL_EXAM = "School exam"
+    OTHER = "Other"
+
+
+class CertificateStatus(models.TextChoices):
+    ELIGIBLE = "eligible", "Eligible"
+    SUBMITTED = "submitted", "Submitted"
+    APPROVED = "approved", "Approved"
+    REJECTED = "rejected", "Rejected"
+
+
+class PaymentMethod(models.TextChoices):
+    CASH = "Cash"
+    CARD = "Card"
+    BANK_TRANSFER = "Bank transfer"
+    PAYME = "Payme"
+    CLICK = "Click"
+
+
+class LeaveReason(models.TextChoices):
+    SICK_LEAVE = "Sick leave"
+    OTHER = "Other"
+
+
+class LeaveStatus(models.TextChoices):
+    PENDING = "Pending"
+    APPROVED = "Approved"
+    REJECTED = "Rejected"
+
+
+# kept for older imports
+ROLES = Role.choices
+LANGUAGES = Language.choices
+STAGES = EnrolmentStage.values
 
 
 # --------------------------------------------------------------------------
@@ -48,7 +145,7 @@ class User(AbstractUser):
 
     phone = models.CharField(max_length=9, unique=True, null=True)
     # NFR-02: the last chosen interface language is remembered per account.
-    language = models.CharField(max_length=2, choices=LANGUAGES, default="en")
+    language = models.CharField(max_length=2, choices=Language.choices, default=Language.EN)
 
     def role_codes(self):
         return list(self.roles.values_list("role", flat=True))
@@ -66,7 +163,7 @@ class Branch(models.Model):
 
 class UserRole(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="roles")
-    role = models.CharField(max_length=12, choices=ROLES)
+    role = models.CharField(max_length=12, choices=Role.choices)
 
     class Meta:
         unique_together = ("user", "role")
@@ -86,8 +183,11 @@ class Notification(models.Model):
 
     @classmethod
     def send(cls, user, kind, text):
+        """Deliver a message through every channel (in-app + SMS)."""
+        from .services import notification_service
+
         if user is not None:
-            return cls.objects.create(user=user, kind=kind, text=text)
+            notification_service.notify(user, kind, text)
 
 
 # --------------------------------------------------------------------------
@@ -103,7 +203,7 @@ class Group(models.Model):
     level = models.CharField(max_length=10, blank=True)
     schedule = models.CharField(max_length=60, blank=True)
     capacity = models.PositiveSmallIntegerField(default=12)
-    status = models.CharField(max_length=10, default="active")  # active/closed/archived
+    status = models.CharField(max_length=10, choices=GroupStatus.choices, default=GroupStatus.ACTIVE)
     active = models.BooleanField(default=True)
 
     def __str__(self):
@@ -262,7 +362,7 @@ class Attendance(models.Model):
     student = models.ForeignKey(
         Student, on_delete=models.CASCADE, related_name="attendance"
     )
-    status = models.CharField(max_length=12, default="not_marked")
+    status = models.CharField(max_length=12, choices=AttendanceStatus.choices, default=AttendanceStatus.NOT_MARKED)
     # NFR-03: when the teacher marked it and when it reached the server.
     recorded_at = models.DateTimeField(null=True, blank=True)
     synced_at = models.DateTimeField(null=True, blank=True)
@@ -284,8 +384,8 @@ class AbsenceReport(models.Model):
 
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
-    kind = models.CharField(max_length=6)
-    reason = models.CharField(max_length=20, blank=True)
+    kind = models.CharField(max_length=6, choices=AbsenceKind.choices, default=AbsenceKind.ABSENT)
+    reason = models.CharField(max_length=20, choices=AbsenceReason.choices, blank=True)
     note = models.CharField(max_length=200, blank=True)
     minutes = models.PositiveSmallIntegerField(null=True, blank=True)
     until = models.DateField(null=True, blank=True)
@@ -322,7 +422,7 @@ class Certificate(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     score = models.PositiveSmallIntegerField()
     attendance = models.PositiveSmallIntegerField()
-    status = models.CharField(max_length=10, default="eligible")
+    status = models.CharField(max_length=10, choices=CertificateStatus.choices, default=CertificateStatus.ELIGIBLE)
     # eligible -> submitted -> approved / rejected
 
     def submit(self):
@@ -346,60 +446,134 @@ class Certificate(models.Model):
 # Enrolment
 # --------------------------------------------------------------------------
 class Applicant(models.Model):
-    """FR-01: one enquiry moving through the enrolment stages."""
+    """FR-01: one enquiry moving through the enrolment stages.
+
+    The work done at each stage is kept in its own EnrolmentStep object
+    (LevelTest, TrialLesson, Contract) — composition: the steps live and die
+    with the applicant.
+    """
 
     name = models.CharField(max_length=80)
     parent_name = models.CharField(max_length=80, blank=True)
     phone = models.CharField(max_length=20, blank=True)
     subject = models.CharField(max_length=40)
-    level = models.CharField(max_length=10)
+    level = models.CharField(max_length=10, blank=True)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     assigned = models.ForeignKey(
         User, null=True, blank=True, on_delete=models.SET_NULL, related_name="+"
     )
-    stage = models.CharField(max_length=20, default="Enquiry")
-    test_date = models.DateField(null=True, blank=True)
-    score = models.PositiveSmallIntegerField(null=True, blank=True)
-    skip_reason = models.CharField(max_length=120, blank=True)
-    rec_level = models.CharField(max_length=10, blank=True)
-    conv = models.CharField(max_length=12, blank=True)
-    trial = models.CharField(max_length=12, blank=True)
-    feedback = models.CharField(max_length=20, blank=True)
-    contract_status = models.CharField(max_length=12, blank=True)
-    contract_no = models.CharField(max_length=30, blank=True)
-    signing_date = models.DateField(null=True, blank=True)
-    scan = models.FileField(upload_to="contracts/", blank=True)
-    contract_recorded = models.BooleanField(default=False)
+    stage = models.CharField(max_length=20, choices=EnrolmentStage.choices, default=EnrolmentStage.ENQUIRY)
     waiting = models.BooleanField(default=False)
-    lost_reason = models.CharField(max_length=12, blank=True)
+    lost_reason = models.CharField(max_length=12, choices=LostReason.choices, blank=True)
     lost_note = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.name
 
-    def record_contract(self):
-        if self.contract_no and self.signing_date and self.scan:
-            self.contract_recorded = True
-            self.contract_status = "Signed"
-        return self.contract_recorded
+    # the three steps are created on first use
+    @property
+    def level_test(self):
+        return LevelTest.objects.get_or_create(applicant=self)[0]
+
+    @property
+    def trial(self):
+        return TrialLesson.objects.get_or_create(applicant=self)[0]
+
+    @property
+    def contract(self):
+        return Contract.objects.get_or_create(applicant=self)[0]
+
+    def steps(self):
+        return [self.level_test, self.trial, self.contract]
+
+    def progress(self):
+        """How many steps are complete (polymorphic is_complete())."""
+        return sum(step.is_complete() for step in self.steps())
 
     def join_group(self, group):
         """Turn the applicant into a student. Returns an error text or None."""
-        if not self.contract_recorded:
+        if not self.contract.is_complete():
             return "A signed contract is required before joining a group."
         if not group.has_place():
             return "The group is full. Move the applicant to the waiting list."
         Student.objects.create(name=self.name, branch=self.branch, group=group)
-        self.stage = "Confirmed"
+        self.stage = EnrolmentStage.CONFIRMED
         self.waiting = False
         self.save()
         return None
 
     def mark_lost(self, reason, note=""):
-        if not reason or (reason == "Other" and not note):
+        if reason not in LostReason.values or (reason == LostReason.OTHER and not note):
             return False
-        self.lost_reason, self.lost_note, self.stage = reason, note, "Lost"
+        self.lost_reason, self.lost_note, self.stage = reason, note, EnrolmentStage.LOST
         return True
+
+
+class EnrolmentStep(models.Model):
+    """Abstract parent of the three enrolment steps."""
+
+    applicant = models.OneToOneField(Applicant, on_delete=models.CASCADE, related_name="%(class)s_step")
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+    def is_complete(self):
+        raise NotImplementedError
+
+
+class LevelTest(EnrolmentStep):
+    date = models.DateField(null=True, blank=True)
+    score = models.PositiveSmallIntegerField(null=True, blank=True)
+    recommended_level = models.CharField(max_length=10, blank=True)
+    skip_reason = models.CharField(max_length=120, blank=True)
+
+    def is_complete(self):
+        return self.score is not None or bool(self.skip_reason)
+
+    def record(self, score, date=None, level=""):
+        self.score, self.date, self.recommended_level, self.skip_reason = score, date, level, ""
+        self.save()
+
+    def skip(self, reason):
+        self.score, self.skip_reason = None, reason
+        self.save()
+
+
+class TrialLesson(EnrolmentStep):
+    conversation = models.CharField(max_length=12, choices=Conversation.choices, blank=True)
+    attendance = models.CharField(max_length=14, choices=TrialAttendance.choices, blank=True)
+    feedback = models.CharField(max_length=20, choices=Feedback.choices, blank=True)
+
+    def is_complete(self):
+        return bool(self.feedback)
+
+    def outcome(self):
+        return self.feedback or self.attendance or self.conversation
+
+
+class Contract(EnrolmentStep):
+    number = models.CharField(max_length=30, blank=True)
+    signing_date = models.DateField(null=True, blank=True)
+    scan = models.FileField(upload_to="contracts/", blank=True)
+    status = models.CharField(max_length=10, choices=ContractStatus.choices, blank=True)
+
+    def is_complete(self):
+        return self.status == ContractStatus.SIGNED
+
+    def prepare(self):
+        self.status = ContractStatus.PREPARED
+        self.save()
+
+    def record(self, number, signing_date, scan=None):
+        """A contract counts as signed only with number, date and a scan."""
+        self.number, self.signing_date = number, signing_date or None
+        if scan:
+            self.scan = scan
+        if self.number and self.signing_date and self.scan:
+            self.status = ContractStatus.SIGNED
+        self.save()
+        return self.is_complete()
 
 
 # --------------------------------------------------------------------------
@@ -426,7 +600,7 @@ class Charge(MonthlyAmount):
 
 
 class Payment(MonthlyAmount):
-    method = models.CharField(max_length=13)
+    method = models.CharField(max_length=13, choices=PaymentMethod.choices)
     discount = models.CharField(max_length=20, default="None")
     paid_on = models.DateField(null=True, blank=True)
     receipt_no = models.CharField(max_length=20, blank=True)
@@ -445,10 +619,10 @@ class LeaveRequest(models.Model):
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name="leaves")
     start = models.DateField()
     end = models.DateField()
-    reason = models.CharField(max_length=12)
+    reason = models.CharField(max_length=12, choices=LeaveReason.choices, default=LeaveReason.SICK_LEAVE)
     note = models.CharField(max_length=200, blank=True)
     attachment = models.FileField(upload_to="leave/", blank=True)
-    status = models.CharField(max_length=10, default="Pending")
+    status = models.CharField(max_length=10, choices=LeaveStatus.choices, default=LeaveStatus.PENDING)
 
     class Meta:
         ordering = ["-start"]

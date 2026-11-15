@@ -1,6 +1,5 @@
 """Sign-in by phone + SMS code, role selection and interface language."""
 
-from django.conf import settings
 from django.contrib.auth import login, logout
 from django.shortcuts import redirect, render
 from django.utils import translation
@@ -8,6 +7,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from ..models import LANGUAGES, ROLES, User
+from ..services import sms_gateway
 from .common import HOME
 
 
@@ -16,6 +16,7 @@ def login_view(request):
     if request.method == "POST":
         digits = "".join(c for c in request.POST.get("phone", "") if c.isdigit())[-9:]
         if User.objects.filter(phone=digits).exists():
+            sms_gateway.send_code(digits)
             request.session["pp"] = digits
             return redirect("verify")
         error = _("Unregistered number. Contact the administrator.")
@@ -28,7 +29,7 @@ def verify(request):
         return redirect("login")
     error = ""
     if request.method == "POST":
-        if request.POST.get("code") == settings.SMS_DEMO_CODE:
+        if sms_gateway.verify(phone, request.POST.get("code")):
             user = User.objects.get(phone=phone)
             chosen = request.session.get("lang")  # picked on the login screen
             login(request, user)

@@ -210,4 +210,19 @@ adm = login("900001448", "admin")
 free = Lesson.objects.filter(substitute__isnull=True, cancelled=False).last()
 adm.get("/substitute/%d/?room=101" % free.pk)
 print("room change does not confirm:", Lesson.objects.get(pk=free.pk).substitute_id is None)
+
+# ---- OOP design: enrolment steps and notification channels --------------------
+from core.models import Contract, EnrolmentStep, LevelTest, TrialLesson
+from core.services import InAppNotifier, Notifier, SmsNotifier, notification_service, sms_gateway
+mia = Applicant.objects.get(name="Mia Chen")
+print("steps are EnrolmentStep:", all(isinstance(st, EnrolmentStep) for st in mia.steps()), "progress:", mia.progress())
+before_sms, before_app = len(sms_gateway.outbox), Notification.objects.count()
+Notification.send(User.objects.get(phone="902222222"), "test", "hello")
+print("notifier channels:", [type(n).__name__ for n in notification_service.notifiers],
+      "sms sent:", len(sms_gateway.outbox) == before_sms + 1, "in-app stored:", Notification.objects.count() == before_app + 1)
+try:
+    Notifier()
+    print("Notifier is abstract: False")
+except TypeError:
+    print("Notifier is abstract: True")
 print("ALL OK")

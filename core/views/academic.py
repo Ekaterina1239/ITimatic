@@ -197,7 +197,7 @@ def groups(request):
                        "all": Group.objects.count()},
             "gs": found, "sel": selected, "st": status, "q": query, "adm": is_admin,
             "teachers": User.objects.filter(roles__role="teacher"),
-            "cands": Applicant.objects.filter(contract_recorded=True).exclude(stage="Confirmed"),
+            "cands": Applicant.objects.filter(contract_step__status="Signed").exclude(stage="Confirmed"),
             "subs": Lesson.objects.filter(group=selected, needs_sub=True, substitute__isnull=True) if selected else [],
             "waiting": waiting, "leaves": LeaveRequest.objects.filter(status="Pending").select_related("teacher"),
             "members": members, "leave": leave,

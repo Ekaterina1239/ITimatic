@@ -8,10 +8,10 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.translation import gettext as _
 
-from ..models import AbsenceReport, Attendance, Group, Lesson, Notification
+from ..models import AbsenceReason, AbsenceReport, Attendance, Group, Lesson, Notification
 from .common import role_required
 
-ABSENCE_REASONS = ("Illness", "Family", "Travel", "School exam", "Other")
+ABSENCE_REASONS = AbsenceReason.values
 LATE_MINUTES = (5, 10, 15, 30, 60)
 
 

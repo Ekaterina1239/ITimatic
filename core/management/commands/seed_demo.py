@@ -176,9 +176,13 @@ class Command(BaseCommand):
 
         # enrolment pipeline (Enrolment workspace in the design) ---------------------------
         A = Applicant.objects.create
-        A(name="Mia Chen", parent_name="Grace Chen", phone="+998 90 000 14 48", subject="English", level="B1", branch=ch,
-          stage="Agreement", score=78, rec_level="B1", conv="Accepted", trial="Attended", feedback="Wants to join",
-          test_date=today - dt.timedelta(days=13), assigned=User.objects.get(phone="900001448"))
+        mia = A(name="Mia Chen", parent_name="Grace Chen", phone="+998 90 000 14 48", subject="English", level="B1", branch=ch,
+                stage="Agreement", assigned=User.objects.get(phone="900001448"))
+        mia.level_test.record(78, today - dt.timedelta(days=13), "B1")
+        trial = mia.trial
+        trial.conversation, trial.attendance, trial.feedback = "Accepted", "Attended", "Wants to join"
+        trial.save()
+        mia.contract.prepare()
         for n, parent, subj, lvl, stage, score in (
             ("Oliver Davis", "Helen Davis", "English", "A2", "Trial booked", 62),
             ("Isla Thompson", "Adam Thompson", "Mathematics", "B1", "Trial completed", 81),
@@ -188,8 +192,15 @@ class Command(BaseCommand):
             ("Zoe Harris", "Lucy Harris", "English", "B1", "Group matching", 73),
             ("Jack Lewis", "Ben Lewis", "English", "B2", "Lost", 89),
         ):
-            A(name=n, parent_name=parent, phone=f"+998 90 {next(phone) % 1000:03d} 11 22", subject=subj, level=lvl, branch=ch,
-              stage=stage, score=score, waiting=n == "Zoe Harris", lost_reason="Schedule" if stage == "Lost" else "")
+            app = A(name=n, parent_name=parent, phone=f"+998 90 {next(phone) % 1000:03d} 11 22", subject=subj, level=lvl,
+                    branch=ch, stage=stage, waiting=n == "Zoe Harris", lost_reason="Schedule" if stage == "Lost" else "")
+            if score is not None:
+                app.level_test.record(score, today - dt.timedelta(days=10), lvl)
+            if stage in ("Trial completed", "Confirmed"):
+                trial = app.trial
+                trial.conversation, trial.attendance = "Accepted", "Attended"
+                trial.feedback = "Wants to join" if stage == "Confirmed" else ""
+                trial.save()
 
         # messages for the family account --------------------------------------------------
         for kind, text in (
