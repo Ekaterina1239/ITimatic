@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load i18n itmatic %}
+{% block c %}
+<style>
+  .wk { display: grid; grid-template-columns: 48px repeat(5, minmax(0, 1fr)); gap: 6px; font-size: 12px; }
+  .wk .dh { text-align: center; padding: 6px; border-radius: 6px; background: #f1f0ec; color: var(--muted); font-weight: 500; font-size: 11px; text-transform: uppercase; }
+  .wk .dh.today { background: var(--pri-soft); color: var(--pri); }
+  .wk .t { color: var(--muted); font-size: 11px; padding-top: 6px; }
+  .wk .cell { background: #f6f5f2; border-radius: 6px; min-height: 64px; display: flex; flex-direction: column; gap: 4px; padding: 3px; }
+  .ls { display: block; background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; color: var(--ink); line-height: 1.35; }
+  .ls:hover { text-decoration: none; border-color: var(--pri); }
+  .ls b { font-weight: 600; font-size: 12px; display: block; } .ls span { color: var(--muted); font-size: 11px; display: block; }
+  .ls i { font-style: normal; font-size: 11px; color: var(--pri); }
+  .ls.sel { border: 2px solid var(--pri); background: #f4f3fb; }
+  .ls.Cover { background: var(--warn-soft); } .ls.Cover i { color: var(--warn); }
+  .ls.Room { background: var(--bad-soft); } .ls.Room i { color: var(--bad); }
+  .ls.Make-up i { color: var(--ok); } .ls.Cancelled { opacity: .55; text-decoration: line-through; }
+  .att { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--line2); font-size: 13px; }
+  .att select { width: auto; padding: 3px 6px; font-size: 11px; border-radius: 5px; }
+</style>
+<div class="ph">
+  <div>
+    <div class="eyebrow">{% trans "Scheduling & attendance" %}</div>
+    <h1>{% if is_teacher %}{% trans "My timetable" %}{% else %}{% trans "Every lesson, accounted for." %}{% endif %}</h1>
+    <p class="lead">{% trans "Plan the week, record attendance and keep families informed when things change." %}</p>
+  </div>
+  {% if not is_teacher and sel %}<div class="actions"><a class="btn" href="{% url 'substitute' sel.pk %}">{% icon "users" %}{% trans "Teacher absence" %}</a></div>{% endif %}
+</div>
+<form class="row between" style="margin-bottom:12px">
+  <div class="row"><a class="btn" href="?w={{ w|add:-1 }}">‹</a><b style="font-size:18px;font-weight:500">{{ monday|date:"d.m" }}–{{ friday|date:"d.m.Y" }}</b>
+    <a class="btn" href="?w={{ w|add:1 }}">›</a><a class="btn" href="?w=0">{% trans "Today" %}</a></div>
+  {% if not is_teacher %}<div class="row"><input type="hidden" name="w" value="{{ w }}">
+    <select name="teacher" onchange="this.form.submit()" style="width:auto"><option value="">{% trans "All teachers" %}</option>{% for t in teachers %}<option value="{{ t.pk }}" {% if teacher_f == t.pk|stringformat:"s" %}selected{% endif %}>{{ t.get_full_name }}</option>{% endfor %}</select>
+    <select name="room" onchange="this.form.submit()" style="width:auto"><option value="">{% trans "All rooms" %}</option>{% for r in rooms %}<option {% if room_f == r %}selected{% endif %}>{{ r }}</option>{% endfor %}</select></div>{% endif %}
+</form>
+
+<div class="split wide">
+  <div class="card scroll">
+    <div class="wk" style="min-width:620px">
+      <div></div>{% for d in days %}<div class="dh {% if d == today %}today{% endif %}">{{ d|date:"D d" }}</div>{% endfor %}
+      {% for t, cells in grid %}
+        <div class="t">{{ t|time:"H:i" }}</div>
+        {% for items in cells %}<div class="cell">
+          {% for l, tag in items %}<a class="ls {% if l == sel %}sel{% endif %} {{ tag|cut:' ' }} {{ tag }}" href="?lesson={{ l.pk }}&amp;w={{ w }}&amp;teacher={{ teacher_f }}&amp;room={{ room_f }}">
+            <b>{{ l.group }}</b><span>{% firstof l.substitute.last_name l.group.teacher.last_name %} · {{ l.room }}</span>
+            <i>{% if l == sel %}{% trans "Selected lesson" %}{% elif tag %}{% trans tag %}{% else %}{{ l.start|time:"H:i" }}–{{ l.end|time:"H:i" }}{% endif %}</i></a>{% endfor %}
+        </div>{% endfor %}
+      {% empty %}<div></div><div class="mu" style="grid-column:span 5;padding:20px">{% trans "No lessons this week." %}</div>{% endfor %}
+    </div>
+    <div class="row mu" style="font-size:11px;margin-top:12px;gap:14px">
+      <span><span class="pri-t">●</span> {% trans "Selected" %}</span><span><span class="warn-t">●</span> {% trans "Cover pending" %}</span>
+      <span><span class="bad-t">●</span> {% trans "Conflict" %}</span><span><span class="ok-t">●</span> {% trans "Make-up lesson" %}</span>
+      <span style="margin-left:auto">{% blocktrans count n=total_n %}{{ n }} lesson this week{% plural %}{{ n }} lessons this week{% endblocktrans %} · Tashkent (UTC+5)</span>
+    </div>
+  </div>
+
+  {% if sel %}
+  <div class="card">
+    <h2 style="font-size:17px">{{ sel.group }}</h2>
+    <div class="mu">{{ sel.date|date:"D d.m" }} · {{ sel.start|time:"H:i" }}–{{ sel.end|time:"H:i" }} · {% trans "Room" %} {{ sel.room }}</div>
+    <div class="row between" style="margin:8px 0"><span class="mu">{% firstof sel.substitute.get_full_name sel.group.teacher.get_full_name %} · {% blocktrans count n=rows|length %}{{ n }} student{% plural %}{{ n }} students{% endblocktrans %}</span><span class="pill pri">{% trans "Attendance open" %}</span></div>
+    <div class="row" style="gap:6px">{% for k, v in counts.items %}<span class="pill {{ k|pill }}">{{ v }} {{ k|tl|lower }}</span>{% endfor %}</div>
+    {% if clash %}<div class="msg error" style="margin-top:10px">{% blocktrans with g=clash.group %}Room conflict with {{ g }}.{% endblocktrans %}</div>{% endif %}
+    <form method="post" style="margin-top:8px">{% csrf_token %}
+      {% for s, st, rep in rows %}
+        <div class="att"><span>{{ s }}{% if rep %} <span class="pill warn" title="{{ rep.reason }}">{% trans "Parent reported" %}</span>{% endif %}</span>
+          <select name="s{{ s.pk }}" class="pill {{ st|pill }}">{% for o in opts %}<option value="{{ o }}" {% if st == o %}selected{% endif %}>{{ o|tl }}</option>{% endfor %}</select></div>
+      {% endfor %}
+      {% if unexplained_n %}<div class="alert" style="margin-top:12px">{% icon "info" %}<div><b>{% trans "Parent notification pending" %}</b><br>
+        <span class="mu">{% blocktrans count n=unexplained_n %}Send an SMS to the parents of {{ n }} student with an unexplained absence.{% plural %}Send an SMS to the parents of {{ n }} students with unexplained absences.{% endblocktrans %}</span></div></div>{% endif %}
+      <div class="row" style="margin-top:12px"><button class="btn pri">{% trans "Save attendance" %}</button>
+        <button class="btn" name="notify" value="1">{% icon "send" %}{% trans "Save & notify parents" %}</button></div>
+    </form>
+  </div>
+  {% endif %}
+</div>
+{% if not is_teacher %}
+<div class="cols c2" style="margin-top:14px">
+  {% if leave %}<div class="alert warn">{% icon "alert" %}<div class="grow"><b>{% trans "Substitute approval needed" %}</b><br>
+    <span class="mu">{{ leave.start|date:"D d.m" }} · {{ leave.teacher.get_full_name }} · {% trans leave.reason %}</span></div><a href="{% url 'groups' %}">{% trans "Review" %} →</a></div>{% endif %}
+  {% if conflict %}<div class="alert bad">{% icon "info" %}<div class="grow"><b>{% trans "Resolve room conflict" %}</b><br>
+    <span class="mu">{{ conflict.0.date|date:"D d.m" }} · {{ conflict.0.start|time:"H:i" }} · {% trans "Room" %} {{ conflict.0.room }}: {{ conflict.0.group }} / {{ conflict.1.group }}</span></div>
+    <a href="{% url 'substitute' conflict.0.pk %}">{% trans "Move room" %} →</a></div>{% endif %}
+</div>
+{% endif %}
+{% endblock %}

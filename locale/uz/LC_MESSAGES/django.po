@@ -1,0 +1,2166 @@
+#
+msgid ""
+msgstr ""
+"Language: uz\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Administrator"
+msgstr "Administrator"
+
+msgid "Teacher"
+msgstr "O‘qituvchi"
+
+msgid "Parent"
+msgstr "Ota-ona"
+
+msgid "Student"
+msgstr "O‘quvchi"
+
+msgid "Education manager"
+msgstr "O‘quv menejeri"
+
+msgid "Accountant"
+msgstr "Buxgalter"
+
+msgid "Director"
+msgstr "Direktor"
+
+msgid "Overview"
+msgstr "Umumiy ko‘rinish"
+
+msgid "Enquiries"
+msgstr "Arizalar"
+
+msgid "Schedule"
+msgstr "Jadval"
+
+msgid "Groups"
+msgstr "Guruhlar"
+
+msgid "Debtors"
+msgstr "Qarzdorlar"
+
+msgid "Finance"
+msgstr "Moliya"
+
+msgid "Certificates"
+msgstr "Sertifikatlar"
+
+msgid "Take payment"
+msgstr "To‘lov qabul qilish"
+
+msgid "Today"
+msgstr "Bugun"
+
+msgid "Leave requests"
+msgstr "Ta’til so‘rovlari"
+
+msgid "Home"
+msgstr "Bosh sahifa"
+
+msgid "Timetable"
+msgstr "Dars jadvali"
+
+msgid "Report absence"
+msgstr "Kelmaslikni xabar qilish"
+
+msgid "Attendance"
+msgstr "Davomat"
+
+msgid "Grades"
+msgstr "Baholar"
+
+msgid "Materials"
+msgstr "Materiallar"
+
+msgid "Payments"
+msgstr "To‘lovlar"
+
+msgid "My children"
+msgstr "Farzandlarim"
+
+msgid "Sign out"
+msgstr "Chiqish"
+
+msgid "Interface language"
+msgstr "Interfeys tili"
+
+msgid "Paid"
+msgstr "To‘langan"
+
+msgid "Due"
+msgstr "To‘lov muddati"
+
+msgid "Overdue"
+msgstr "Muddati o‘tgan"
+
+msgid "Partially paid"
+msgstr "Qisman to‘langan"
+
+msgid "Unpaid"
+msgstr "To‘lanmagan"
+
+msgid "Present"
+msgstr "Keldi"
+
+msgid "Late"
+msgstr "Kechikdi"
+
+msgid "Absent"
+msgstr "Kelmadi"
+
+msgid "Excused"
+msgstr "Sababli"
+
+msgid "Unexplained"
+msgstr "Sababsiz"
+
+msgid "Not marked"
+msgstr "Belgilanmagan"
+
+msgid "Enquiry"
+msgstr "Ariza"
+
+msgid "Assessment"
+msgstr "Baholash"
+
+msgid "Group matching"
+msgstr "Guruh tanlash"
+
+msgid "Trial booked"
+msgstr "Sinov darsiga yozildi"
+
+msgid "Trial completed"
+msgstr "Sinov darsi o‘tdi"
+
+msgid "Agreement"
+msgstr "Shartnoma"
+
+msgid "Confirmed"
+msgstr "Qabul qilindi"
+
+msgid "Lost"
+msgstr "Yo‘qotildi"
+
+msgid "Prepared"
+msgstr "Tayyorlandi"
+
+msgid "Signed"
+msgstr "Imzolandi"
+
+msgid "Illness"
+msgstr "Kasallik"
+
+msgid "Family"
+msgstr "Oilaviy sabab"
+
+msgid "Other"
+msgstr "Boshqa"
+
+msgid "Price"
+msgstr "Narx"
+
+msgid "Level"
+msgstr "Daraja"
+
+msgid "Location"
+msgstr "Manzil"
+
+msgid "Eligible"
+msgstr "Ruxsat berilgan"
+
+msgid "Submitted"
+msgstr "Yuborildi"
+
+msgid "Approved"
+msgstr "Tasdiqlandi"
+
+msgid "Rejected"
+msgstr "Rad etildi"
+
+msgid "Pending"
+msgstr "Kutilmoqda"
+
+msgid "Sick leave"
+msgstr "Kasallik ta’tili"
+
+msgid "Active"
+msgstr "Faol"
+
+msgid "Inactive"
+msgstr "Nofaol"
+
+msgid "Closed"
+msgstr "Yopilgan"
+
+msgid "Archived"
+msgstr "Arxivda"
+
+msgid "closed"
+msgstr "yopildi"
+
+msgid "archived"
+msgstr "arxivlandi"
+
+msgid "Cash"
+msgstr "Naqd"
+
+msgid "Card"
+msgstr "Karta"
+
+msgid "Bank transfer"
+msgstr "Bank o‘tkazmasi"
+
+msgid "English"
+msgstr "Ingliz tili"
+
+msgid "IELTS"
+msgstr "IELTS"
+
+msgid "A signed contract is required before joining a group."
+msgstr "Guruhga qo‘shish uchun imzolangan shartnoma kerak."
+
+msgid "The group is full. Move the applicant to the waiting list."
+msgstr "Guruh to‘lgan. Arizachini kutish ro‘yxatiga o‘tkazing."
+
+msgid "Level test"
+msgstr "Daraja testi"
+
+msgid "Score 0–100"
+msgstr "Ball 0–100"
+
+msgid "Test date"
+msgstr "Test sanasi"
+
+msgid "Recommended level"
+msgstr "Tavsiya etilgan daraja"
+
+msgid "Reason if skipped"
+msgstr "Test o‘tkazilmagan bo‘lsa, sababi"
+
+msgid "Save"
+msgstr "Saqlash"
+
+msgid "Teacher conversation"
+msgstr "O‘qituvchi bilan suhbat"
+
+msgid "Accepted"
+msgstr "Qabul qilindi"
+
+msgid "Not suitable"
+msgstr "Mos emas"
+
+msgid "Trial lesson"
+msgstr "Sinov darsi"
+
+msgid "Attended"
+msgstr "Keldi"
+
+msgid "Did not attend"
+msgstr "Kelmadi"
+
+msgid "Student feedback"
+msgstr "O‘quvchi fikri"
+
+msgid "Interested"
+msgstr "Qiziqmoqda"
+
+msgid "Undecided"
+msgstr "Qaror qilmagan"
+
+msgid "Declines"
+msgstr "Rad etadi"
+
+msgid "Contract"
+msgstr "Shartnoma"
+
+msgid "Not prepared"
+msgstr "Tayyorlanmagan"
+
+msgid "Mark prepared"
+msgstr "Tayyor deb belgilash"
+
+msgid "Contract number"
+msgstr "Shartnoma raqami"
+
+msgid "Signing date"
+msgstr "Imzolangan sana"
+
+msgid "Signed scan (PDF / JPG / PNG, up to 10 MB)"
+msgstr "Imzolangan nusxa (PDF / JPG / PNG, 10 MB gacha)"
+
+msgid "uploaded"
+msgstr "yuklangan"
+
+msgid "Record signed contract"
+msgstr "Imzolangan shartnomani saqlash"
+
+msgid "Add to group"
+msgstr "Guruhga qo‘shish"
+
+msgid ""
+"This applicant cannot join a group until a signed contract is recorded."
+msgstr ""
+"Imzolangan shartnoma saqlanmaguncha arizachini guruhga qo‘shib bo‘lmaydi."
+
+msgid "No free group?"
+msgstr "Bo‘sh guruh yo‘qmi?"
+
+msgid "Add to waiting list"
+msgstr "Kutish ro‘yxatiga qo‘shish"
+
+msgid "Close as Lost"
+msgstr "Yo‘qotilgan deb yopish"
+
+msgid "Select a reason"
+msgstr "Sababni tanlang"
+
+msgid "Details (required for Other)"
+msgstr "Tafsilotlar («Boshqa» uchun majburiy)"
+
+msgid "Closed as Lost"
+msgstr "Yo‘qotilgan deb yopilgan"
+
+msgid "Phone login"
+msgstr "Telefon orqali kirish"
+
+msgid "Phone number (+998)"
+msgstr "Telefon raqami (+998)"
+
+msgid "We’ll send a one-time SMS code. No password needed."
+msgstr "Bir martalik SMS-kod yuboramiz. Parol kerak emas."
+
+msgid "Continue with phone"
+msgstr "Davom etish"
+
+msgid "SMS verification"
+msgstr "SMS orqali tasdiqlash"
+
+msgid "Enter the 6-digit code sent to +998 %(phone)s"
+msgstr "+998 %(phone)s raqamiga yuborilgan 6 xonali kodni kiriting"
+
+msgid "Verify and sign in"
+msgstr "Tasdiqlash va kirish"
+
+msgid "Change phone number"
+msgstr "Raqamni o‘zgartirish"
+
+msgid "Select role"
+msgstr "Rolni tanlang"
+
+msgid ""
+"Offline mode: no internet connection. Attendance is saved on this device and"
+" will be sent automatically when the connection returns."
+msgstr ""
+"Oflayn rejim: internet yo‘q. Davomat shu qurilmada saqlanadi va aloqa "
+"tiklanganda avtomatik yuboriladi."
+
+msgid "Student or phone"
+msgstr "O‘quvchi yoki telefon"
+
+msgid "All groups"
+msgstr "Barcha guruhlar"
+
+msgid "Apply filters"
+msgstr "Filtrlarni qo‘llash"
+
+msgid "Parent contact"
+msgstr "Ota-ona telefoni"
+
+msgid "Outstanding"
+msgstr "Qarzdorlik"
+
+msgid "Status"
+msgstr "Holat"
+
+msgid "Open student"
+msgstr "O‘quvchini ochish"
+
+msgid "No debtors."
+msgstr "Qarzdorlar yo‘q."
+
+msgid "Received"
+msgstr "Olingan"
+
+msgid "Scheduled"
+msgstr "Rejalashtirilgan"
+
+msgid "Payment ledger"
+msgstr "To‘lovlar jurnali"
+
+msgid "Amount, so‘m"
+msgstr "Summa, so‘m"
+
+msgid "Method"
+msgstr "Usul"
+
+msgid "Discount"
+msgstr "Chegirma"
+
+msgid "None"
+msgstr "Yo‘q"
+
+msgid "One-off"
+msgstr "Bir martalik"
+
+msgid "Bring-a-friend"
+msgstr "Do‘stingni olib kel"
+
+msgid ""
+"Partial payments leave the remainder as debt; overpayments become credit."
+msgstr ""
+"Qisman to‘lovda qolgan summa qarz bo‘ladi, ortiqcha to‘lov avans "
+"hisoblanadi."
+
+msgid "Issue receipt"
+msgstr "Kvitansiya berish"
+
+msgid "Monthly debtors"
+msgstr "Oylik qarzdorlar"
+
+msgid "No debtors for %(branch)s."
+msgstr "%(branch)s filialida qarzdorlar yo‘q."
+
+msgid "Take payment & issue receipt"
+msgstr "To‘lov qabul qilish va kvitansiya"
+
+msgid "Payment date"
+msgstr "To‘lov sanasi"
+
+msgid "Confirm payment"
+msgstr "To‘lovni tasdiqlash"
+
+msgid "Receipt"
+msgstr "Kvitansiya"
+
+msgid "Print receipt"
+msgstr "Kvitansiyani chop etish"
+
+msgid "Download receipt"
+msgstr "Kvitansiyani yuklab olish"
+
+msgid "Amount"
+msgstr "Summa"
+
+msgid "Date"
+msgstr "Sana"
+
+msgid "Print"
+msgstr "Chop etish"
+
+msgid "Download"
+msgstr "Yuklab olish"
+
+msgid "Search name or +998 phone"
+msgstr "Ism yoki +998 telefon bo‘yicha qidirish"
+
+msgid "All stages"
+msgstr "Barcha bosqichlar"
+
+msgid "Search"
+msgstr "Qidirish"
+
+msgid "Applicant"
+msgstr "Arizachi"
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Course"
+msgstr "Kurs"
+
+msgid "Stage"
+msgstr "Bosqich"
+
+msgid "Assigned"
+msgstr "Mas’ul"
+
+msgid "Waiting list"
+msgstr "Kutish ro‘yxati"
+
+msgid "Open applicant"
+msgstr "Arizani ochish"
+
+msgid "Add enquiry"
+msgstr "Ariza qo‘shish"
+
+msgid "Name"
+msgstr "Ism"
+
+msgid "Phone (+998)"
+msgstr "Telefon (+998)"
+
+msgid "Desired course"
+msgstr "Istalgan kurs"
+
+msgid "Select child"
+msgstr "Farzandni tanlang"
+
+msgid "No group"
+msgstr "Guruhsiz"
+
+msgid "No children linked to this phone."
+msgstr "Bu raqamga farzand biriktirilmagan."
+
+msgid "Change child"
+msgstr "Farzandni almashtirish"
+
+msgid "Next lesson"
+msgstr "Keyingi dars"
+
+msgid "Room"
+msgstr "Xona"
+
+msgid "substitute teacher"
+msgstr "o‘rinbosar o‘qituvchi"
+
+msgid "No upcoming lessons."
+msgstr "Yaqin darslar yo‘q."
+
+msgid "Payment"
+msgstr "To‘lov"
+
+msgid "due"
+msgstr "muddat"
+
+msgid "Materials & homework"
+msgstr "Materiallar va uy vazifasi"
+
+msgid "Previous week"
+msgstr "Oldingi hafta"
+
+msgid "Week of"
+msgstr "Hafta boshi"
+
+msgid "Next week"
+msgstr "Keyingi hafta"
+
+msgid "Group · teacher"
+msgstr "Guruh · o‘qituvchi"
+
+msgid "Cancelled"
+msgstr "Bekor qilindi"
+
+msgid "Substitute teacher"
+msgstr "O‘rinbosar o‘qituvchi"
+
+msgid "Reported"
+msgstr "Xabar berilgan"
+
+msgid "No lessons this week."
+msgstr "Bu hafta darslar yo‘q."
+
+msgid "Back"
+msgstr "Orqaga"
+
+msgid "Upcoming lesson"
+msgstr "Yaqin dars"
+
+msgid "Reason"
+msgstr "Sabab"
+
+msgid "Short note (required for Other)"
+msgstr "Qisqa izoh («Boshqa» uchun majburiy)"
+
+msgid "Submit report"
+msgstr "Yuborish"
+
+msgid "Cancel"
+msgstr "Bekor qilish"
+
+msgid "All subjects"
+msgstr "Barcha fanlar"
+
+msgid "Apply filter"
+msgstr "Filtrni qo‘llash"
+
+msgid "Score"
+msgstr "Ball"
+
+msgid "Graded"
+msgstr "Baholangan"
+
+msgid "Lesson topic"
+msgstr "Dars mavzusi"
+
+msgid "Apply"
+msgstr "Qo‘llash"
+
+msgid "Open"
+msgstr "Ochish"
+
+msgid "Download attachment"
+msgstr "Faylni yuklab olish"
+
+msgid "Homework"
+msgstr "Uy vazifasi"
+
+msgid "No materials yet."
+msgstr "Hozircha materiallar yo‘q."
+
+msgid "Payment history"
+msgstr "To‘lovlar tarixi"
+
+msgid "View receipt"
+msgstr "Kvitansiyani ko‘rish"
+
+msgid "No payments yet."
+msgstr "Hozircha to‘lovlar yo‘q."
+
+msgid "Group management"
+msgstr "Guruhlarni boshqarish"
+
+msgid "Search groups"
+msgstr "Guruhlarni qidirish"
+
+msgid "Filter"
+msgstr "Filtr"
+
+msgid "No groups."
+msgstr "Guruhlar yo‘q."
+
+msgid "Create group"
+msgstr "Guruh yaratish"
+
+msgid "Course / level"
+msgstr "Kurs / daraja"
+
+msgid "Capacity"
+msgstr "Sig‘im"
+
+msgid "Approve"
+msgstr "Tasdiqlash"
+
+msgid "Reject"
+msgstr "Rad etish"
+
+msgid "No pending requests."
+msgstr "Kutilayotgan so‘rovlar yo‘q."
+
+msgid "%(a)s/%(b)s students"
+msgstr "%(a)s/%(b)s o‘quvchi"
+
+msgid "Schedule (day, time, room)"
+msgstr "Jadval (kun, vaqt, xona)"
+
+msgid "Students"
+msgstr "O‘quvchilar"
+
+msgid "Empty."
+msgstr "Bo‘sh."
+
+msgid "waiting"
+msgstr "kutmoqda"
+
+msgid "Add student"
+msgstr "O‘quvchi qo‘shish"
+
+msgid "Lessons needing a substitute"
+msgstr "O‘rinbosar kerak bo‘lgan darslar"
+
+msgid "Unassigned"
+msgstr "Tayinlanmagan"
+
+msgid "Assign substitute"
+msgstr "O‘rinbosar tayinlash"
+
+msgid "None."
+msgstr "Yo‘q."
+
+msgid "Close this group?"
+msgstr "Bu guruh yopilsinmi?"
+
+msgid "Close group"
+msgstr "Guruhni yopish"
+
+msgid "Archive this group?"
+msgstr "Bu guruh arxivlansinmi?"
+
+msgid "Archive group"
+msgstr "Arxivlash"
+
+msgid "Apply period"
+msgstr "Davrni qo‘llash"
+
+msgid "Active students"
+msgstr "Faol o‘quvchilar"
+
+msgid "Group utilization"
+msgstr "Guruhlar to‘lishi"
+
+msgid "Revenue"
+msgstr "Tushum"
+
+msgid "Overdue balance"
+msgstr "Muddati o‘tgan qarz"
+
+msgid "View groups"
+msgstr "Guruhlarni ko‘rish"
+
+msgid "View debtors"
+msgstr "Qarzdorlarni ko‘rish"
+
+msgid "Eligible students"
+msgstr "Ruxsat etilgan o‘quvchilar"
+
+msgid "Certificate approval"
+msgstr "Sertifikatlarni tasdiqlash"
+
+msgid "Final"
+msgstr "Yakuniy"
+
+msgid "Submit for approval"
+msgstr "Tasdiqlashga yuborish"
+
+msgid "Nothing to review."
+msgstr "Ko‘rib chiqish uchun hech narsa yo‘q."
+
+msgid "This week"
+msgstr "Shu hafta"
+
+msgid "Cover"
+msgstr "O‘rinbosar"
+
+msgid "Room conflict with %(g)s."
+msgstr "Xona %(g)s guruhi bilan band."
+
+msgid "Save attendance"
+msgstr "Davomatni saqlash"
+
+msgid "Save & notify parents"
+msgstr "Saqlash va ota-onalarga xabar berish"
+
+msgid "Substitute"
+msgstr "O‘rinbosar"
+
+msgid "Room already booked"
+msgstr "Xona allaqachon band"
+
+msgid "Room %(room)s overlaps with %(g)s. Choose another room."
+msgstr "%(room)s-xona %(g)s guruhi bilan band. Boshqa xonani tanlang."
+
+msgid "Confirm substitute"
+msgstr "O‘rinbosarni tasdiqlash"
+
+msgid "Cancel lesson"
+msgstr "Darsni bekor qilish"
+
+msgid ""
+"Only parents of students in this lesson are notified after confirmation."
+msgstr ""
+"Tasdiqlangandan so‘ng faqat shu dars o‘quvchilarining ota-onalariga xabar "
+"boradi."
+
+msgid "Today’s lessons"
+msgstr "Bugungi darslar"
+
+msgid "Previous day"
+msgstr "Oldingi kun"
+
+msgid "Next day"
+msgstr "Keyingi kun"
+
+msgid "Completed"
+msgstr "O‘tkazildi"
+
+msgid "Open attendance"
+msgstr "Davomatni ochish"
+
+msgid "No lessons on this day."
+msgstr "Bu kunda darslar yo‘q."
+
+msgid "Download today’s groups for offline use"
+msgstr "Bugungi guruhlarni oflayn uchun yuklab olish"
+
+msgid "Request absence"
+msgstr "Ta’til so‘rash"
+
+msgid "Saved on this device"
+msgstr "Qurilmada saqlandi"
+
+msgid "Draft"
+msgstr "Qoralama"
+
+msgid "Not started"
+msgstr "Boshlanmagan"
+
+msgid "Recorded"
+msgstr "Yozilgan vaqt"
+
+msgid "Sent to server"
+msgstr "Serverga yuborilgan vaqt"
+
+msgid "Parent reported"
+msgstr "Ota-ona xabar bergan"
+
+msgid "Due date"
+msgstr "Topshirish muddati"
+
+msgid "Attach file"
+msgstr "Fayl biriktirish"
+
+msgid "Save draft"
+msgstr "Qoralamani saqlash"
+
+msgid "Submit attendance"
+msgstr "Davomatni yuborish"
+
+msgid "No internet. Saved on this device at"
+msgstr "Internet yo‘q. Qurilmada saqlandi:"
+
+msgid "Sent to server."
+msgstr "Serverga yuborildi."
+
+msgid "Not sent"
+msgstr "Yuborilmadi"
+
+msgid "Absence / sick leave request"
+msgstr "Ta’til / kasallik so‘rovi"
+
+msgid "Start date"
+msgstr "Boshlanish sanasi"
+
+msgid "End date"
+msgstr "Tugash sanasi"
+
+msgid "Short note"
+msgstr "Qisqa izoh"
+
+msgid "Attachment (optional)"
+msgstr "Fayl (ixtiyoriy)"
+
+msgid "Submit request"
+msgstr "So‘rovni yuborish"
+
+msgid "My requests"
+msgstr "Mening so‘rovlarim"
+
+msgid "None yet."
+msgstr "Hozircha yo‘q."
+
+msgid "Unregistered number. Contact the administrator."
+msgstr "Raqam ro‘yxatdan o‘tmagan. Administratorga murojaat qiling."
+
+msgid "Wrong code. Check the 6 digits and try again."
+msgstr "Kod noto‘g‘ri. 6 ta raqamni tekshirib, qayta urinib ko‘ring."
+
+msgid "Draft saved."
+msgstr "Qoralama saqlandi."
+
+msgid "Attendance submitted. Lesson marked Completed."
+msgstr "Davomat yuborildi. Dars o‘tkazilgan deb belgilandi."
+
+msgid "Not your lesson."
+msgstr "Bu sizning darsingiz emas."
+
+msgid "The batch is incomplete."
+msgstr "Ma’lumotlar to‘liq kelmadi."
+
+msgid "Enter a valid start and end date."
+msgstr "To‘g‘ri boshlanish va tugash sanasini kiriting."
+
+msgid "Request submitted. Status: Pending."
+msgstr "So‘rov yuborildi. Holat: kutilmoqda."
+
+msgid ""
+"The group list changed while you were offline. Open the lesson again and re-"
+"check attendance."
+msgstr ""
+"Oflayn paytingizda guruh tarkibi o‘zgardi. Darsni qayta oching va davomatni "
+"tekshiring."
+
+msgid "No enrolment record is linked to %(name)s."
+msgstr "%(name)s uchun ariza topilmadi."
+
+msgid "Enter a positive amount and a payment method."
+msgstr "Musbat summa va to‘lov usulini kiriting."
+
+msgid "Receipt %(no)s issued · %(name)s · %(amount)s so‘m."
+msgstr "%(no)s kvitansiya berildi · %(name)s · %(amount)s so‘m."
+
+msgid "Name and phone are required."
+msgstr "Ism va telefon majburiy."
+
+msgid "Enter a score or a reason for skipping."
+msgstr "Ball yoki test o‘tkazilmagan sababini kiriting."
+
+msgid "Signed contract recorded. This applicant can now join a group."
+msgstr ""
+"Imzolangan shartnoma saqlandi. Endi arizachini guruhga qo‘shish mumkin."
+
+msgid "Contract number, signing date and a signed scan are required."
+msgstr "Shartnoma raqami, imzolangan sana va nusxa majburiy."
+
+msgid ""
+"Added to the waiting list. The family will be contacted when a place opens."
+msgstr "Kutish ro‘yxatiga qo‘shildi. Joy bo‘shaganda oila bilan bog‘lanamiz."
+
+msgid "Added to %(group)s."
+msgstr "%(group)s guruhiga qo‘shildi."
+
+msgid "Application closed as Lost."
+msgstr "Ariza yo‘qotilgan deb yopildi."
+
+msgid "A reason is required (details are required for Other)."
+msgstr "Sabab majburiy («Boshqa» uchun tafsilot ham)."
+
+msgid ""
+"The lesson has already started. Please call the administrator: +998 90 000 "
+"10 10."
+msgstr ""
+"Dars allaqachon boshlangan. Administratorga qo‘ng‘iroq qiling: +998 90 000 "
+"10 10."
+
+msgid "Choose a reason."
+msgstr "Sababni tanlang."
+
+msgid "Please add a short note for Other."
+msgstr "«Boshqa» uchun qisqa izoh qo‘shing."
+
+msgid "Absence reported. The lesson now shows Reported."
+msgstr ""
+"Kelmaslik haqida xabar yuborildi. Dars «Xabar berilgan» deb belgilandi."
+
+msgid "Group created."
+msgstr "Guruh yaratildi."
+
+msgid "Group saved."
+msgstr "Guruh saqlandi."
+
+msgid "Parents of students with unexplained absences were notified."
+msgstr "Sababsiz kelmagan o‘quvchilarning ota-onalariga xabar berildi."
+
+msgid "Attendance saved."
+msgstr "Davomat saqlandi."
+
+msgid "Confirmed. Parents of this lesson were notified."
+msgstr "Tasdiqlandi. Shu dars ota-onalariga xabar berildi."
+
+msgid "Request approved."
+msgstr "So‘rov tasdiqlandi."
+
+msgid "Request rejected."
+msgstr "So‘rov rad etildi."
+
+msgid "Substitute assigned. It now shows in teacher and family schedules."
+msgstr "O‘rinbosar tayinlandi. Bu o‘qituvchi va oila jadvalida ko‘rinadi."
+
+msgid "Room %(room)s is already booked (%(group)s). Choose another room."
+msgstr "%(room)s-xona band (%(group)s). Boshqa xonani tanlang."
+
+msgid "%(name)s added."
+msgstr "%(name)s qo‘shildi."
+
+msgid "Group %(status)s."
+msgstr "Guruh %(status)s."
+
+msgid "Enrolment"
+msgstr "Qabul"
+
+msgid "My workspace"
+msgstr "Ish joyim"
+
+msgid "My timetable"
+msgstr "Mening jadvalim"
+
+msgid "Results & certificates"
+msgstr "Natijalar va sertifikatlar"
+
+msgid "Lessons"
+msgstr "Darslar"
+
+msgid "Results"
+msgstr "Natijalar"
+
+msgid "My learning"
+msgstr "Mening o‘qishim"
+
+msgid "Lesson form"
+msgstr "Dars shakli"
+
+msgid "Center workspace"
+msgstr "Markaz ish maydoni"
+
+msgid "Chilonzor / Yunusobod"
+msgstr "Chilonzor / Yunusobod"
+
+msgid "Personal workspace"
+msgstr "Shaxsiy maydon"
+
+msgid "Autumn term · 2026"
+msgstr "Kuzgi semestr · 2026"
+
+msgid "Workspace"
+msgstr "Ish maydoni"
+
+msgid "ITmatic learning"
+msgstr "ITmatic ta’limi"
+
+msgid "Learning center"
+msgstr "O‘quv markazi"
+
+msgid "Not part of your role"
+msgstr "Rolingizga kirmaydi"
+
+msgid "A little help, when you need it."
+msgstr "Kerak bo‘lsa, yordam beramiz."
+
+msgid "Call the center"
+msgstr "Markazga qo‘ng‘iroq"
+
+msgid "Search students, groups…"
+msgstr "O‘quvchi, guruh qidirish…"
+
+msgid "Upcoming"
+msgstr "Kutilmoqda"
+
+msgid "Attendance due"
+msgstr "Davomat kiritilmagan"
+
+msgid "In progress"
+msgstr "Davom etmoqda"
+
+msgid "Cover pending"
+msgstr "O‘rinbosar kutilmoqda"
+
+msgid "Room conflict"
+msgstr "Xona to‘qnashuvi"
+
+msgid "Make-up"
+msgstr "Qayta dars"
+
+msgid "Parents not yet notified"
+msgstr "Ota-onalarga hali xabar berilmagan"
+
+msgid "Notify parents"
+msgstr "Ota-onalarga xabar berish"
+
+msgid "Review applicants"
+msgstr "Arizalarni ko‘rish"
+
+msgid "Substitute required"
+msgstr "O‘rinbosar kerak"
+
+msgid "Book a level test"
+msgstr "Daraja testini belgilash"
+
+msgid "Placement assessment"
+msgstr "Darajani aniqlash"
+
+msgid "Find a suitable group"
+msgstr "Mos guruh topish"
+
+msgid "Run the free trial"
+msgstr "Sinov darsini o‘tkazish"
+
+msgid "Review trial feedback"
+msgstr "Sinov natijasini ko‘rish"
+
+msgid "Send parent agreement"
+msgstr "Ota-onaga shartnoma yuborish"
+
+msgid "Joined the group"
+msgstr "Guruhga qo‘shildi"
+
+msgid "Enquiry received"
+msgstr "Ariza qabul qilindi"
+
+msgid "Knowledge assessment"
+msgstr "Bilim tekshiruvi"
+
+msgid "Level test skipped"
+msgstr "Test o‘tkazilmadi"
+
+msgid "Free trial"
+msgstr "Bepul sinov darsi"
+
+msgid "Signed contract recorded"
+msgstr "Imzolangan shartnoma saqlandi"
+
+msgid "Family will be notified when a place opens"
+msgstr "Joy bo‘shaganda oilaga xabar beriladi"
+
+msgid "Good morning"
+msgstr "Xayrli tong"
+
+msgid "Good afternoon"
+msgstr "Xayrli kun"
+
+msgid "Good evening"
+msgstr "Xayrli kech"
+
+msgid "Travel"
+msgstr "Safar"
+
+msgid "School exam"
+msgstr "Maktab imtihoni"
+
+msgid "All"
+msgstr "Barchasi"
+
+msgid "Payme"
+msgstr "Payme"
+
+msgid "Click"
+msgstr "Click"
+
+msgid "Parent account"
+msgstr "Ota-ona kabineti"
+
+msgid "Choose a lesson"
+msgstr "Darsni tanlang"
+
+msgid "Lesson already started"
+msgstr "Dars boshlangan"
+
+msgid "Reports must be sent before the lesson starts."
+msgstr "Xabar dars boshlanishidan oldin yuborilishi kerak."
+
+msgid "Unable to report"
+msgstr "Yuborib bo‘lmaydi"
+
+msgid "The lesson has already started. Please call the administrator."
+msgstr "Dars boshlangan. Administratorga qo‘ng‘iroq qiling."
+
+msgid "administrator"
+msgstr "administratori"
+
+msgid "Choose a different lesson"
+msgstr "Boshqa darsni tanlash"
+
+msgid "Absence details"
+msgstr "Kelmaslik tafsilotlari"
+
+msgid "Late by · minutes"
+msgstr "Kechikish · daqiqa"
+
+msgid "If Other, specify the reason"
+msgstr "«Boshqa» bo‘lsa, sababini yozing"
+
+msgid "Add a short note for the teacher"
+msgstr "O‘qituvchi uchun qisqa izoh"
+
+msgid "Optional period · Up to 14 days"
+msgstr "Muddat (ixtiyoriy) · 14 kungacha"
+
+msgid "Leave empty to report only the selected lesson."
+msgstr "Faqat tanlangan dars uchun bo‘sh qoldiring."
+
+msgid "Confirm report"
+msgstr "Tasdiqlash"
+
+msgid "Choose another lesson"
+msgstr "Boshqa dars tanlash"
+
+msgid "Report withdrawn"
+msgstr "Xabar qaytarib olindi"
+
+msgid "Confirmation"
+msgstr "Tasdiq"
+
+msgid "The report has been withdrawn"
+msgstr "Xabar qaytarib olindi"
+
+msgid "The teacher has been informed of the withdrawal."
+msgstr "O‘qituvchiga xabar berildi."
+
+msgid "Report sent"
+msgstr "Xabar yuborildi"
+
+msgid "The teacher has been informed"
+msgstr "O‘qituvchiga xabar berildi"
+
+msgid ""
+"Your report is linked to %(n)s’s lesson on %(d)s. You can withdraw it before"
+" the lesson starts."
+msgstr ""
+"Xabar %(n)s ning %(d)s dagi darsiga bog‘langan. Dars boshlanguncha qaytarib "
+"olish mumkin."
+
+msgid "min"
+msgstr "daq"
+
+msgid "until"
+msgstr "gacha"
+
+msgid "Withdraw"
+msgstr "Qaytarib olish"
+
+msgid "Done"
+msgstr "Tayyor"
+
+msgid "Admissions"
+msgstr "Qabul"
+
+msgid "Application closed as Lost"
+msgstr "Ariza yo‘qotilgan deb yopildi"
+
+msgid "Score · 0–100"
+msgstr "Ball · 0–100"
+
+msgid "Reason required if skipped"
+msgstr "O‘tkazilmasa, sababi"
+
+msgid "Previous placement certificate"
+msgstr "Avvalgi daraja sertifikati"
+
+msgid "Save result"
+msgstr "Natijani saqlash"
+
+msgid "Skip test"
+msgstr "Testni o‘tkazib yuborish"
+
+msgid "Wants to join"
+msgstr "Qo‘shilmoqchi"
+
+msgid "Wants another group"
+msgstr "Boshqa guruh istaydi"
+
+msgid "Signed scan uploaded"
+msgstr "Nusxa yuklangan"
+
+msgid "replace"
+msgstr "almashtirish"
+
+msgid "Upload signed scan"
+msgstr "Imzolangan nusxani yuklash"
+
+msgid "PDF / JPG / PNG · Up to 10 MB"
+msgstr "PDF / JPG / PNG · 10 MB gacha"
+
+msgid "No signed file uploaded"
+msgstr "Fayl yuklanmagan"
+
+msgid "Mark contract as prepared"
+msgstr "Shartnomani tayyor deb belgilash"
+
+msgid "Suggested group"
+msgstr "Tavsiya etilgan guruh"
+
+msgid "Applicant details"
+msgstr "Arizachi ma’lumotlari"
+
+msgid "Preferred branch"
+msgstr "Filial"
+
+msgid "Assigned to"
+msgstr "Mas’ul"
+
+msgid "Contract required before placement"
+msgstr "Joylashtirishdan oldin shartnoma kerak"
+
+msgid ""
+"Keep the applicant on the waiting list and notify the family when a place "
+"opens."
+msgstr ""
+"Arizachini kutish ro‘yxatida qoldiring va joy bo‘shaganda oilaga xabar "
+"bering."
+
+msgid "Move to waiting list"
+msgstr "Kutish ro‘yxatiga"
+
+msgid "Activity"
+msgstr "Faollik"
+
+msgid "Choose a reason before closing this application."
+msgstr "Arizani yopishdan oldin sababni tanlang."
+
+msgid "Additional details · required for Other"
+msgstr "Tafsilotlar · «Boshqa» uchun majburiy"
+
+msgid "Explain the reason"
+msgstr "Sababini yozing"
+
+msgid "Secure sign-in"
+msgstr "Xavfsiz kirish"
+
+msgid ""
+"Several roles are linked to this phone number. Choose an assigned workspace."
+" A user with one role goes directly to that workspace."
+msgstr ""
+"Bu raqamga bir nechta rol biriktirilgan. Ish maydonini tanlang. Bitta roli "
+"bor foydalanuvchi to‘g‘ridan-to‘g‘ri unga o‘tadi."
+
+msgid "ITmatic · Student management"
+msgstr "ITmatic · O‘quvchilarni boshqarish"
+
+msgid "One account. Every part of your learning."
+msgstr "Bitta hisob. Butun o‘qishingiz."
+
+msgid ""
+"English, Russian, IELTS, IT and Mathematics. Two branches, one connected "
+"learning center."
+msgstr ""
+"Ingliz, rus tillari, IELTS, IT va matematika. Ikki filial, bitta o‘quv "
+"markazi."
+
+msgid "After you sign in"
+msgstr "Kirgandan so‘ng"
+
+msgid "Learning and family accounts"
+msgstr "O‘quvchi va oila kabinetlari"
+
+msgid "Students and parents stay connected to their lessons."
+msgstr "O‘quvchi va ota-onalar darslardan xabardor."
+
+msgid "A workspace for every role"
+msgstr "Har bir rol uchun ish maydoni"
+
+msgid "Staff see only their authorized groups and branch."
+msgstr "Xodimlar faqat o‘z guruhi va filialini ko‘radi."
+
+msgid "One verified identity"
+msgstr "Bitta tasdiqlangan shaxs"
+
+msgid "Your assigned roles appear after SMS verification."
+msgstr "Rollaringiz SMS tasdiqlangandan so‘ng chiqadi."
+
+msgid "Access is limited to your assigned roles and records."
+msgstr "Kirish faqat rollaringiz va ma’lumotlaringiz bilan cheklangan."
+
+msgid "Phone number"
+msgstr "Telefon raqami"
+
+msgid "Welcome to ITmatic"
+msgstr "ITmatic’ga xush kelibsiz"
+
+msgid "Use the phone number registered with ITmatic."
+msgstr "ITmatic’da ro‘yxatdan o‘tgan raqamdan foydalaning."
+
+msgid "Unregistered number"
+msgstr "Raqam ro‘yxatdan o‘tmagan"
+
+msgid ""
+"Your number is used to verify your identity and find your assigned account. "
+"Standard SMS rates may apply."
+msgstr ""
+"Raqam shaxsingizni tasdiqlash va hisobingizni topish uchun kerak. SMS uchun "
+"odatiy to‘lov olinishi mumkin."
+
+msgid "One role? Go straight to your workspace."
+msgstr "Bitta rolmi? To‘g‘ridan-to‘g‘ri ish maydoningizga o‘tasiz."
+
+msgid "Verification code"
+msgstr "Tasdiqlash kodi"
+
+msgid "Resend code in"
+msgstr "Qayta yuborish"
+
+msgid "Autumn 2026"
+msgstr "Kuz 2026"
+
+msgid "Need help? Contact the center"
+msgstr "Yordam kerakmi? Markazga murojaat qiling"
+
+msgid "Privacy"
+msgstr "Maxfiylik"
+
+msgid "Debtors list for %(m)s is ready: %(n)s students"
+msgstr "%(m)s uchun qarzdorlar ro‘yxati tayyor: %(n)s o‘quvchi"
+
+msgid ""
+"Students with the longest overdue period are listed first. Select a status "
+"to update follow-up."
+msgstr "Eng uzoq muddati o‘tganlar birinchi ko‘rsatiladi."
+
+msgid "Group"
+msgstr "Guruh"
+
+msgid "Parent / phone"
+msgstr "Ota-ona / telefon"
+
+msgid "Amount due"
+msgstr "Qarz summasi"
+
+msgid "Last payment"
+msgstr "Oxirgi to‘lov"
+
+msgid "Follow-up action"
+msgstr "Harakat"
+
+msgid "Remind"
+msgstr "Eslatish"
+
+msgid "Admissions · Autumn 2026"
+msgstr "Qabul · Kuz 2026"
+
+msgid "From first enquiry to first lesson."
+msgstr "Birinchi arizadan birinchi darsgacha."
+
+msgid ""
+"Assess, find the right group, and guide every family through enrolment."
+msgstr "Baholang, mos guruh toping va har bir oilani qabulgacha kuzating."
+
+msgid "New applicant"
+msgstr "Yangi ariza"
+
+msgid "Applicants"
+msgstr "Arizachilar"
+
+msgid ""
+"%(t)s applications · %(p)s in pipeline · %(w)s waiting · %(d)s declined"
+msgstr "%(t)s ariza · %(p)s jarayonda · %(w)s kutmoqda · %(d)s rad etilgan"
+
+msgid "All applicants"
+msgstr "Barcha arizachilar"
+
+msgid "Needs action"
+msgstr "Harakat kerak"
+
+msgid "Search name, parent or phone number"
+msgstr "Ism, ota-ona yoki telefon bo‘yicha qidirish"
+
+msgid "Level / subject"
+msgstr "Daraja / fan"
+
+msgid "Next step"
+msgstr "Keyingi qadam"
+
+msgid "Level not yet assessed"
+msgstr "Daraja hali aniqlanmagan"
+
+msgid "No applicants match."
+msgstr "Arizachilar topilmadi."
+
+msgid "No suitable group? Keep the opportunity open."
+msgstr "Mos guruh yo‘qmi? Imkoniyatni saqlang."
+
+msgid ""
+"Add an applicant to the waiting list, create a new group, or decline with a "
+"recorded reason. Families receive the decision."
+msgstr ""
+"Arizachini kutish ro‘yxatiga qo‘shing, yangi guruh oching yoki sabab bilan "
+"rad eting. Oila qarorni oladi."
+
+msgid "Application"
+msgstr "Ariza"
+
+msgid "Trial"
+msgstr "Sinov"
+
+msgid "Parent / agreement signer"
+msgstr "Ota-ona / imzolovchi"
+
+msgid "Assessed level"
+msgstr "Aniqlangan daraja"
+
+msgid "Branch"
+msgstr "Filial"
+
+msgid "Recommended group"
+msgstr "Tavsiya etilgan guruh"
+
+msgid "Best match"
+msgstr "Eng mos"
+
+msgid "View group"
+msgstr "Guruhni ko‘rish"
+
+msgid ""
+"Placement is confirmed only after the agreement is signed and the "
+"administrator confirms the group."
+msgstr ""
+"Shartnoma imzolangach va administrator guruhni tasdiqlagach joylashtirish "
+"tasdiqlanadi."
+
+msgid "No group with free places for this course."
+msgstr "Bu kurs bo‘yicha bo‘sh joyli guruh yo‘q."
+
+msgid "Application history"
+msgstr "Ariza tarixi"
+
+msgid "open profile"
+msgstr "profilni ochish"
+
+msgid "Decline"
+msgstr "Rad etish"
+
+msgid "Monthly debtors and payment follow-up"
+msgstr "Oylik qarzdorlar va to‘lov nazorati"
+
+msgid "Student name"
+msgstr "O‘quvchi ismi"
+
+msgid "Parent name"
+msgstr "Ota-ona ismi"
+
+msgid "Russian"
+msgstr "Rus tili"
+
+msgid "Mathematics"
+msgstr "Matematika"
+
+msgid "Science"
+msgstr "Tabiiy fanlar"
+
+msgid "Family account"
+msgstr "Oila kabineti"
+
+msgid "You can only view your own children."
+msgstr "Faqat o‘z farzandlaringizni ko‘rasiz."
+
+msgid "Autumn term"
+msgstr "Kuzgi semestr"
+
+msgid "A closer look at %(n)s’s learning."
+msgstr "%(n)s ning o‘qishi."
+
+msgid "Keep your momentum, %(n)s."
+msgstr "Shu ruhda davom eting, %(n)s."
+
+msgid "Follow lessons, progress and payments for your children."
+msgstr "Farzandlaringizning darslari, natijalari va to‘lovlari."
+
+msgid ""
+"Your next lesson, learning materials and progress — ready when you are."
+msgstr "Keyingi dars, materiallar va natijalar — hammasi tayyor."
+
+msgid "Message the center"
+msgstr "Markazga yozish"
+
+msgid "Place confirmed"
+msgstr "Joy tasdiqlangan"
+
+msgid "Attendance this term"
+msgstr "Semestr davomati"
+
+msgid "Latest exam"
+msgstr "Oxirgi imtihon"
+
+msgid "received"
+msgstr "olingan"
+
+msgid "Next lessons"
+msgstr "Keyingi darslar"
+
+msgid "timetable"
+msgstr "jadval"
+
+msgid "Full timetable"
+msgstr "To‘liq jadval"
+
+msgid "When"
+msgstr "Qachon"
+
+msgid "Lesson / teacher"
+msgstr "Dars / o‘qituvchi"
+
+msgid "Substitute to be confirmed"
+msgstr "O‘rinbosar aniqlanmoqda"
+
+msgid "Report an absence"
+msgstr "Kelmaslik haqida xabar"
+
+msgid "Let the teacher know before the lesson."
+msgstr "Darsdan oldin o‘qituvchiga xabar bering."
+
+msgid "Lesson"
+msgstr "Dars"
+
+msgid "The center will mark the absence as excused."
+msgstr "Markaz kelmaslikni sababli deb belgilaydi."
+
+msgid "Attendance & grades"
+msgstr "Davomat va baholar"
+
+msgid "View progress report"
+msgstr "Natijalar hisoboti"
+
+msgid "Last 5 lessons"
+msgstr "Oxirgi 5 dars"
+
+msgid "excused"
+msgstr "sababli"
+
+msgid "points"
+msgstr "ball"
+
+msgid "Past lesson materials"
+msgstr "O‘tgan dars materiallari"
+
+msgid "All materials"
+msgstr "Barcha materiallar"
+
+msgid "Payment schedule"
+msgstr "To‘lov jadvali"
+
+msgid "All payments"
+msgstr "Barcha to‘lovlar"
+
+msgid "Messages from the center"
+msgstr "Markaz xabarlari"
+
+msgid "Payment reminder"
+msgstr "To‘lov eslatmasi"
+
+msgid "Schedule update"
+msgstr "Jadval o‘zgarishi"
+
+msgid "Absence"
+msgstr "Kelmaslik"
+
+msgid "Notice"
+msgstr "Xabarnoma"
+
+msgid "No messages yet."
+msgstr "Hozircha xabarlar yo‘q."
+
+msgid "Present, late and excused lessons count as attended."
+msgstr "Kelgan, kechikkan va sababli darslar davomatga kiradi."
+
+msgid "Search by topic"
+msgstr "Mavzu bo‘yicha qidirish"
+
+msgid "Month"
+msgstr "Oy"
+
+msgid "Collections, without the guesswork."
+msgstr "To‘lovlar — taxminsiz."
+
+msgid ""
+"Track received payments separately from scheduled charges, and prepare your "
+"monthly reports."
+msgstr ""
+"Olingan to‘lovlarni hisoblangan summalardan alohida kuzating va oylik "
+"hisobotlarni tayyorlang."
+
+msgid "payments"
+msgstr "to‘lov"
+
+msgid "of scheduled total"
+msgstr "hisoblangandan"
+
+msgid "Total scheduled"
+msgstr "Jami hisoblangan"
+
+msgid "charges"
+msgstr "hisob"
+
+msgid "Includes received"
+msgstr "Olinganlar bilan"
+
+msgid "Due before today · %(n)s parents to remind"
+msgstr "Muddati o‘tgan · %(n)s ota-onaga eslatish"
+
+msgid "Not yet due · not received"
+msgstr "Muddati kelmagan · olinmagan"
+
+msgid "Received payment trend"
+msgstr "Tushumlar dinamikasi"
+
+msgid "Actual receipts · last 6 months, million so‘m"
+msgstr "Haqiqiy tushum · 6 oy, mln so‘m"
+
+msgid "total scheduled"
+msgstr "jami hisoblangan"
+
+msgid "student charges"
+msgstr "o‘quvchi hisobi"
+
+msgid "charges settled"
+msgstr "to‘langan"
+
+msgid "unpaid charges"
+msgstr "to‘lanmagan"
+
+msgid "future charges"
+msgstr "kelgusi"
+
+msgid "Last reminder batch"
+msgstr "Oxirgi eslatma"
+
+msgid "Remind overdue parents"
+msgstr "Qarzdorlarga eslatish"
+
+msgid "Student charges and receipts"
+msgstr "Hisoblar va tushumlar"
+
+msgid "Search student"
+msgstr "O‘quvchi qidirish"
+
+msgid "Student / payer"
+msgstr "O‘quvchi / to‘lovchi"
+
+msgid "Action"
+msgstr "Harakat"
+
+msgid "Send reminder"
+msgstr "Eslatma yuborish"
+
+msgid "No charges."
+msgstr "Hisoblar yo‘q."
+
+msgid "Showing %(a)s of %(b)s charges"
+msgstr "%(b)s dan %(a)s tasi"
+
+msgid "All amounts in so‘m"
+msgstr "Barcha summalar so‘mda"
+
+msgid "Previous"
+msgstr "Oldingi"
+
+msgid "Next"
+msgstr "Keyingi"
+
+msgid "Groups · Autumn term"
+msgstr "Guruhlar · Kuzgi semestr"
+
+msgid "The right place to learn."
+msgstr "Har kimga o‘z guruhi."
+
+msgid "Balance levels, teachers and capacity across your center’s groups."
+msgstr "Markaz guruhlarida daraja, o‘qituvchi va joylarni muvozanatlang."
+
+msgid "Manage teachers"
+msgstr "O‘qituvchilar"
+
+msgid "Active groups"
+msgstr "Faol guruhlar"
+
+msgid "%(n)s inactive groups archived for this term"
+msgstr "%(n)s nofaol guruh arxivda"
+
+msgid "Students enrolled"
+msgstr "O‘quvchilar"
+
+msgid "Across %(n)s subjects"
+msgstr "%(n)s fan bo‘yicha"
+
+msgid "Available places"
+msgstr "Bo‘sh joylar"
+
+msgid "total places"
+msgstr "jami joy"
+
+msgid "utilized"
+msgstr "band"
+
+msgid "Waiting list demand"
+msgstr "Kutish ro‘yxati"
+
+msgid "review matches"
+msgstr "moslarini ko‘rish"
+
+msgid "Group / level"
+msgstr "Guruh / daraja"
+
+msgid "Full"
+msgstr "To‘lgan"
+
+msgid "Inactive groups"
+msgstr "Nofaol guruhlar"
+
+msgid "Retained for historical attendance and payments"
+msgstr "Davomat va to‘lovlar tarixi uchun saqlanadi"
+
+msgid "View all"
+msgstr "Barchasi"
+
+msgid "Plan from demand"
+msgstr "Talabga qarab rejalashtiring"
+
+msgid "%(n)s applicants are waiting, and %(g)s is full."
+msgstr "%(n)s arizachi kutmoqda, %(g)s guruhi esa to‘lgan."
+
+msgid "Edit group"
+msgstr "Tahrirlash"
+
+msgid "Deactivate"
+msgstr "O‘chirish"
+
+msgid "Schedule / room"
+msgstr "Jadval / xona"
+
+msgid "enrolled"
+msgstr "o‘qiydi"
+
+msgid "Teacher change"
+msgstr "O‘qituvchi almashinuvi"
+
+msgid ""
+"%(t)s asked for leave. Families will be notified after a substitute is "
+"approved."
+msgstr ""
+"%(t)s ta’til so‘radi. O‘rinbosar tasdiqlangach oilalarga xabar beriladi."
+
+msgid "Review"
+msgstr "Ko‘rish"
+
+msgid "Members"
+msgstr "A’zolar"
+
+msgid "Waiting-list match"
+msgstr "Kutish ro‘yxatidan"
+
+msgid "No applicants with a signed contract"
+msgstr "Imzolangan shartnomali arizachi yo‘q"
+
+msgid "Offer place"
+msgstr "Joy taklif qilish"
+
+msgid "Only applicants with a recorded signed contract can be added."
+msgstr "Faqat imzolangan shartnomali arizachilarni qo‘shish mumkin."
+
+msgid "A clear view of your center."
+msgstr "Markaz kaftdagidek."
+
+msgid "The autumn term at a glance. Here’s what needs your attention today."
+msgstr "Kuzgi semestr bir qarashda. Bugun e’tibor talab qiladiganlar."
+
+msgid "in %(n)s groups"
+msgstr "%(n)s guruhda"
+
+msgid "%(s)s subjects · %(t)s teachers"
+msgstr "%(s)s fan · %(t)s o‘qituvchi"
+
+msgid "Seat utilization"
+msgstr "Joylar bandligi"
+
+msgid "%(a)s of %(b)s places filled"
+msgstr "%(b)s joydan %(a)s tasi band"
+
+msgid "Collected this month"
+msgstr "Oy davomida yig‘ildi"
+
+msgid "of"
+msgstr "dan"
+
+msgid "scheduled"
+msgstr "hisoblangan"
+
+msgid "Next teaching day"
+msgstr "Keyingi o‘quv kuni"
+
+msgid "Open schedule"
+msgstr "Jadvalni ochish"
+
+msgid "Time"
+msgstr "Vaqt"
+
+msgid "Group / subject"
+msgstr "Guruh / fan"
+
+msgid "No lessons scheduled."
+msgstr "Darslar yo‘q."
+
+msgid "Needs attention"
+msgstr "E’tibor talab qiladi"
+
+msgid "Nothing needs attention right now."
+msgstr "Hozir hammasi joyida."
+
+msgid "Attendance trend"
+msgstr "Davomat dinamikasi"
+
+msgid "Last 5 weeks · all active groups"
+msgstr "Oxirgi 5 hafta · barcha faol guruhlar"
+
+msgid "Non-attendance report"
+msgstr "Kelmaganlar hisoboti"
+
+msgid "average attendance"
+msgstr "o‘rtacha davomat"
+
+msgid "Payment collections"
+msgstr "To‘lov tushumlari"
+
+msgid "Received payments · last 6 months, million so‘m"
+msgstr "Tushumlar · 6 oy, mln so‘m"
+
+msgid "vs. last month (month in progress)"
+msgstr "o‘tgan oyga nisbatan (oy tugamagan)"
+
+msgid "of scheduled"
+msgstr "hisoblangandan"
+
+msgid "Management access · center-wide operations and reporting"
+msgstr "Rahbariyat kirishi · markaz bo‘yicha amallar va hisobotlar"
+
+msgid "Payment method"
+msgstr "To‘lov usuli"
+
+msgid "Optional discount"
+msgstr "Chegirma (ixtiyoriy)"
+
+msgid "Discounts are given by the director"
+msgstr "Chegirmani direktor beradi"
+
+msgid "Notes"
+msgstr "Izoh"
+
+msgid "Tuition payment"
+msgstr "O‘qish to‘lovi"
+
+msgid "Partial payment"
+msgstr "Qisman to‘lov"
+
+msgid "If less is paid, the remainder stays as debt."
+msgstr "Kam to‘lansa, qolgani qarz bo‘lib qoladi."
+
+msgid "Overpayment"
+msgstr "Ortiqcha to‘lov"
+
+msgid "If more is paid, the extra becomes credit for next month."
+msgstr "Ko‘p to‘lansa, ortiqchasi keyingi oyga o‘tadi."
+
+msgid "Payment receipt issued"
+msgstr "Kvitansiya berildi"
+
+msgid "The balance is updated and the debtors list is refreshed."
+msgstr "Balans va qarzdorlar ro‘yxati yangilandi."
+
+msgid "Reports"
+msgstr "Hisobotlar"
+
+msgid ""
+"Submit students who passed the final assessment and attendance requirements."
+msgstr ""
+"Yakuniy imtihon va davomat talablarini bajargan o‘quvchilarni yuboring."
+
+msgid ""
+"Review submissions from teachers. Rejected certificates return to the "
+"teacher with a notification."
+msgstr ""
+"O‘qituvchilar yuborganini ko‘rib chiqing. Rad etilganlari o‘qituvchiga "
+"qaytadi."
+
+msgid "final assessment"
+msgstr "yakuniy baholash"
+
+msgid "Final score and attendance for each student"
+msgstr "Har bir o‘quvchining yakuniy bali va davomati"
+
+msgid "Scheduling & attendance"
+msgstr "Jadval va davomat"
+
+msgid "Every lesson, accounted for."
+msgstr "Har bir dars nazoratda."
+
+msgid ""
+"Plan the week, record attendance and keep families informed when things "
+"change."
+msgstr ""
+"Haftani rejalashtiring, davomatni yozing va o‘zgarishlarda oilalarni "
+"xabardor qiling."
+
+msgid "Teacher absence"
+msgstr "O‘qituvchi yo‘qligi"
+
+msgid "All teachers"
+msgstr "Barcha o‘qituvchilar"
+
+msgid "All rooms"
+msgstr "Barcha xonalar"
+
+msgid "Selected lesson"
+msgstr "Tanlangan dars"
+
+msgid "Selected"
+msgstr "Tanlangan"
+
+msgid "Conflict"
+msgstr "To‘qnashuv"
+
+msgid "Make-up lesson"
+msgstr "Qayta dars"
+
+msgid "Attendance open"
+msgstr "Davomat ochiq"
+
+msgid "Parent notification pending"
+msgstr "Ota-onalarga xabar kutilmoqda"
+
+msgid "Substitute approval needed"
+msgstr "O‘rinbosarni tasdiqlash kerak"
+
+msgid "Resolve room conflict"
+msgstr "Xona to‘qnashuvini hal qilish"
+
+msgid "Move room"
+msgstr "Xonani o‘zgartirish"
+
+msgid "Keep every lesson covered."
+msgstr "Bironta dars o‘qituvchisiz qolmasin."
+
+msgid ""
+"Choose a substitute and a free room. Only families of this lesson are "
+"notified."
+msgstr ""
+"O‘rinbosar va bo‘sh xonani tanlang. Faqat shu dars oilalariga xabar boradi."
+
+msgid "Choose a substitute"
+msgstr "O‘rinbosarni tanlang"
+
+msgid "Busy at this time"
+msgstr "Bu vaqtda band"
+
+msgid "Available"
+msgstr "Bo‘sh"
+
+msgid "Free"
+msgstr "Bo‘sh"
+
+msgid "Parent notification"
+msgstr "Ota-onalarga xabar"
+
+msgid ""
+"Your child’s %(g)s lesson on %(d)s at %(t)s will be taught by a substitute "
+"teacher in Room %(room)s."
+msgstr ""
+"%(g)s darsi %(d)s kuni soat %(t)s da %(room)s-xonada o‘rinbosar o‘qituvchi "
+"tomonidan o‘tiladi."
+
+msgid "Your lessons, student progress and teaching tasks, all in one place."
+msgstr "Darslar, o‘quvchilar natijalari va vazifalar — bir joyda."
+
+msgid "Report sick leave"
+msgstr "Kasallik haqida xabar"
+
+msgid "Open my timetable"
+msgstr "Jadvalimni ochish"
+
+msgid "Your sick notice for %(d)s is with the scheduling team."
+msgstr "%(d)s uchun kasallik xabaringiz jadval bo‘limida."
+
+msgid "Families will be notified when cover is confirmed."
+msgstr "O‘rinbosar tasdiqlangach oilalarga xabar beriladi."
+
+msgid "View notice"
+msgstr "Ko‘rish"
+
+msgid "Your teaching week"
+msgstr "O‘quv haftangiz"
+
+msgid "No lessons"
+msgstr "Darslar yo‘q"
+
+msgid "Lesson plan"
+msgstr "Dars rejasi"
+
+msgid "Lessons on"
+msgstr "Darslar:"
+
+msgid "Open a lesson to mark attendance, topic and homework"
+msgstr "Davomat, mavzu va uy vazifasi uchun darsni oching"
+
+msgid "Recent exam results"
+msgstr "So‘nggi natijalar"
+
+msgid "Only your assigned groups"
+msgstr "Faqat sizning guruhlaringiz"
+
+msgid "No results yet."
+msgstr "Hozircha natijalar yo‘q."
+
+msgid "Attendance to finish"
+msgstr "Davomatni yakunlang"
+
+msgid "Review all"
+msgstr "Hammasini ko‘rish:"
+
+msgid "students"
+msgstr "o‘quvchi"
+
+msgid "Teaching reminders"
+msgstr "Eslatmalar"
+
+msgid "Submit attendance for"
+msgstr "Davomatni yuborish:"
+
+msgid "Certificates: submit eligible students for approval"
+msgstr "Sertifikatlar: ruxsat etilgan o‘quvchilarni tasdiqlashga yuboring"
+
+msgid "Prepare cover notes for your substitute"
+msgstr "O‘rinbosar uchun eslatma tayyorlang"
+
+msgid "Open mobile lesson form"
+msgstr "Dars shaklini ochish"
+
+msgid "Eligible students and certificates"
+msgstr "Ruxsat etilganlar va sertifikatlar"
+
+msgid "Lesson saved at"
+msgstr "Dars saqlandi:"
+
+msgid "Mark all present"
+msgstr "Hammasini «keldi» deb belgilash"
+
+msgid "parent"
+msgstr "ota-ona"
+
+msgid ""
+"The scheduling team finds a substitute. Families are notified only after "
+"cover is confirmed."
+msgstr ""
+"Jadval bo‘limi o‘rinbosar topadi. Oilalarga faqat tasdiqlangach xabar "
+"beriladi."
+
+msgid "Reminder sent to the parent of %(name)s."
+msgstr "%(name)s ning ota-onasiga eslatma yuborildi."
+
+msgid "Reminder sent to %(n)s parents."
+msgstr "%(n)s ota-onaga eslatma yuborildi."
+
+msgid "%(n)s days overdue"
+msgstr "%(n)s kun kechikdi"
+
+msgid "%(n)s unexplained absences"
+msgstr "%(n)s ta sababsiz kelmaslik"
+
+msgid "%(n)s enrolment decisions pending"
+msgstr "%(n)s ta ariza qaror kutmoqda"
+
+msgid "Cover needed"
+msgstr "O‘rinbosar kerak"
+
+msgid "%(n)s place"
+msgid_plural "%(n)s places"
+msgstr[0] "%(n)s ta joy"
+
+msgid "%(n)s day"
+msgid_plural "%(n)s days"
+msgstr[0] "%(n)s kun"
+
+msgid "%(n)s student"
+msgid_plural "%(n)s students"
+msgstr[0] "%(n)s o‘quvchi"
+
+msgid "%(n)s lesson affected"
+msgid_plural "%(n)s lessons affected"
+msgstr[0] "%(n)s ta darsga ta’sir qiladi"
+
+msgid "Overdue %(n)s day"
+msgid_plural "Overdue %(n)s days"
+msgstr[0] "%(n)s kun kechikdi"
+
+msgid "%(n)s place available"
+msgid_plural "%(n)s places available"
+msgstr[0] "%(n)s ta bo‘sh joy"
+
+msgid "%(n)s lesson scheduled"
+msgid_plural "%(n)s lessons scheduled"
+msgstr[0] "%(n)s ta dars"
+
+msgid "%(n)s open item · ordered by urgency"
+msgid_plural "%(n)s open items · ordered by urgency"
+msgstr[0] "%(n)s ta vazifa · muhimligi bo‘yicha"
+
+msgid "%(n)s lesson this week"
+msgid_plural "%(n)s lessons this week"
+msgstr[0] "Bu hafta %(n)s ta dars"
+
+msgid ""
+"Send an SMS to the parents of %(n)s student with an unexplained absence."
+msgid_plural ""
+"Send an SMS to the parents of %(n)s students with unexplained absences."
+msgstr[0] "Sababsiz kelmagan %(n)s o‘quvchining ota-onasiga SMS yuboring."
+
+msgid "Sent to %(n)s family by SMS after confirmation."
+msgid_plural "Sent to %(n)s families by SMS after confirmation."
+msgstr[0] "Tasdiqlangach %(n)s oilaga SMS yuboriladi."
+
+msgid "%(n)s group"
+msgid_plural "%(n)s groups"
+msgstr[0] "%(n)s ta guruh"

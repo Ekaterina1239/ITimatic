@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n itmatic %}
+{% block c %}
+<div class="ph"><div>
+  <div class="eyebrow">{% trans "Reports" %} · {% trans "Certificates" %}</div>
+  <h1>{% if teacher %}{% trans "Eligible students" %}{% else %}{% trans "Certificate approval" %}{% endif %}</h1>
+  <p class="lead">{% if teacher %}{% trans "Submit students who passed the final assessment and attendance requirements." %}{% else %}{% trans "Review submissions from teachers. Rejected certificates return to the teacher with a notification." %}{% endif %}</p></div></div>
+<div class="card">
+  <div class="card-h"><div><h2>{% trans "Autumn term" %} · {% trans "final assessment" %}</h2><div class="mu">{% trans "Final score and attendance for each student" %}</div></div></div>
+  <div class="list">
+  {% for c in cs %}
+    <div class="row between">
+      <div class="who"><span class="av">{{ c.student.name|initials }}</span><div><b style="font-weight:500">{{ c.student }}</b> · {{ c.group }}
+        <div class="mu">{% trans "Final" %} {{ c.score }}/100 · {% trans "Attendance" %} {{ c.attendance }}%</div></div></div>
+      <form method="post" class="row">{% csrf_token %}<input type="hidden" name="cert" value="{{ c.pk }}">
+        <span class="pill {{ c.status|pill }}">{{ c.status|tl }}</span>
+        {% if teacher and c.status == "eligible" %}<button class="btn pri" name="act" value="submit">{% trans "Submit for approval" %}</button>
+        {% elif not teacher and c.status == "submitted" %}<button class="btn pri" name="act" value="approved">{% trans "Approve" %}</button><button class="btn danger" name="act" value="rejected">{% trans "Reject" %}</button>{% endif %}
+      </form>
+    </div>
+  {% empty %}<p class="mu">{% trans "Nothing to review." %}</p>{% endfor %}
+  </div>
+</div>
+{% endblock %}

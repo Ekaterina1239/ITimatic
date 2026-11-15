@@ -1,0 +1,17 @@
+{% load i18n itmatic %}{% get_current_language as LANG %}<!DOCTYPE html>
+<html lang="{{ LANG }}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{{ p.receipt_no }}</title>
+<style>body{font:14px/1.6 Inter,system-ui,sans-serif;background:#f6f5f2;color:#252733;margin:0;padding:40px 16px}.r{max-width:420px;margin:auto;background:#fff;border:1px solid #e5e4e0;border-radius:12px;padding:28px}
+.k{color:#787a85;font-size:12px}.row{display:flex;justify-content:space-between;border-bottom:1px solid #eeede9;padding:8px 0}a,button{font:inherit;font-size:13px;color:#5353ad;background:none;border:1px solid #e5e4e0;border-radius:7px;padding:7px 12px;cursor:pointer;text-decoration:none}
+@media print{body{background:#fff}.no{display:none}.r{border:0}}</style></head>
+<body><div class="r">
+  <div style="display:flex;gap:10px;align-items:center"><span style="width:30px;height:30px;border-radius:7px;background:#5353ad;color:#fff;display:grid;place-items:center">{% icon "book" 16 %}</span><b>ITmatic Learning Center</b></div>
+  <h2 style="margin:18px 0 4px">{% trans "Receipt" %} {{ p.receipt_no }}</h2><div class="k">{{ p.student.branch }} · {{ p.student.group|default:"" }}</div>
+  <div style="margin-top:14px">
+    <div class="row"><span class="k">{% trans "Student" %}</span><span>{{ p.student }}</span></div>
+    <div class="row"><span class="k">{% trans "Amount" %}</span><b>{{ p.amount|som }}</b></div>
+    <div class="row"><span class="k">{% trans "Month" %}</span><span>{{ p.month|date:"F Y" }}</span></div>
+    <div class="row"><span class="k">{% trans "Method" %}</span><span>{% trans p.method %}</span></div>
+    <div class="row"><span class="k">{% trans "Date" %}</span><span>{{ p.paid_on|default:p.created|date:"d.m.Y" }}</span></div>
+  </div>
+  <div class="no" style="display:flex;gap:8px;margin-top:18px"><button onclick="window.print()">{% trans "Print" %}</button><a href="?dl=1">{% trans "Download" %}</a><a href="javascript:history.back()">{% trans "Back" %}</a></div>
+</div></body></html>

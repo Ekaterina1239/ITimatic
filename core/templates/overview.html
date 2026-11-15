@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load i18n itmatic %}
+{% block c %}
+<div class="ph">
+  <div>
+    <div class="eyebrow">{{ today|date:"l, d.m.Y" }}</div>
+    <h1>{% trans "A clear view of your center." %}</h1>
+    <p class="lead">{% trans "The autumn term at a glance. Here’s what needs your attention today." %}</p>
+  </div>
+  <form class="actions">
+    <input type="date" name="from" value="{{ f }}" style="width:auto"><input type="date" name="to" value="{{ t }}" style="width:auto">
+    <button class="btn">{% icon "calendar" %}{% trans "Apply period" %}</button>
+  </form>
+</div>
+
+<div class="cols c4">
+  <div class="stat"><div class="k">{% trans "Active students" %}</div><div class="v">{{ students }}</div>{% spark spark %}
+    <div class="fa ok-t">{% blocktrans with n=groups_n %}in {{ n }} groups{% endblocktrans %}</div></div>
+  <div class="stat"><div class="k">{% trans "Active groups" %}</div><div class="v">{{ groups_n }}</div>
+    <div class="fa">{% blocktrans with s=subjects_n t=teachers_n %}{{ s }} subjects · {{ t }} teachers{% endblocktrans %}</div></div>
+  <div class="stat"><div class="k">{% trans "Seat utilization" %}</div><div class="v">{{ util }}%</div>
+    <div class="fa">{% blocktrans with a=enrolled b=capacity %}{{ a }} of {{ b }} places filled{% endblocktrans %}</div></div>
+  <div class="stat"><div class="k">{% trans "Collected this month" %}</div><div class="v">{{ collected|som }}</div>
+    <div class="fa ok-t">{{ collected|pct_of:scheduled }}% {% trans "of" %} {{ scheduled|som }} {% trans "scheduled" %}</div></div>
+</div>
+
+<div class="split" style="margin-top:14px">
+  <div class="card">
+    <div class="card-h">
+      <div><h2>{% if day == today %}{% trans "Today’s lessons" %}{% else %}{% trans "Next teaching day" %}{% endif %}</h2>
+        <div class="mu">{{ day|date:"l, d.m.Y" }} · {% blocktrans count n=rows|length %}{{ n }} lesson scheduled{% plural %}{{ n }} lessons scheduled{% endblocktrans %}</div></div>
+      <a href="{% url 'schedule' %}">{% trans "Open schedule" %} →</a>
+    </div>
+    <div class="scroll"><table class="tbl">
+      <tr><th>{% trans "Time" %}</th><th>{% trans "Group / subject" %}</th><th>{% trans "Teacher" %}</th><th>{% trans "Room" %}</th><th>{% trans "Status" %}</th></tr>
+      {% for l, st in rows %}
+        <tr><td>{{ l.start|time:"H:i" }}–{{ l.end|time:"H:i" }}</td>
+          <td>{{ l.group }}<span class="sub">{% blocktrans count n=l.group.enrolled %}{{ n }} student{% plural %}{{ n }} students{% endblocktrans %} · {{ l.group.level }}</span></td>
+          <td>{% firstof l.substitute.get_full_name l.group.teacher.get_full_name %}</td><td>{{ l.room }}</td>
+          <td><span class="pill {{ st|pill }}">{% trans st %}</span></td></tr>
+      {% empty %}<tr><td colspan="5" class="mu">{% trans "No lessons scheduled." %}</td></tr>{% endfor %}
+    </table></div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div><h2>{% trans "Needs attention" %}</h2><div class="mu">{% blocktrans count n=attention|length %}{{ n }} open item · ordered by urgency{% plural %}{{ n }} open items · ordered by urgency{% endblocktrans %}</div></div></div>
+    <div class="list">
+      {% for a in attention %}
+        <div class="row" style="align-items:flex-start;flex-wrap:nowrap">
+          <span class="av" style="border-radius:7px">{% icon a.icon 14 %}</span>
+          <div style="flex:1"><b style="font-weight:500">{{ a.title }}</b><div class="mu">{{ a.sub }}</div>
+            <div class="row between" style="margin-top:6px"><span class="pill {{ a.tone }}">{% trans a.tag %}</span><a href="{% url a.link %}" style="font-size:12px">{% trans a.action %} →</a></div></div>
+        </div>
+      {% empty %}<div class="mu">{% trans "Nothing needs attention right now." %}</div>{% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="cols c2" style="margin-top:14px">
+  <div class="card">
+    <div class="card-h"><div><h2>{% trans "Attendance trend" %}</h2><div class="mu">{% trans "Last 5 weeks · all active groups" %}</div></div>
+      <a href="{% url 'schedule' %}">{% trans "Non-attendance report" %} →</a></div>
+    <div class="row"><span class="big" style="font-size:26px">{{ trend_now }}%</span><span class="pill {% if trend_delta >= 0 %}ok{% else %}bad{% endif %}">{% if trend_delta >= 0 %}↑{% else %}↓{% endif %} {{ trend_delta }} pts</span><span class="mu">{% trans "average attendance" %}</span></div>
+    {% linechart trend_vals 440 150 trend_labels 80 100 "%" %}
+    <div class="row mu" style="font-size:11px">
+      <span><span style="color:var(--ok)">●</span> {% trans "Present" %} {{ st.present }}%</span>
+      <span><span style="color:var(--warn)">●</span> {% trans "Excused" %} {{ st.excused }}%</span>
+      <span><span style="color:var(--bad)">●</span> {% trans "Unexplained" %} {{ st.unexplained }}%</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h"><div><h2>{% trans "Payment collections" %}</h2><div class="mu">{% trans "Received payments · last 6 months, million so‘m" %}</div></div>
+      {% if pay_ok %}<a href="{% url 'finance' %}">{% trans "Finance" %} →</a>{% endif %}</div>
+    <div class="row"><span style="font-size:26px">{{ collected|som }}</span><span class="pill {% if money_delta >= 0 %}ok{% else %}warn{% endif %}">{% if money_delta >= 0 %}↑{% else %}↓{% endif %} {{ money_delta }}%</span><span class="mu">{% trans "vs. last month (month in progress)" %}</span></div>
+    {% linechart money_vals 440 150 money_labels %}
+    <div class="bar"><i style="width:{{ collected|pct_of:scheduled }}%"></i></div>
+    <div class="fa" style="margin-top:4px">{{ collected|pct_of:scheduled }}% {% trans "of scheduled" %} · {% trans "Overdue balance" %} {{ over|som }}</div>
+  </div>
+</div>
+<div class="row between fa" style="margin-top:16px"><span>{% trans "Autumn term" %} · 07.09 — 18.12.2026</span><span>{% trans "Management access · center-wide operations and reporting" %}</span></div>
+{% endblock %}

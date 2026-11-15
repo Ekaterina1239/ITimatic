@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load i18n itmatic %}
+{% block c %}
+
+{% if page == "children" %}
+  <div class="ph"><div><div class="eyebrow">{% trans "Family account" %}</div><h1>{% trans "Select child" %}</h1><p class="lead">{% trans "You can only view your own children." %}</p></div></div>
+  <form method="post" class="cols c3">{% csrf_token %}
+    {% for k in kids %}
+      <button name="child" value="{{ k.pk }}" class="card who" style="text-align:left;cursor:pointer;font:inherit">
+        <span class="av">{{ k.name|initials }}</span><span><b style="font-weight:500">{{ k.name }}</b><span class="sub">{{ k.group|default:_("No group") }}</span></span>
+        <span class="pill {% if k.active %}ok{% endif %}" style="margin-left:auto">{% if k.active %}{% trans "Active" %}{% else %}{% trans "Inactive" %}{% endif %}</span>
+      </button>
+    {% empty %}<p>{% trans "No children linked to this phone." %}</p>{% endfor %}
+  </form>
+
+{% elif page == "dash" %}
+<div class="ph">
+  <div>
+    <div class="eyebrow">{% if role == "parent" %}{% trans "Family account" %}{% else %}{{ s.group }} · {% trans "Autumn term" %}{% endif %}</div>
+    <h1>{% if role == "parent" %}{% blocktrans with n=s.name %}A closer look at {{ n }}’s learning.{% endblocktrans %}{% else %}{% blocktrans with n=request.user.first_name %}Keep your momentum, {{ n }}.{% endblocktrans %}{% endif %}</h1>
+    <p class="lead">{% if role == "parent" %}{% trans "Follow lessons, progress and payments for your children." %}{% else %}{% trans "Your next lesson, learning materials and progress — ready when you are." %}{% endif %}</p>
+  </div>
+  <div class="actions"><a class="btn" href="tel:+998900001010">{% icon "message" %}{% trans "Message the center" %}</a></div>
+</div>
+
+{% if kids %}
+<form method="post" action="{% url 'children' %}" class="row" style="margin-bottom:14px">{% csrf_token %}
+  {% for k in kids %}<button name="child" value="{{ k.pk }}" class="card who" style="cursor:pointer;font:inherit;padding:10px 14px;min-width:220px;text-align:left;{% if k == s %}border:2px solid var(--pri);background:#f4f3fb{% endif %}">
+    <span class="av">{{ k.name|initials }}</span><span><b style="font-weight:500">{{ k.name }}</b><span class="sub">{{ k.group|default:"–" }}</span></span>{% if k == s %}<span class="pri-t" style="margin-left:auto">{% icon "check" %}</span>{% endif %}</button>{% endfor %}
+  <span class="mu">{% trans "You can only view your own children." %}</span>
+</form>
+{% endif %}
+
+<div class="card">
+  <div class="cols" style="grid-template-columns:1.3fr 1fr 1fr 1fr;align-items:center">
+    <div><div class="row"><h2 style="font-size:18px">{{ s.group|default:_("No group") }}</h2><span class="pill ok">{% trans "Place confirmed" %}</span></div>
+      <div class="mu">{{ s.group.teacher.get_full_name }} · {{ s.group.schedule }}</div></div>
+    <div><span class="mu">{% trans "Attendance this term" %}</span><div>{{ pct }}%</div></div>
+    <div><span class="mu">{% trans "Latest exam" %}</span><div>{% if latest %}{{ latest.score }} / {{ latest.max_score }} · {{ latest.name }}{% else %}–{% endif %}</div></div>
+    <div><span class="mu">{% trans "Payment" %}</span><div><span class="pill {{ pay.status|pill }}">{% trans pay.status %}</span> {% if pay.owed %}{{ pay.owed|som }}{% elif last_payment %}{{ last_payment.amount|som }} {% trans "received" %}{% endif %}</div></div>
+  </div>
+</div>
+
+<div class="split wide" style="margin-top:14px">
+  <div class="stack">
+    <div class="card">
+      <div class="card-h"><div><h2>{% trans "Next lessons" %}</h2><div class="mu">{{ s.group }} · {% trans "timetable" %}</div></div><a href="{% url 'fschedule' %}">{% trans "Full timetable" %} →</a></div>
+      <table class="tbl"><tr><th>{% trans "When" %}</th><th>{% trans "Lesson / teacher" %}</th><th>{% trans "Location" %}</th><th>{% trans "Status" %}</th></tr>
+        {% for l, st, rep in next3 %}<tr><td>{{ l.date|date:"D d.m" }}<span class="sub">{{ l.start|time:"H:i" }}–{{ l.end|time:"H:i" }}</span></td>
+          <td>{{ l.group }}<span class="sub">{% if l.substitute %}{% trans "Substitute" %}: {{ l.substitute.get_full_name }}{% elif l.needs_sub %}{% trans "Substitute to be confirmed" %}{% else %}{{ l.group.teacher.get_full_name }}{% endif %}</span></td>
+          <td>{% trans "Room" %} {{ l.room }}</td>
+          <td>{% if rep %}<span class="pill ok">{% trans "Reported" %}</span>{% else %}<span class="pill {{ st|pill }}">{% trans st %}</span>{% endif %}</td></tr>
+        {% empty %}<tr><td colspan="4" class="mu">{% trans "No upcoming lessons." %}</td></tr>{% endfor %}</table>
+    </div>
+
+    <div class="card">
+      <h2>{% trans "Report an absence" %}</h2><div class="mu">{% trans "Let the teacher know before the lesson." %}</div>
+      <form method="get" action="{% url 'absence' %}" class="cols c2" style="margin-top:6px">
+        <div><label>{% trans "Lesson" %}</label><select name="lesson">{% for l in upcoming %}<option value="{{ l.pk }}">{{ l.date|date:"D d.m" }} · {{ l.start|time:"H:i" }}</option>{% endfor %}</select></div>
+        <div style="align-self:end"><button class="btn pri block">{% icon "send" %}{% trans "Report absence" %}</button></div>
+      </form>
+      <p class="fa">{% trans "The center will mark the absence as excused." %}</p>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><div><h2>{% trans "Attendance & grades" %}</h2><div class="mu">{% trans "Autumn term" %} · {{ s.group.teacher.get_full_name }}</div></div><a href="{% url 'grades' %}">{% trans "View progress report" %} →</a></div>
+      <div class="row" style="gap:12px">
+        <span class="mu">{% trans "Last 5 lessons" %}</span>
+        {% for a in recent %}<span style="text-align:center"><span class="pill {{ a.status|pill }}" style="display:block;width:30px">{% if a.status == "present" %}✓{% elif a.status == "excused" %}E{% elif a.status == "late" %}L{% else %}✕{% endif %}</span><span class="fa">{{ a.lesson.date|date:"d.m" }}</span></span>{% endfor %}
+        <span class="fa">E = {% trans "excused" %}</span>
+      </div>
+      {% if latest %}<div class="row between" style="margin-top:14px;border-top:1px solid var(--line2);padding-top:12px">
+        <div><b style="font-weight:500">{{ latest.name }}</b><div class="mu">{{ latest.date|date:"d.m.Y" }} · {% trans latest.subject %}</div></div>
+        <span style="font-size:24px">{{ latest.score }} / {{ latest.max_score }}</span>
+        {% if delta is not None %}<span class="pill {% if delta >= 0 %}ok{% else %}bad{% endif %}">{% if delta >= 0 %}↑{% else %}↓{% endif %} {{ delta }} {% trans "points" %}</span>{% endif %}</div>{% endif %}
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h2>{% trans "Past lesson materials" %}</h2><a href="{% url 'materials' %}">{% trans "All materials" %} →</a></div>
+      <div class="list">{% for l in materials %}<div><span class="mu">{{ l.date|date:"d.m" }}</span> · {{ l.topic }}{% if l.homework %}<span class="sub">{% trans "Homework" %}: {{ l.homework }}</span>{% endif %}</div>{% empty %}<div class="mu">{% trans "No materials yet." %}</div>{% endfor %}</div>
+    </div>
+  </div>
+
+  <div class="stack">
+    <div class="card">
+      <div class="card-h"><div><h2>{% trans "Payment schedule" %}</h2><div class="mu">{{ s.name }} · {{ s.group }}</div></div><a href="{% url 'payments' %}">{% trans "All payments" %} →</a></div>
+      <div class="mu">{% trans "Outstanding" %}</div>
+      <div class="row between"><span style="font-size:28px">{{ pay.owed|som }}</span><span class="pill {{ pay.status|pill }}">{% trans pay.status %}</span></div>
+      <div class="list" style="margin-top:8px">{% for c, paid in charges %}<div class="row between"><span>{{ c.month|date:"F" }} · {{ c.amount|som }}<span class="sub">{% trans "Due" %} {{ c.due|date:"d.m.Y" }}</span></span><span class="pill {% if paid %}ok{% else %}warn{% endif %}">{% if paid %}{% trans "Paid" %}{% else %}{% trans "Due" %}{% endif %}</span></div>{% endfor %}</div>
+      {% if last_payment %}<a class="btn" style="margin-top:10px" href="{% url 'receipt' last_payment.pk %}">{% icon "download" %}{% trans "Download receipt" %}</a>{% endif %}
+    </div>
+    <div class="card">
+      <div class="card-h"><h2>{% trans "Messages from the center" %}</h2></div>
+      <div class="list">{% for n in notes %}<div><div class="row between"><span class="eyebrow pri-t" style="margin:0">{% if n.kind == "payment" %}{% trans "Payment reminder" %}{% elif n.kind == "schedule" %}{% trans "Schedule update" %}{% elif n.kind == "absence" %}{% trans "Absence" %}{% else %}{% trans "Notice" %}{% endif %}</span><span class="fa">{{ n.created|date:"d.m H:i" }}</span></div>
+        <div style="font-size:13px">{{ n.text }}</div></div>{% empty %}<div class="mu">{% trans "No messages yet." %}</div>{% endfor %}</div>
+    </div>
+    {% if homework %}<div class="card"><h2>{% trans "Homework" %}</h2><div class="mu">{{ homework.date|date:"d.m" }} · {{ homework.topic }}</div>
+      <p style="margin:8px 0 0">{{ homework.homework }}</p>{% if homework.homework_due %}<span class="pill warn">{% trans "due" %} {{ homework.homework_due|date:"d.m.Y" }}</span>{% endif %}</div>{% endif %}
+  </div>
+</div>
+
+{% else %}
+<div class="ph">
+  <div><div class="eyebrow">{{ s.name }} · {{ s.group|default:_("No group") }}</div>
+    <h1>{% if page == "schedule" %}{% trans "Lessons" %}{% elif page == "attendance" %}{% trans "Attendance" %}{% elif page == "grades" %}{% trans "Results" %}{% elif page == "materials" %}{% trans "Materials & homework" %}{% else %}{% trans "Payments" %}{% endif %}</h1></div>
+  {% if role == "parent" %}<div class="actions"><a class="btn" href="{% url 'children' %}">{% trans "Change child" %}</a></div>{% endif %}
+</div>
+
+{% if page == "schedule" %}
+  <div class="row" style="margin-bottom:12px"><a class="btn" href="?w={{ w|add:-1 }}">← {% trans "Previous week" %}</a><b>{% trans "Week of" %} {{ mon|date:"d.m.Y" }}</b><a class="btn" href="?w={{ w|add:1 }}">{% trans "Next week" %} →</a></div>
+  <div class="card"><table class="tbl">
+    <tr><th>{% trans "Date" %}</th><th>{% trans "Group · teacher" %}</th><th>{% trans "Room" %}</th><th>{% trans "Status" %}</th><th></th></tr>
+    {% for l in ls %}<tr><td>{{ l.date|date:"D d.m" }}<span class="sub">{{ l.start|time:"H:i" }}–{{ l.end|time:"H:i" }}</span></td>
+      <td>{{ l.group }}<span class="sub">{% firstof l.substitute.get_full_name l.group.teacher.get_full_name %}</span></td><td>{{ l.room }}</td>
+      <td><span class="pill {% if l.cancelled %}bad{% elif l.substitute %}pri{% endif %}">{% if l.cancelled %}{% trans "Cancelled" %}{% elif l.substitute %}{% trans "Substitute teacher" %}{% else %}{% trans "Scheduled" %}{% endif %}</span>
+        {% if l.pk in rep %}<span class="pill ok">{% trans "Reported" %}</span>{% endif %}</td>
+      <td>{% if not l.cancelled and l.pk not in rep and l.start_dt > now %}<a href="{% url 'absence' %}?lesson={{ l.pk }}">{% trans "Report absence" %}</a>{% endif %}</td></tr>
+    {% empty %}<tr><td colspan="5" class="mu">{% trans "No lessons this week." %}</td></tr>{% endfor %}</table></div>
+
+{% elif page == "attendance" %}
+  <form class="row" style="margin-bottom:12px"><input type="date" name="from" value="{{ g.from }}" style="width:auto"><input type="date" name="to" value="{{ g.to }}" style="width:auto">
+    <select name="subject" style="width:auto"><option value="">{% trans "All subjects" %}</option>{% for x in subjects %}<option value="{{ x }}" {% if g.subject == x %}selected{% endif %}>{% trans x %}</option>{% endfor %}</select>
+    <button class="btn">{% trans "Apply filters" %}</button></form>
+  <div class="split"><div class="card"><table class="tbl"><tr><th>{% trans "Date" %}</th><th>{% trans "Group" %}</th><th>{% trans "Status" %}</th></tr>
+    {% for a in rows %}<tr><td>{{ a.lesson.date|date:"D d.m.Y" }}</td><td>{{ a.lesson.group }}</td>
+      <td><span class="pill {{ a.status|pill }}">{{ a.status|tl }}</span>{% if a.lesson_id in rep %} <span class="pill ok">{% trans "Reported" %}</span>{% endif %}</td></tr>{% endfor %}</table></div>
+    <div class="stat"><div class="k">{% trans "Attendance" %}</div><div class="v">{{ pct }}%</div><div class="fa">{% trans "Present, late and excused lessons count as attended." %}</div></div></div>
+
+{% elif page == "grades" %}
+  <form class="row" style="margin-bottom:12px"><select name="subject" style="width:auto"><option value="">{% trans "All subjects" %}</option>{% for x in subjects %}<option value="{{ x }}" {% if g.subject == x %}selected{% endif %}>{% trans x %}</option>{% endfor %}</select>
+    <button class="btn">{% trans "Apply filter" %}</button></form>
+  <div class="card"><table class="tbl"><tr><th>{% trans "Date" %}</th><th>{% trans "Assessment" %}</th><th>{% trans "Score" %}</th><th>{% trans "Status" %}</th></tr>
+    {% for a in rows %}<tr><td>{{ a.date|date:"d.m.Y" }}</td><td>{{ a.name }}<span class="sub">{% trans a.subject %}</span></td>
+      <td>{% if a.score is not None %}<b style="font-weight:500">{{ a.score }} / {{ a.max_score }}</b> ({{ a.percent }}%){% else %}–{% endif %}</td>
+      <td><span class="pill {% if a.score is not None %}ok{% else %}warn{% endif %}">{% if a.score is not None %}{% trans "Graded" %}{% else %}{% trans "Pending" %}{% endif %}</span></td></tr>{% endfor %}</table></div>
+
+{% elif page == "materials" %}
+  <form class="row" style="margin-bottom:12px"><select name="subject" style="width:auto"><option value="">{% trans "All subjects" %}</option>{% for x in subjects %}<option value="{{ x }}" {% if g.subject == x %}selected{% endif %}>{% trans x %}</option>{% endfor %}</select>
+    <input name="q" value="{{ g.q }}" placeholder="{% trans 'Search by topic' %}" style="width:240px"><button class="btn">{% trans "Apply" %}</button></form>
+  <div class="cols c2">{% for l in rows %}<div class="card"><div class="row between"><b style="font-weight:500">{{ l.topic }}</b><span class="mu">{{ l.date|date:"d.m.Y" }}</span></div>
+    {% if l.material %}<p><a href="{{ l.material.url }}" target="_blank">{% icon "file" 14 %} {{ l.material.name }}</a> · <a href="{{ l.material.url }}" download>{% trans "Download attachment" %}</a></p>{% endif %}
+    {% if l.homework %}<p class="mu" style="margin-bottom:0">{% trans "Homework" %}: {{ l.homework }}{% if l.homework_due %} · <span class="pill warn">{% trans "due" %} {{ l.homework_due|date:"d.m" }}</span>{% endif %}</p>{% endif %}</div>
+  {% empty %}<p class="mu">{% trans "No materials yet." %}</p>{% endfor %}</div>
+
+{% elif page == "payments" %}
+  <div class="split"><div class="card"><h2>{% trans "Payment history" %}</h2><table class="tbl" style="margin-top:10px"><tr><th>{% trans "Date" %}</th><th>{% trans "Month" %}</th><th>{% trans "Amount" %}</th><th>{% trans "Receipt" %}</th></tr>
+    {% for p in rows %}<tr><td>{{ p.paid_on|default:p.created|date:"d.m.Y" }}</td><td>{{ p.month|date:"F Y" }}</td><td>{{ p.amount|som }}<span class="sub">{% trans p.method %}</span></td>
+      <td>{% if p.receipt_no %}<a href="{% url 'receipt' p.pk %}">{{ p.receipt_no }} ↗</a>{% else %}–{% endif %}</td></tr>
+    {% empty %}<tr><td colspan="4" class="mu">{% trans "No payments yet." %}</td></tr>{% endfor %}</table></div>
+    <div class="stat"><div class="k">{% trans "Outstanding" %}</div><div class="v">{{ pay.owed|som }}</div><span class="pill {{ pay.status|pill }}">{% trans pay.status %}</span>{% if pay.due %} <span class="fa">{% trans "due" %} {{ pay.due|date:"d.m.Y" }}</span>{% endif %}</div></div>
+{% endif %}
+{% endif %}
+{% endblock %}

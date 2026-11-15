@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load i18n itmatic %}
+{% block c %}
+<div class="ph">
+  <div>
+    <div class="eyebrow">{% trans "Admissions · Autumn 2026" %}</div>
+    <h1>{% trans "From first enquiry to first lesson." %}</h1>
+    <p class="lead">{% trans "Assess, find the right group, and guide every family through enrolment." %}</p>
+  </div>
+  <div class="actions">
+    <a class="btn" href="?tab=action&amp;q=">{% trans "Waiting list" %} · {{ waiting_n }}</a>
+    <button class="btn pri" type="button" onclick="document.getElementById('newapp').showModal()">{% icon "plus" %}{% trans "New applicant" %}</button>
+  </div>
+</div>
+
+<div class="cols" style="grid-template-columns:repeat(7,minmax(0,1fr))">
+  {% for s, n in counts %}
+    <div class="stat {% if st == s %}on{% endif %}" style="padding:10px 12px"><a class="k" href="?stage={% if st != s %}{{ s|urlencode }}{% endif %}">{% trans s %}<span>›</span></a><div class="v" style="font-size:24px">{{ n }}</div></div>
+  {% endfor %}
+</div>
+
+<div class="split wide" style="margin-top:14px">
+  <div class="card">
+    <div class="card-h"><div><h2>{% trans "Applicants" %}</h2>
+      <div class="mu">{% blocktrans with t=total p=in_pipeline w=waiting_n d=declined_n %}{{ t }} applications · {{ p }} in pipeline · {{ w }} waiting · {{ d }} declined{% endblocktrans %}</div></div></div>
+    <div class="row between">
+      <div class="tabs">
+        <a href="?tab=all" class="{% if tab == 'all' %}on{% endif %}">{% trans "All applicants" %}</a>
+        <a href="?tab=action" class="{% if tab == 'action' %}on{% endif %}">{% trans "Needs action" %}</a>
+        <a href="?tab=confirmed" class="{% if tab == 'confirmed' %}on{% endif %}">{% trans "Confirmed" %}</a>
+      </div>
+    </div>
+    <form class="row" style="margin-bottom:12px"><input type="hidden" name="tab" value="{{ tab }}">
+      <input name="q" value="{{ q }}" placeholder="{% trans 'Search name, parent or phone number' %}" style="flex:1">
+      <button class="btn">{% icon "search" %}{% trans "Search" %}</button></form>
+    <div class="scroll"><table class="tbl">
+      <tr><th>{% trans "Applicant" %}</th><th>{% trans "Level / subject" %}</th><th>{% trans "Stage" %}</th><th>{% trans "Next step" %}</th></tr>
+      {% for a, nxt in apps %}
+        <tr class="{% if a == sel %}sel{% endif %}">
+          <td><a class="who" href="?sel={{ a.pk }}&amp;tab={{ tab }}&amp;stage={{ st|urlencode }}" style="color:inherit"><span class="av">{{ a.name|initials }}</span>
+            <span>{{ a.name }}<span class="sub">{% trans "Parent" %}: {{ a.parent_name|default:"–" }}</span></span></a></td>
+          <td>{{ a.level|default:"–" }} · {% trans a.subject %}<span class="sub">{% if a.score is not None %}{% trans "Assessment" %}: {{ a.score }} / 100{% else %}{% trans "Level not yet assessed" %}{% endif %}</span></td>
+          <td><span class="pill {% if a.waiting %}warn{% else %}{{ a.stage|pill }}{% endif %}">{% if a.waiting %}{% trans "Waiting list" %}{% else %}{% trans a.stage %}{% endif %}</span></td>
+          <td>{% trans nxt %}<span class="sub"><a href="{% url 'applicant' a.pk %}">{% trans "Open applicant" %} →</a></span></td>
+        </tr>
+      {% empty %}<tr><td colspan="4" class="mu">{% trans "No applicants match." %}</td></tr>{% endfor %}
+    </table></div>
+    <div class="alert" style="margin-top:14px">{% icon "info" %}<div class="grow"><b>{% trans "No suitable group? Keep the opportunity open." %}</b><br>
+      <span class="mu">{% trans "Add an applicant to the waiting list, create a new group, or decline with a recorded reason. Families receive the decision." %}</span></div>
+      <a href="{% url 'groups' %}">{% trans "Create group" %} →</a></div>
+  </div>
+
+  {% if sel %}
+  <div class="card">
+    <h2 style="font-size:17px">{{ sel.name }}</h2>
+    <div class="mu">{% trans "Application" %} EN-{{ sel.pk|add:1047 }}</div>
+    <div class="row" style="margin:10px 0"><span class="pill {{ sel.stage|pill }}">{% trans sel.stage %}</span>{% if sel.trial %}<span class="pill ok">{% trans "Trial" %}: {% trans sel.trial %}</span>{% endif %}</div>
+    <div class="kv">
+      <div><span class="mu">{% trans "Parent / agreement signer" %}</span>{{ sel.parent_name|default:"–" }}</div>
+      <div><span class="mu">{% trans "Phone" %}</span>{{ sel.phone }}</div>
+      <div><span class="mu">{% trans "Assessed level" %}</span>{% trans sel.subject %} · {{ sel.level|default:"–" }}{% if sel.score is not None %} ({{ sel.score }} / 100){% endif %}</div>
+      <div><span class="mu">{% trans "Branch" %}</span>{{ sel.branch }}</div>
+    </div>
+    <hr style="border:0;border-top:1px solid var(--line2);margin:16px 0">
+    <div class="row between"><h3>{% trans "Recommended group" %}</h3>{% if rec %}<span class="pill ok">{% trans "Best match" %}</span>{% endif %}</div>
+    {% if rec %}
+      <div style="background:#f6f5f2;border-radius:8px;padding:12px 14px">
+        <b style="font-weight:600">{{ rec }}</b><div class="mu">{{ rec.teacher.get_full_name }} · {{ rec.schedule }}</div>
+        <div class="row between" style="margin-top:6px"><span class="ok-t" style="font-size:12px">{% blocktrans count n=rec.free %}{{ n }} place available{% plural %}{{ n }} places available{% endblocktrans %} · {{ rec.enrolled }} / {{ rec.capacity }}</span>
+          <a href="{% url 'groups' %}?g={{ rec.pk }}" style="font-size:12px">{% trans "View group" %} ↗</a></div>
+      </div>
+      <p class="fa">{% trans "Placement is confirmed only after the agreement is signed and the administrator confirms the group." %}</p>
+    {% else %}<p class="mu">{% trans "No group with free places for this course." %}</p>{% endif %}
+    <h3 style="margin-top:14px">{% trans "Application history" %}</h3>
+    <div class="list">{% for t, d in hist %}<div><b style="font-weight:500;font-size:13px">{% trans t %}</b><div class="mu">{% trans d %}</div></div>{% endfor %}</div>
+    <a class="btn pri block" href="{% url 'applicant' sel.pk %}" style="margin-top:10px">{% icon "send" %}{% trans next %} · {% trans "open profile" %}</a>
+    <form method="post" action="{% url 'applicant' sel.pk %}" class="row" style="margin-top:10px">{% csrf_token %}
+      <button class="btn" name="act" value="wait">{% trans "Move to waiting list" %}</button>
+      <a class="btn danger" href="{% url 'applicant' sel.pk %}#lost">{% trans "Decline" %}</a></form>
+  </div>
+  {% endif %}
+</div>
+<a class="linkrow" href="{% url 'debtors' %}">{% trans "Monthly debtors and payment follow-up" %}</a>
+
+<dialog id="newapp" style="border:0;border-radius:12px;padding:24px;width:min(420px,92vw)">
+  <form method="post">{% csrf_token %}
+    <h2 style="font-size:20px">{% trans "New applicant" %}</h2>
+    <label>{% trans "Student name" %}</label><input name="name" required>
+    <label>{% trans "Parent name" %}</label><input name="parent">
+    <label>{% trans "Phone (+998)" %}</label><input name="phone" placeholder="+998 90 000 00 00" required>
+    <label>{% trans "Desired course" %}</label>
+    <select name="subject">
+      <option value="English">{% trans "English" %}</option><option value="Russian">{% trans "Russian" %}</option><option value="IELTS">IELTS</option>
+      <option value="IT">IT</option><option value="Mathematics">{% trans "Mathematics" %}</option><option value="Science">{% trans "Science" %}</option></select>
+    <div class="row" style="margin-top:18px"><button class="btn" type="button" onclick="this.closest('dialog').close()">{% trans "Cancel" %}</button>
+      <button class="btn pri">{% trans "Add enquiry" %}</button></div>
+  </form>
+</dialog>
+{% endblock %}

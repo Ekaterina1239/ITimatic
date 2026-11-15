@@ -1,0 +1,2180 @@
+#
+msgid ""
+msgstr ""
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "Administrator"
+msgstr "Администратор"
+
+msgid "Teacher"
+msgstr "Учитель"
+
+msgid "Parent"
+msgstr "Родитель"
+
+msgid "Student"
+msgstr "Ученик"
+
+msgid "Education manager"
+msgstr "Менеджер по обучению"
+
+msgid "Accountant"
+msgstr "Бухгалтер"
+
+msgid "Director"
+msgstr "Директор"
+
+msgid "Overview"
+msgstr "Обзор"
+
+msgid "Enquiries"
+msgstr "Заявки"
+
+msgid "Schedule"
+msgstr "Расписание"
+
+msgid "Groups"
+msgstr "Группы"
+
+msgid "Debtors"
+msgstr "Должники"
+
+msgid "Finance"
+msgstr "Финансы"
+
+msgid "Certificates"
+msgstr "Сертификаты"
+
+msgid "Take payment"
+msgstr "Принять оплату"
+
+msgid "Today"
+msgstr "Сегодня"
+
+msgid "Leave requests"
+msgstr "Заявки на отсутствие"
+
+msgid "Home"
+msgstr "Главная"
+
+msgid "Timetable"
+msgstr "Расписание"
+
+msgid "Report absence"
+msgstr "Сообщить об отсутствии"
+
+msgid "Attendance"
+msgstr "Посещаемость"
+
+msgid "Grades"
+msgstr "Оценки"
+
+msgid "Materials"
+msgstr "Материалы"
+
+msgid "Payments"
+msgstr "Платежи"
+
+msgid "My children"
+msgstr "Мои дети"
+
+msgid "Sign out"
+msgstr "Выйти"
+
+msgid "Interface language"
+msgstr "Язык интерфейса"
+
+msgid "Paid"
+msgstr "Оплачено"
+
+msgid "Due"
+msgstr "К оплате"
+
+msgid "Overdue"
+msgstr "Просрочено"
+
+msgid "Partially paid"
+msgstr "Частично оплачено"
+
+msgid "Unpaid"
+msgstr "Не оплачено"
+
+msgid "Present"
+msgstr "Присутствовал"
+
+msgid "Late"
+msgstr "Опоздал"
+
+msgid "Absent"
+msgstr "Отсутствовал"
+
+msgid "Excused"
+msgstr "Уважительная причина"
+
+msgid "Unexplained"
+msgstr "Без причины"
+
+msgid "Not marked"
+msgstr "Не отмечен"
+
+msgid "Enquiry"
+msgstr "Заявка"
+
+msgid "Assessment"
+msgstr "Оценивание"
+
+msgid "Group matching"
+msgstr "Подбор группы"
+
+msgid "Trial booked"
+msgstr "Пробный записан"
+
+msgid "Trial completed"
+msgstr "Пробный пройден"
+
+msgid "Agreement"
+msgstr "Договор"
+
+msgid "Confirmed"
+msgstr "Зачислен"
+
+msgid "Lost"
+msgstr "Потерян"
+
+msgid "Prepared"
+msgstr "Подготовлен"
+
+msgid "Signed"
+msgstr "Подписан"
+
+msgid "Illness"
+msgstr "Болезнь"
+
+msgid "Family"
+msgstr "Семейные обстоятельства"
+
+msgid "Other"
+msgstr "Другое"
+
+msgid "Price"
+msgstr "Цена"
+
+msgid "Level"
+msgstr "Уровень"
+
+msgid "Location"
+msgstr "Расположение"
+
+msgid "Eligible"
+msgstr "Допущен"
+
+msgid "Submitted"
+msgstr "Отправлено"
+
+msgid "Approved"
+msgstr "Одобрено"
+
+msgid "Rejected"
+msgstr "Отклонено"
+
+msgid "Pending"
+msgstr "Ожидает"
+
+msgid "Sick leave"
+msgstr "Больничный"
+
+msgid "Active"
+msgstr "Активна"
+
+msgid "Inactive"
+msgstr "Неактивна"
+
+msgid "Closed"
+msgstr "Закрыта"
+
+msgid "Archived"
+msgstr "В архиве"
+
+msgid "closed"
+msgstr "закрыта"
+
+msgid "archived"
+msgstr "перенесена в архив"
+
+msgid "Cash"
+msgstr "Наличные"
+
+msgid "Card"
+msgstr "Карта"
+
+msgid "Bank transfer"
+msgstr "Банковский перевод"
+
+msgid "English"
+msgstr "Английский"
+
+msgid "IELTS"
+msgstr "IELTS"
+
+msgid "A signed contract is required before joining a group."
+msgstr "Чтобы добавить в группу, нужен подписанный договор."
+
+msgid "The group is full. Move the applicant to the waiting list."
+msgstr "Группа заполнена. Перенесите заявителя в лист ожидания."
+
+msgid "Level test"
+msgstr "Тест на уровень"
+
+msgid "Score 0–100"
+msgstr "Балл 0–100"
+
+msgid "Test date"
+msgstr "Дата теста"
+
+msgid "Recommended level"
+msgstr "Рекомендуемый уровень"
+
+msgid "Reason if skipped"
+msgstr "Причина, если тест пропущен"
+
+msgid "Save"
+msgstr "Сохранить"
+
+msgid "Teacher conversation"
+msgstr "Беседа с учителем"
+
+msgid "Accepted"
+msgstr "Принят"
+
+msgid "Not suitable"
+msgstr "Не подходит"
+
+msgid "Trial lesson"
+msgstr "Пробный урок"
+
+msgid "Attended"
+msgstr "Пришёл"
+
+msgid "Did not attend"
+msgstr "Не пришёл"
+
+msgid "Student feedback"
+msgstr "Отзыв ученика"
+
+msgid "Interested"
+msgstr "Заинтересован"
+
+msgid "Undecided"
+msgstr "Не решил"
+
+msgid "Declines"
+msgstr "Отказывается"
+
+msgid "Contract"
+msgstr "Договор"
+
+msgid "Not prepared"
+msgstr "Не подготовлен"
+
+msgid "Mark prepared"
+msgstr "Отметить как подготовленный"
+
+msgid "Contract number"
+msgstr "Номер договора"
+
+msgid "Signing date"
+msgstr "Дата подписания"
+
+msgid "Signed scan (PDF / JPG / PNG, up to 10 MB)"
+msgstr "Скан подписанного договора (PDF / JPG / PNG, до 10 МБ)"
+
+msgid "uploaded"
+msgstr "загружен"
+
+msgid "Record signed contract"
+msgstr "Сохранить подписанный договор"
+
+msgid "Add to group"
+msgstr "Добавить в группу"
+
+msgid ""
+"This applicant cannot join a group until a signed contract is recorded."
+msgstr ""
+"Заявителя нельзя добавить в группу, пока не сохранён подписанный договор."
+
+msgid "No free group?"
+msgstr "Нет свободной группы?"
+
+msgid "Add to waiting list"
+msgstr "В лист ожидания"
+
+msgid "Close as Lost"
+msgstr "Закрыть как потерянную"
+
+msgid "Select a reason"
+msgstr "Выберите причину"
+
+msgid "Details (required for Other)"
+msgstr "Подробности (обязательно для «Другое»)"
+
+msgid "Closed as Lost"
+msgstr "Закрыта как потерянная"
+
+msgid "Phone login"
+msgstr "Вход по телефону"
+
+msgid "Phone number (+998)"
+msgstr "Номер телефона (+998)"
+
+msgid "We’ll send a one-time SMS code. No password needed."
+msgstr "Мы отправим одноразовый SMS-код. Пароль не нужен."
+
+msgid "Continue with phone"
+msgstr "Продолжить"
+
+msgid "SMS verification"
+msgstr "Подтверждение по SMS"
+
+msgid "Enter the 6-digit code sent to +998 %(phone)s"
+msgstr "Введите 6-значный код, отправленный на +998 %(phone)s"
+
+msgid "Verify and sign in"
+msgstr "Подтвердить и войти"
+
+msgid "Change phone number"
+msgstr "Изменить номер"
+
+msgid "Select role"
+msgstr "Выберите роль"
+
+msgid ""
+"Offline mode: no internet connection. Attendance is saved on this device and"
+" will be sent automatically when the connection returns."
+msgstr ""
+"Офлайн-режим: нет интернета. Посещаемость сохраняется на этом устройстве и "
+"отправится автоматически, когда связь появится."
+
+msgid "Student or phone"
+msgstr "Ученик или телефон"
+
+msgid "All groups"
+msgstr "Все группы"
+
+msgid "Apply filters"
+msgstr "Применить фильтры"
+
+msgid "Parent contact"
+msgstr "Контакт родителя"
+
+msgid "Outstanding"
+msgstr "Задолженность"
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "Open student"
+msgstr "Открыть ученика"
+
+msgid "No debtors."
+msgstr "Должников нет."
+
+msgid "Received"
+msgstr "Получено"
+
+msgid "Scheduled"
+msgstr "Запланировано"
+
+msgid "Payment ledger"
+msgstr "Журнал платежей"
+
+msgid "Amount, so‘m"
+msgstr "Сумма, сум"
+
+msgid "Method"
+msgstr "Способ"
+
+msgid "Discount"
+msgstr "Скидка"
+
+msgid "None"
+msgstr "Нет"
+
+msgid "One-off"
+msgstr "Разовая"
+
+msgid "Bring-a-friend"
+msgstr "Приведи друга"
+
+msgid ""
+"Partial payments leave the remainder as debt; overpayments become credit."
+msgstr "При частичной оплате остаток становится долгом, переплата — авансом."
+
+msgid "Issue receipt"
+msgstr "Выдать квитанцию"
+
+msgid "Monthly debtors"
+msgstr "Должники за месяц"
+
+msgid "No debtors for %(branch)s."
+msgstr "В филиале %(branch)s должников нет."
+
+msgid "Take payment & issue receipt"
+msgstr "Приём оплаты и квитанция"
+
+msgid "Payment date"
+msgstr "Дата оплаты"
+
+msgid "Confirm payment"
+msgstr "Подтвердить оплату"
+
+msgid "Receipt"
+msgstr "Квитанция"
+
+msgid "Print receipt"
+msgstr "Распечатать квитанцию"
+
+msgid "Download receipt"
+msgstr "Скачать квитанцию"
+
+msgid "Amount"
+msgstr "Сумма"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Print"
+msgstr "Печать"
+
+msgid "Download"
+msgstr "Скачать"
+
+msgid "Search name or +998 phone"
+msgstr "Поиск по имени или телефону +998"
+
+msgid "All stages"
+msgstr "Все этапы"
+
+msgid "Search"
+msgstr "Найти"
+
+msgid "Applicant"
+msgstr "Заявитель"
+
+msgid "Phone"
+msgstr "Телефон"
+
+msgid "Course"
+msgstr "Курс"
+
+msgid "Stage"
+msgstr "Этап"
+
+msgid "Assigned"
+msgstr "Ответственный"
+
+msgid "Waiting list"
+msgstr "Лист ожидания"
+
+msgid "Open applicant"
+msgstr "Открыть заявку"
+
+msgid "Add enquiry"
+msgstr "Добавить заявку"
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "Phone (+998)"
+msgstr "Телефон (+998)"
+
+msgid "Desired course"
+msgstr "Желаемый курс"
+
+msgid "Select child"
+msgstr "Выберите ребёнка"
+
+msgid "No group"
+msgstr "Без группы"
+
+msgid "No children linked to this phone."
+msgstr "К этому номеру не привязаны дети."
+
+msgid "Change child"
+msgstr "Сменить ребёнка"
+
+msgid "Next lesson"
+msgstr "Следующий урок"
+
+msgid "Room"
+msgstr "Кабинет"
+
+msgid "substitute teacher"
+msgstr "замена учителя"
+
+msgid "No upcoming lessons."
+msgstr "Предстоящих уроков нет."
+
+msgid "Payment"
+msgstr "Оплата"
+
+msgid "due"
+msgstr "срок"
+
+msgid "Materials & homework"
+msgstr "Материалы и домашнее задание"
+
+msgid "Previous week"
+msgstr "Пред. неделя"
+
+msgid "Week of"
+msgstr "Неделя с"
+
+msgid "Next week"
+msgstr "След. неделя"
+
+msgid "Group · teacher"
+msgstr "Группа · учитель"
+
+msgid "Cancelled"
+msgstr "Отменён"
+
+msgid "Substitute teacher"
+msgstr "Замена учителя"
+
+msgid "Reported"
+msgstr "Сообщено"
+
+msgid "No lessons this week."
+msgstr "На этой неделе уроков нет."
+
+msgid "Back"
+msgstr "Назад"
+
+msgid "Upcoming lesson"
+msgstr "Ближайший урок"
+
+msgid "Reason"
+msgstr "Причина"
+
+msgid "Short note (required for Other)"
+msgstr "Короткий комментарий (обязательно для «Другое»)"
+
+msgid "Submit report"
+msgstr "Отправить"
+
+msgid "Cancel"
+msgstr "Отмена"
+
+msgid "All subjects"
+msgstr "Все предметы"
+
+msgid "Apply filter"
+msgstr "Применить фильтр"
+
+msgid "Score"
+msgstr "Балл"
+
+msgid "Graded"
+msgstr "Оценено"
+
+msgid "Lesson topic"
+msgstr "Тема урока"
+
+msgid "Apply"
+msgstr "Применить"
+
+msgid "Open"
+msgstr "Открыть"
+
+msgid "Download attachment"
+msgstr "Скачать файл"
+
+msgid "Homework"
+msgstr "Домашнее задание"
+
+msgid "No materials yet."
+msgstr "Материалов пока нет."
+
+msgid "Payment history"
+msgstr "История платежей"
+
+msgid "View receipt"
+msgstr "Квитанция"
+
+msgid "No payments yet."
+msgstr "Платежей пока нет."
+
+msgid "Group management"
+msgstr "Управление группами"
+
+msgid "Search groups"
+msgstr "Поиск групп"
+
+msgid "Filter"
+msgstr "Фильтр"
+
+msgid "No groups."
+msgstr "Групп нет."
+
+msgid "Create group"
+msgstr "Создать группу"
+
+msgid "Course / level"
+msgstr "Курс / уровень"
+
+msgid "Capacity"
+msgstr "Вместимость"
+
+msgid "Approve"
+msgstr "Одобрить"
+
+msgid "Reject"
+msgstr "Отклонить"
+
+msgid "No pending requests."
+msgstr "Новых заявок нет."
+
+msgid "%(a)s/%(b)s students"
+msgstr "%(a)s/%(b)s учеников"
+
+msgid "Schedule (day, time, room)"
+msgstr "Расписание (день, время, кабинет)"
+
+msgid "Students"
+msgstr "Ученики"
+
+msgid "Empty."
+msgstr "Пусто."
+
+msgid "waiting"
+msgstr "ожидает"
+
+msgid "Add student"
+msgstr "Добавить ученика"
+
+msgid "Lessons needing a substitute"
+msgstr "Уроки без замены"
+
+msgid "Unassigned"
+msgstr "Не назначен"
+
+msgid "Assign substitute"
+msgstr "Назначить замену"
+
+msgid "None."
+msgstr "Нет."
+
+msgid "Close this group?"
+msgstr "Закрыть эту группу?"
+
+msgid "Close group"
+msgstr "Закрыть группу"
+
+msgid "Archive this group?"
+msgstr "Перенести группу в архив?"
+
+msgid "Archive group"
+msgstr "В архив"
+
+msgid "Apply period"
+msgstr "Применить период"
+
+msgid "Active students"
+msgstr "Активные ученики"
+
+msgid "Group utilization"
+msgstr "Заполненность групп"
+
+msgid "Revenue"
+msgstr "Выручка"
+
+msgid "Overdue balance"
+msgstr "Просроченный долг"
+
+msgid "View groups"
+msgstr "Группы"
+
+msgid "View debtors"
+msgstr "Должники"
+
+msgid "Eligible students"
+msgstr "Допущенные ученики"
+
+msgid "Certificate approval"
+msgstr "Одобрение сертификатов"
+
+msgid "Final"
+msgstr "Итог"
+
+msgid "Submit for approval"
+msgstr "Отправить на одобрение"
+
+msgid "Nothing to review."
+msgstr "Нечего проверять."
+
+msgid "This week"
+msgstr "Эта неделя"
+
+msgid "Cover"
+msgstr "Замена"
+
+msgid "Room conflict with %(g)s."
+msgstr "Кабинет занят группой %(g)s."
+
+msgid "Save attendance"
+msgstr "Сохранить посещаемость"
+
+msgid "Save & notify parents"
+msgstr "Сохранить и уведомить родителей"
+
+msgid "Substitute"
+msgstr "Замена"
+
+msgid "Room already booked"
+msgstr "Кабинет уже занят"
+
+msgid "Room %(room)s overlaps with %(g)s. Choose another room."
+msgstr "Кабинет %(room)s занят группой %(g)s. Выберите другой."
+
+msgid "Confirm substitute"
+msgstr "Подтвердить замену"
+
+msgid "Cancel lesson"
+msgstr "Отменить урок"
+
+msgid ""
+"Only parents of students in this lesson are notified after confirmation."
+msgstr ""
+"После подтверждения уведомление получат только родители учеников этого "
+"урока."
+
+msgid "Today’s lessons"
+msgstr "Уроки на сегодня"
+
+msgid "Previous day"
+msgstr "Пред. день"
+
+msgid "Next day"
+msgstr "След. день"
+
+msgid "Completed"
+msgstr "Проведён"
+
+msgid "Open attendance"
+msgstr "Отметить посещаемость"
+
+msgid "No lessons on this day."
+msgstr "В этот день уроков нет."
+
+msgid "Download today’s groups for offline use"
+msgstr "Скачать группы на сегодня для офлайн-работы"
+
+msgid "Request absence"
+msgstr "Запросить отсутствие"
+
+msgid "Saved on this device"
+msgstr "Сохранено на устройстве"
+
+msgid "Draft"
+msgstr "Черновик"
+
+msgid "Not started"
+msgstr "Не начат"
+
+msgid "Recorded"
+msgstr "Записано"
+
+msgid "Sent to server"
+msgstr "Отправлено на сервер"
+
+msgid "Parent reported"
+msgstr "Родитель сообщил"
+
+msgid "Due date"
+msgstr "Срок сдачи"
+
+msgid "Attach file"
+msgstr "Прикрепить файл"
+
+msgid "Save draft"
+msgstr "Сохранить черновик"
+
+msgid "Submit attendance"
+msgstr "Отправить посещаемость"
+
+msgid "No internet. Saved on this device at"
+msgstr "Нет интернета. Сохранено на устройстве в"
+
+msgid "Sent to server."
+msgstr "Отправлено на сервер."
+
+msgid "Not sent"
+msgstr "Не отправлено"
+
+msgid "Absence / sick leave request"
+msgstr "Заявка на отсутствие / больничный"
+
+msgid "Start date"
+msgstr "Дата начала"
+
+msgid "End date"
+msgstr "Дата окончания"
+
+msgid "Short note"
+msgstr "Комментарий"
+
+msgid "Attachment (optional)"
+msgstr "Файл (необязательно)"
+
+msgid "Submit request"
+msgstr "Отправить заявку"
+
+msgid "My requests"
+msgstr "Мои заявки"
+
+msgid "None yet."
+msgstr "Пока нет."
+
+msgid "Unregistered number. Contact the administrator."
+msgstr "Номер не зарегистрирован. Обратитесь к администратору."
+
+msgid "Wrong code. Check the 6 digits and try again."
+msgstr "Неверный код. Проверьте 6 цифр и попробуйте ещё раз."
+
+msgid "Draft saved."
+msgstr "Черновик сохранён."
+
+msgid "Attendance submitted. Lesson marked Completed."
+msgstr "Посещаемость отправлена. Урок отмечен как проведённый."
+
+msgid "Not your lesson."
+msgstr "Это не ваш урок."
+
+msgid "The batch is incomplete."
+msgstr "Данные пришли не полностью."
+
+msgid "Enter a valid start and end date."
+msgstr "Укажите правильные даты начала и окончания."
+
+msgid "Request submitted. Status: Pending."
+msgstr "Заявка отправлена. Статус: ожидает."
+
+msgid ""
+"The group list changed while you were offline. Open the lesson again and re-"
+"check attendance."
+msgstr ""
+"Пока вы были офлайн, состав группы изменился. Откройте урок заново и "
+"проверьте посещаемость."
+
+msgid "No enrolment record is linked to %(name)s."
+msgstr "К ученику %(name)s не привязана заявка."
+
+msgid "Enter a positive amount and a payment method."
+msgstr "Укажите сумму больше нуля и способ оплаты."
+
+msgid "Receipt %(no)s issued · %(name)s · %(amount)s so‘m."
+msgstr "Квитанция %(no)s выдана · %(name)s · %(amount)s so‘m."
+
+msgid "Name and phone are required."
+msgstr "Нужно указать имя и телефон."
+
+msgid "Enter a score or a reason for skipping."
+msgstr "Укажите балл или причину, почему тест пропущен."
+
+msgid "Signed contract recorded. This applicant can now join a group."
+msgstr ""
+"Подписанный договор сохранён. Теперь заявителя можно добавить в группу."
+
+msgid "Contract number, signing date and a signed scan are required."
+msgstr "Нужны номер договора, дата подписания и скан."
+
+msgid ""
+"Added to the waiting list. The family will be contacted when a place opens."
+msgstr "Добавлен в лист ожидания. С семьёй свяжутся, когда появится место."
+
+msgid "Added to %(group)s."
+msgstr "Добавлен в группу %(group)s."
+
+msgid "Application closed as Lost."
+msgstr "Заявка закрыта как потерянная."
+
+msgid "A reason is required (details are required for Other)."
+msgstr "Нужна причина (для «Другое» — с подробностями)."
+
+msgid ""
+"The lesson has already started. Please call the administrator: +998 90 000 "
+"10 10."
+msgstr "Урок уже начался. Позвоните администратору: +998 90 000 10 10."
+
+msgid "Choose a reason."
+msgstr "Выберите причину."
+
+msgid "Please add a short note for Other."
+msgstr "Для «Другое» добавьте короткий комментарий."
+
+msgid "Absence reported. The lesson now shows Reported."
+msgstr "Отсутствие отправлено. Урок помечен «Сообщено»."
+
+msgid "Group created."
+msgstr "Группа создана."
+
+msgid "Group saved."
+msgstr "Группа сохранена."
+
+msgid "Parents of students with unexplained absences were notified."
+msgstr "Родители учеников, пропустивших без причины, уведомлены."
+
+msgid "Attendance saved."
+msgstr "Посещаемость сохранена."
+
+msgid "Confirmed. Parents of this lesson were notified."
+msgstr "Подтверждено. Родители учеников этого урока уведомлены."
+
+msgid "Request approved."
+msgstr "Заявка одобрена."
+
+msgid "Request rejected."
+msgstr "Заявка отклонена."
+
+msgid "Substitute assigned. It now shows in teacher and family schedules."
+msgstr "Замена назначена. Она видна в расписании учителя и семьи."
+
+msgid "Room %(room)s is already booked (%(group)s). Choose another room."
+msgstr "Кабинет %(room)s уже занят (%(group)s). Выберите другой."
+
+msgid "%(name)s added."
+msgstr "%(name)s добавлен(а)."
+
+msgid "Group %(status)s."
+msgstr "Группа %(status)s."
+
+msgid "Enrolment"
+msgstr "Набор"
+
+msgid "My workspace"
+msgstr "Моё рабочее место"
+
+msgid "My timetable"
+msgstr "Моё расписание"
+
+msgid "Results & certificates"
+msgstr "Результаты и сертификаты"
+
+msgid "Lessons"
+msgstr "Уроки"
+
+msgid "Results"
+msgstr "Результаты"
+
+msgid "My learning"
+msgstr "Моё обучение"
+
+msgid "Lesson form"
+msgstr "Форма урока"
+
+msgid "Center workspace"
+msgstr "Рабочее пространство центра"
+
+msgid "Chilonzor / Yunusobod"
+msgstr "Чиланзар / Юнусабад"
+
+msgid "Personal workspace"
+msgstr "Личное пространство"
+
+msgid "Autumn term · 2026"
+msgstr "Осенний семестр · 2026"
+
+msgid "Workspace"
+msgstr "Рабочее пространство"
+
+msgid "ITmatic learning"
+msgstr "Обучение ITmatic"
+
+msgid "Learning center"
+msgstr "Учебный центр"
+
+msgid "Not part of your role"
+msgstr "Недоступно для вашей роли"
+
+msgid "A little help, when you need it."
+msgstr "Поможем, когда нужно."
+
+msgid "Call the center"
+msgstr "Позвонить в центр"
+
+msgid "Search students, groups…"
+msgstr "Поиск учеников, групп…"
+
+msgid "Upcoming"
+msgstr "Предстоит"
+
+msgid "Attendance due"
+msgstr "Нужна посещаемость"
+
+msgid "In progress"
+msgstr "Идёт"
+
+msgid "Cover pending"
+msgstr "Ждёт замены"
+
+msgid "Room conflict"
+msgstr "Конфликт кабинета"
+
+msgid "Make-up"
+msgstr "Отработка"
+
+msgid "Parents not yet notified"
+msgstr "Родители ещё не уведомлены"
+
+msgid "Notify parents"
+msgstr "Уведомить родителей"
+
+msgid "Review applicants"
+msgstr "Проверить заявки"
+
+msgid "Substitute required"
+msgstr "Нужна замена"
+
+msgid "Book a level test"
+msgstr "Назначить тест"
+
+msgid "Placement assessment"
+msgstr "Определение уровня"
+
+msgid "Find a suitable group"
+msgstr "Подобрать группу"
+
+msgid "Run the free trial"
+msgstr "Провести пробный урок"
+
+msgid "Review trial feedback"
+msgstr "Обсудить итоги пробного"
+
+msgid "Send parent agreement"
+msgstr "Отправить договор родителю"
+
+msgid "Joined the group"
+msgstr "В группе"
+
+msgid "Enquiry received"
+msgstr "Заявка получена"
+
+msgid "Knowledge assessment"
+msgstr "Проверка знаний"
+
+msgid "Level test skipped"
+msgstr "Тест пропущен"
+
+msgid "Free trial"
+msgstr "Пробный урок"
+
+msgid "Signed contract recorded"
+msgstr "Подписанный договор сохранён"
+
+msgid "Family will be notified when a place opens"
+msgstr "Семью уведомят, когда появится место"
+
+msgid "Good morning"
+msgstr "Доброе утро"
+
+msgid "Good afternoon"
+msgstr "Добрый день"
+
+msgid "Good evening"
+msgstr "Добрый вечер"
+
+msgid "Travel"
+msgstr "Поездка"
+
+msgid "School exam"
+msgstr "Экзамен в школе"
+
+msgid "All"
+msgstr "Все"
+
+msgid "Payme"
+msgstr "Payme"
+
+msgid "Click"
+msgstr "Click"
+
+msgid "Parent account"
+msgstr "Кабинет родителя"
+
+msgid "Choose a lesson"
+msgstr "Выберите урок"
+
+msgid "Lesson already started"
+msgstr "Урок уже начался"
+
+msgid "Reports must be sent before the lesson starts."
+msgstr "Сообщить нужно до начала урока."
+
+msgid "Unable to report"
+msgstr "Нельзя отправить"
+
+msgid "The lesson has already started. Please call the administrator."
+msgstr "Урок уже начался. Позвоните администратору."
+
+msgid "administrator"
+msgstr "администратор"
+
+msgid "Choose a different lesson"
+msgstr "Выбрать другой урок"
+
+msgid "Absence details"
+msgstr "Детали отсутствия"
+
+msgid "Late by · minutes"
+msgstr "Опоздание · минут"
+
+msgid "If Other, specify the reason"
+msgstr "Если «Другое», укажите причину"
+
+msgid "Add a short note for the teacher"
+msgstr "Короткий комментарий для учителя"
+
+msgid "Optional period · Up to 14 days"
+msgstr "Период (необязательно) · до 14 дней"
+
+msgid "Leave empty to report only the selected lesson."
+msgstr "Оставьте пустым, чтобы сообщить только об этом уроке."
+
+msgid "Confirm report"
+msgstr "Подтвердить"
+
+msgid "Choose another lesson"
+msgstr "Выбрать другой урок"
+
+msgid "Report withdrawn"
+msgstr "Сообщение отозвано"
+
+msgid "Confirmation"
+msgstr "Подтверждение"
+
+msgid "The report has been withdrawn"
+msgstr "Сообщение отозвано"
+
+msgid "The teacher has been informed of the withdrawal."
+msgstr "Учитель уведомлён об отзыве."
+
+msgid "Report sent"
+msgstr "Сообщение отправлено"
+
+msgid "The teacher has been informed"
+msgstr "Учитель уведомлён"
+
+msgid ""
+"Your report is linked to %(n)s’s lesson on %(d)s. You can withdraw it before"
+" the lesson starts."
+msgstr ""
+"Сообщение привязано к уроку (%(n)s, %(d)s). Его можно отозвать до начала "
+"урока."
+
+msgid "min"
+msgstr "мин"
+
+msgid "until"
+msgstr "до"
+
+msgid "Withdraw"
+msgstr "Отозвать"
+
+msgid "Done"
+msgstr "Готово"
+
+msgid "Admissions"
+msgstr "Приём"
+
+msgid "Application closed as Lost"
+msgstr "Заявка закрыта как потерянная"
+
+msgid "Score · 0–100"
+msgstr "Балл · 0–100"
+
+msgid "Reason required if skipped"
+msgstr "Причина, если тест пропущен"
+
+msgid "Previous placement certificate"
+msgstr "Сертификат прежнего уровня"
+
+msgid "Save result"
+msgstr "Сохранить результат"
+
+msgid "Skip test"
+msgstr "Пропустить тест"
+
+msgid "Wants to join"
+msgstr "Хочет записаться"
+
+msgid "Wants another group"
+msgstr "Хочет другую группу"
+
+msgid "Signed scan uploaded"
+msgstr "Скан загружен"
+
+msgid "replace"
+msgstr "заменить"
+
+msgid "Upload signed scan"
+msgstr "Загрузить скан договора"
+
+msgid "PDF / JPG / PNG · Up to 10 MB"
+msgstr "PDF / JPG / PNG · до 10 МБ"
+
+msgid "No signed file uploaded"
+msgstr "Файл не загружен"
+
+msgid "Mark contract as prepared"
+msgstr "Отметить договор как подготовленный"
+
+msgid "Suggested group"
+msgstr "Предлагаемая группа"
+
+msgid "Applicant details"
+msgstr "Данные заявителя"
+
+msgid "Preferred branch"
+msgstr "Филиал"
+
+msgid "Assigned to"
+msgstr "Ответственный"
+
+msgid "Contract required before placement"
+msgstr "До зачисления нужен договор"
+
+msgid ""
+"Keep the applicant on the waiting list and notify the family when a place "
+"opens."
+msgstr ""
+"Оставьте заявителя в листе ожидания и сообщите семье, когда появится место."
+
+msgid "Move to waiting list"
+msgstr "В лист ожидания"
+
+msgid "Activity"
+msgstr "История"
+
+msgid "Choose a reason before closing this application."
+msgstr "Выберите причину перед закрытием заявки."
+
+msgid "Additional details · required for Other"
+msgstr "Подробности · обязательно для «Другое»"
+
+msgid "Explain the reason"
+msgstr "Опишите причину"
+
+msgid "Secure sign-in"
+msgstr "Безопасный вход"
+
+msgid ""
+"Several roles are linked to this phone number. Choose an assigned workspace."
+" A user with one role goes directly to that workspace."
+msgstr ""
+"К этому номеру привязано несколько ролей. Выберите рабочее пространство. "
+"Пользователь с одной ролью попадает в него сразу."
+
+msgid "ITmatic · Student management"
+msgstr "ITmatic · Управление обучением"
+
+msgid "One account. Every part of your learning."
+msgstr "Один аккаунт. Всё обучение."
+
+msgid ""
+"English, Russian, IELTS, IT and Mathematics. Two branches, one connected "
+"learning center."
+msgstr ""
+"Английский, русский, IELTS, IT и математика. Два филиала, один учебный "
+"центр."
+
+msgid "After you sign in"
+msgstr "После входа"
+
+msgid "Learning and family accounts"
+msgstr "Кабинеты учеников и семей"
+
+msgid "Students and parents stay connected to their lessons."
+msgstr "Ученики и родители всегда в курсе уроков."
+
+msgid "A workspace for every role"
+msgstr "Своё пространство для каждой роли"
+
+msgid "Staff see only their authorized groups and branch."
+msgstr "Сотрудники видят только свои группы и филиал."
+
+msgid "One verified identity"
+msgstr "Одна подтверждённая личность"
+
+msgid "Your assigned roles appear after SMS verification."
+msgstr "Ваши роли появятся после проверки SMS."
+
+msgid "Access is limited to your assigned roles and records."
+msgstr "Доступ ограничен вашими ролями и данными."
+
+msgid "Phone number"
+msgstr "Номер телефона"
+
+msgid "Welcome to ITmatic"
+msgstr "Добро пожаловать в ITmatic"
+
+msgid "Use the phone number registered with ITmatic."
+msgstr "Используйте номер, зарегистрированный в ITmatic."
+
+msgid "Unregistered number"
+msgstr "Номер не зарегистрирован"
+
+msgid ""
+"Your number is used to verify your identity and find your assigned account. "
+"Standard SMS rates may apply."
+msgstr ""
+"Номер нужен, чтобы подтвердить личность и найти ваш аккаунт. Может взиматься"
+" стандартная плата за SMS."
+
+msgid "One role? Go straight to your workspace."
+msgstr "Одна роль? Сразу попадёте в своё пространство."
+
+msgid "Verification code"
+msgstr "Код подтверждения"
+
+msgid "Resend code in"
+msgstr "Отправить снова через"
+
+msgid "Autumn 2026"
+msgstr "Осень 2026"
+
+msgid "Need help? Contact the center"
+msgstr "Нужна помощь? Свяжитесь с центром"
+
+msgid "Privacy"
+msgstr "Конфиденциальность"
+
+msgid "Debtors list for %(m)s is ready: %(n)s students"
+msgstr "Список должников за %(m)s готов: учеников — %(n)s"
+
+msgid ""
+"Students with the longest overdue period are listed first. Select a status "
+"to update follow-up."
+msgstr "Сначала идут ученики с самой большой просрочкой."
+
+msgid "Group"
+msgstr "Группа"
+
+msgid "Parent / phone"
+msgstr "Родитель / телефон"
+
+msgid "Amount due"
+msgstr "Сумма долга"
+
+msgid "Last payment"
+msgstr "Последняя оплата"
+
+msgid "Follow-up action"
+msgstr "Действие"
+
+msgid "Remind"
+msgstr "Напомнить"
+
+msgid "Admissions · Autumn 2026"
+msgstr "Приём · Осень 2026"
+
+msgid "From first enquiry to first lesson."
+msgstr "От первой заявки до первого урока."
+
+msgid ""
+"Assess, find the right group, and guide every family through enrolment."
+msgstr "Оценивайте, подбирайте группу и ведите каждую семью до зачисления."
+
+msgid "New applicant"
+msgstr "Новая заявка"
+
+msgid "Applicants"
+msgstr "Заявители"
+
+msgid ""
+"%(t)s applications · %(p)s in pipeline · %(w)s waiting · %(d)s declined"
+msgstr "заявок: %(t)s · в работе: %(p)s · ожидают: %(w)s · отказ: %(d)s"
+
+msgid "All applicants"
+msgstr "Все заявители"
+
+msgid "Needs action"
+msgstr "Требуют действий"
+
+msgid "Search name, parent or phone number"
+msgstr "Поиск по имени, родителю или телефону"
+
+msgid "Level / subject"
+msgstr "Уровень / предмет"
+
+msgid "Next step"
+msgstr "Следующий шаг"
+
+msgid "Level not yet assessed"
+msgstr "Уровень ещё не определён"
+
+msgid "No applicants match."
+msgstr "Заявителей не найдено."
+
+msgid "No suitable group? Keep the opportunity open."
+msgstr "Нет подходящей группы? Не теряйте ученика."
+
+msgid ""
+"Add an applicant to the waiting list, create a new group, or decline with a "
+"recorded reason. Families receive the decision."
+msgstr ""
+"Добавьте заявителя в лист ожидания, создайте группу или откажите с указанием"
+" причины. Семья получит решение."
+
+msgid "Application"
+msgstr "Заявка"
+
+msgid "Trial"
+msgstr "Пробный"
+
+msgid "Parent / agreement signer"
+msgstr "Родитель / подписант"
+
+msgid "Assessed level"
+msgstr "Уровень"
+
+msgid "Branch"
+msgstr "Филиал"
+
+msgid "Recommended group"
+msgstr "Рекомендуемая группа"
+
+msgid "Best match"
+msgstr "Лучший вариант"
+
+msgid "View group"
+msgstr "Открыть группу"
+
+msgid ""
+"Placement is confirmed only after the agreement is signed and the "
+"administrator confirms the group."
+msgstr ""
+"Зачисление подтверждается только после подписания договора и подтверждения "
+"группы администратором."
+
+msgid "No group with free places for this course."
+msgstr "Нет группы со свободными местами по этому курсу."
+
+msgid "Application history"
+msgstr "История заявки"
+
+msgid "open profile"
+msgstr "открыть профиль"
+
+msgid "Decline"
+msgstr "Отказать"
+
+msgid "Monthly debtors and payment follow-up"
+msgstr "Должники месяца и контроль оплат"
+
+msgid "Student name"
+msgstr "Имя ученика"
+
+msgid "Parent name"
+msgstr "Имя родителя"
+
+msgid "Russian"
+msgstr "Русский"
+
+msgid "Mathematics"
+msgstr "Математика"
+
+msgid "Science"
+msgstr "Естествознание"
+
+msgid "Family account"
+msgstr "Семейный кабинет"
+
+msgid "You can only view your own children."
+msgstr "Вы видите только своих детей."
+
+msgid "Autumn term"
+msgstr "Осенний семестр"
+
+msgid "A closer look at %(n)s’s learning."
+msgstr "Обучение: %(n)s."
+
+msgid "Keep your momentum, %(n)s."
+msgstr "Так держать, %(n)s."
+
+msgid "Follow lessons, progress and payments for your children."
+msgstr "Уроки, успехи и платежи ваших детей."
+
+msgid ""
+"Your next lesson, learning materials and progress — ready when you are."
+msgstr "Следующий урок, материалы и прогресс — всё под рукой."
+
+msgid "Message the center"
+msgstr "Написать в центр"
+
+msgid "Place confirmed"
+msgstr "Место подтверждено"
+
+msgid "Attendance this term"
+msgstr "Посещаемость за семестр"
+
+msgid "Latest exam"
+msgstr "Последний экзамен"
+
+msgid "received"
+msgstr "получено"
+
+msgid "Next lessons"
+msgstr "Ближайшие уроки"
+
+msgid "timetable"
+msgstr "расписание"
+
+msgid "Full timetable"
+msgstr "Полное расписание"
+
+msgid "When"
+msgstr "Когда"
+
+msgid "Lesson / teacher"
+msgstr "Урок / учитель"
+
+msgid "Substitute to be confirmed"
+msgstr "Замена уточняется"
+
+msgid "Report an absence"
+msgstr "Сообщить об отсутствии"
+
+msgid "Let the teacher know before the lesson."
+msgstr "Предупредите учителя до урока."
+
+msgid "Lesson"
+msgstr "Урок"
+
+msgid "The center will mark the absence as excused."
+msgstr "Центр отметит пропуск как уважительный."
+
+msgid "Attendance & grades"
+msgstr "Посещаемость и оценки"
+
+msgid "View progress report"
+msgstr "Отчёт об успехах"
+
+msgid "Last 5 lessons"
+msgstr "Последние 5 уроков"
+
+msgid "excused"
+msgstr "уважительная"
+
+msgid "points"
+msgstr "балла"
+
+msgid "Past lesson materials"
+msgstr "Материалы прошлых уроков"
+
+msgid "All materials"
+msgstr "Все материалы"
+
+msgid "Payment schedule"
+msgstr "График платежей"
+
+msgid "All payments"
+msgstr "Все платежи"
+
+msgid "Messages from the center"
+msgstr "Сообщения центра"
+
+msgid "Payment reminder"
+msgstr "Напоминание об оплате"
+
+msgid "Schedule update"
+msgstr "Изменение расписания"
+
+msgid "Absence"
+msgstr "Отсутствие"
+
+msgid "Notice"
+msgstr "Уведомление"
+
+msgid "No messages yet."
+msgstr "Сообщений пока нет."
+
+msgid "Present, late and excused lessons count as attended."
+msgstr "Присутствие, опоздание и уважительный пропуск считаются посещением."
+
+msgid "Search by topic"
+msgstr "Поиск по теме"
+
+msgid "Month"
+msgstr "Месяц"
+
+msgid "Collections, without the guesswork."
+msgstr "Оплаты — без догадок."
+
+msgid ""
+"Track received payments separately from scheduled charges, and prepare your "
+"monthly reports."
+msgstr ""
+"Отслеживайте поступления отдельно от начислений и готовьте ежемесячные "
+"отчёты."
+
+msgid "payments"
+msgstr "платежей"
+
+msgid "of scheduled total"
+msgstr "от начисленного"
+
+msgid "Total scheduled"
+msgstr "Начислено всего"
+
+msgid "charges"
+msgstr "начислений"
+
+msgid "Includes received"
+msgstr "Включая полученные"
+
+msgid "Due before today · %(n)s parents to remind"
+msgstr "Срок прошёл · напомнить родителям: %(n)s"
+
+msgid "Not yet due · not received"
+msgstr "Срок не наступил · не получено"
+
+msgid "Received payment trend"
+msgstr "Динамика поступлений"
+
+msgid "Actual receipts · last 6 months, million so‘m"
+msgstr "Фактические поступления · 6 месяцев, млн so‘m"
+
+msgid "total scheduled"
+msgstr "начислено"
+
+msgid "student charges"
+msgstr "начислений"
+
+msgid "charges settled"
+msgstr "оплачено"
+
+msgid "unpaid charges"
+msgstr "не оплачено"
+
+msgid "future charges"
+msgstr "предстоящих"
+
+msgid "Last reminder batch"
+msgstr "Последняя рассылка"
+
+msgid "Remind overdue parents"
+msgstr "Напомнить должникам"
+
+msgid "Student charges and receipts"
+msgstr "Начисления и поступления"
+
+msgid "Search student"
+msgstr "Поиск ученика"
+
+msgid "Student / payer"
+msgstr "Ученик / плательщик"
+
+msgid "Action"
+msgstr "Действие"
+
+msgid "Send reminder"
+msgstr "Напомнить"
+
+msgid "No charges."
+msgstr "Начислений нет."
+
+msgid "Showing %(a)s of %(b)s charges"
+msgstr "Показано %(a)s из %(b)s"
+
+msgid "All amounts in so‘m"
+msgstr "Все суммы в so‘m"
+
+msgid "Previous"
+msgstr "Назад"
+
+msgid "Next"
+msgstr "Далее"
+
+msgid "Groups · Autumn term"
+msgstr "Группы · Осенний семестр"
+
+msgid "The right place to learn."
+msgstr "Каждому — своя группа."
+
+msgid "Balance levels, teachers and capacity across your center’s groups."
+msgstr "Уровни, учителя и места во всех группах центра."
+
+msgid "Manage teachers"
+msgstr "Учителя"
+
+msgid "Active groups"
+msgstr "Активные группы"
+
+msgid "%(n)s inactive groups archived for this term"
+msgstr "неактивных групп в архиве: %(n)s"
+
+msgid "Students enrolled"
+msgstr "Учеников зачислено"
+
+msgid "Across %(n)s subjects"
+msgstr "Предметов: %(n)s"
+
+msgid "Available places"
+msgstr "Свободные места"
+
+msgid "total places"
+msgstr "мест всего"
+
+msgid "utilized"
+msgstr "занято"
+
+msgid "Waiting list demand"
+msgstr "Лист ожидания"
+
+msgid "review matches"
+msgstr "подобрать группу"
+
+msgid "Group / level"
+msgstr "Группа / уровень"
+
+msgid "Full"
+msgstr "Мест нет"
+
+msgid "Inactive groups"
+msgstr "Неактивные группы"
+
+msgid "Retained for historical attendance and payments"
+msgstr "Хранятся для истории посещаемости и платежей"
+
+msgid "View all"
+msgstr "Все"
+
+msgid "Plan from demand"
+msgstr "Планируйте по спросу"
+
+msgid "%(n)s applicants are waiting, and %(g)s is full."
+msgstr "Ждут заявителей: %(n)s, а группа %(g)s заполнена."
+
+msgid "Edit group"
+msgstr "Изменить"
+
+msgid "Deactivate"
+msgstr "Деактивировать"
+
+msgid "Schedule / room"
+msgstr "Расписание / кабинет"
+
+msgid "enrolled"
+msgstr "зачислено"
+
+msgid "Teacher change"
+msgstr "Замена учителя"
+
+msgid ""
+"%(t)s asked for leave. Families will be notified after a substitute is "
+"approved."
+msgstr "%(t)s запросил(а) отсутствие. Семьи узнают после утверждения замены."
+
+msgid "Review"
+msgstr "Проверить"
+
+msgid "Members"
+msgstr "Ученики"
+
+msgid "Waiting-list match"
+msgstr "Из листа ожидания"
+
+msgid "No applicants with a signed contract"
+msgstr "Нет заявителей с подписанным договором"
+
+msgid "Offer place"
+msgstr "Предложить место"
+
+msgid "Only applicants with a recorded signed contract can be added."
+msgstr "Добавить можно только заявителей с подписанным договором."
+
+msgid "A clear view of your center."
+msgstr "Весь центр — как на ладони."
+
+msgid "The autumn term at a glance. Here’s what needs your attention today."
+msgstr "Осенний семестр одним взглядом. Вот что требует внимания сегодня."
+
+msgid "in %(n)s groups"
+msgstr "в %(n)s группах"
+
+msgid "%(s)s subjects · %(t)s teachers"
+msgstr "предметов: %(s)s · учителей: %(t)s"
+
+msgid "Seat utilization"
+msgstr "Заполненность мест"
+
+msgid "%(a)s of %(b)s places filled"
+msgstr "занято %(a)s из %(b)s мест"
+
+msgid "Collected this month"
+msgstr "Собрано за месяц"
+
+msgid "of"
+msgstr "от"
+
+msgid "scheduled"
+msgstr "начислено"
+
+msgid "Next teaching day"
+msgstr "Ближайший учебный день"
+
+msgid "Open schedule"
+msgstr "Расписание"
+
+msgid "Time"
+msgstr "Время"
+
+msgid "Group / subject"
+msgstr "Группа / предмет"
+
+msgid "No lessons scheduled."
+msgstr "Уроков нет."
+
+msgid "Needs attention"
+msgstr "Требует внимания"
+
+msgid "Nothing needs attention right now."
+msgstr "Сейчас всё в порядке."
+
+msgid "Attendance trend"
+msgstr "Динамика посещаемости"
+
+msgid "Last 5 weeks · all active groups"
+msgstr "5 недель · все активные группы"
+
+msgid "Non-attendance report"
+msgstr "Отчёт о пропусках"
+
+msgid "average attendance"
+msgstr "средняя посещаемость"
+
+msgid "Payment collections"
+msgstr "Поступления"
+
+msgid "Received payments · last 6 months, million so‘m"
+msgstr "Поступления · 6 месяцев, млн so‘m"
+
+msgid "vs. last month (month in progress)"
+msgstr "к прошлому месяцу (месяц не закончен)"
+
+msgid "of scheduled"
+msgstr "от начисленного"
+
+msgid "Management access · center-wide operations and reporting"
+msgstr "Доступ руководства · операции и отчёты по центру"
+
+msgid "Payment method"
+msgstr "Способ оплаты"
+
+msgid "Optional discount"
+msgstr "Скидка (необязательно)"
+
+msgid "Discounts are given by the director"
+msgstr "Скидки утверждает директор"
+
+msgid "Notes"
+msgstr "Примечание"
+
+msgid "Tuition payment"
+msgstr "Оплата обучения"
+
+msgid "Partial payment"
+msgstr "Частичная оплата"
+
+msgid "If less is paid, the remainder stays as debt."
+msgstr "Если оплачено меньше, остаток остаётся долгом."
+
+msgid "Overpayment"
+msgstr "Переплата"
+
+msgid "If more is paid, the extra becomes credit for next month."
+msgstr "Если оплачено больше, излишек засчитывается в следующий месяц."
+
+msgid "Payment receipt issued"
+msgstr "Квитанция выдана"
+
+msgid "The balance is updated and the debtors list is refreshed."
+msgstr "Баланс обновлён, список должников тоже."
+
+msgid "Reports"
+msgstr "Отчёты"
+
+msgid ""
+"Submit students who passed the final assessment and attendance requirements."
+msgstr ""
+"Отправьте учеников, выполнивших требования по экзамену и посещаемости."
+
+msgid ""
+"Review submissions from teachers. Rejected certificates return to the "
+"teacher with a notification."
+msgstr ""
+"Проверьте заявки учителей. Отклонённые возвращаются учителю с уведомлением."
+
+msgid "final assessment"
+msgstr "итоговая аттестация"
+
+msgid "Final score and attendance for each student"
+msgstr "Итоговый балл и посещаемость каждого ученика"
+
+msgid "Scheduling & attendance"
+msgstr "Расписание и посещаемость"
+
+msgid "Every lesson, accounted for."
+msgstr "Каждый урок — под контролем."
+
+msgid ""
+"Plan the week, record attendance and keep families informed when things "
+"change."
+msgstr ""
+"Планируйте неделю, отмечайте посещаемость и сообщайте семьям об изменениях."
+
+msgid "Teacher absence"
+msgstr "Отсутствие учителя"
+
+msgid "All teachers"
+msgstr "Все учителя"
+
+msgid "All rooms"
+msgstr "Все кабинеты"
+
+msgid "Selected lesson"
+msgstr "Выбранный урок"
+
+msgid "Selected"
+msgstr "Выбран"
+
+msgid "Conflict"
+msgstr "Конфликт"
+
+msgid "Make-up lesson"
+msgstr "Отработка"
+
+msgid "Attendance open"
+msgstr "Посещаемость открыта"
+
+msgid "Parent notification pending"
+msgstr "Родители ещё не уведомлены"
+
+msgid "Substitute approval needed"
+msgstr "Нужно утвердить замену"
+
+msgid "Resolve room conflict"
+msgstr "Решить конфликт кабинета"
+
+msgid "Move room"
+msgstr "Сменить кабинет"
+
+msgid "Keep every lesson covered."
+msgstr "Ни одного урока без учителя."
+
+msgid ""
+"Choose a substitute and a free room. Only families of this lesson are "
+"notified."
+msgstr ""
+"Выберите замену и свободный кабинет. Уведомление получат только семьи этого "
+"урока."
+
+msgid "Choose a substitute"
+msgstr "Выберите замену"
+
+msgid "Busy at this time"
+msgstr "Занят в это время"
+
+msgid "Available"
+msgstr "Свободен"
+
+msgid "Free"
+msgstr "Свободны"
+
+msgid "Parent notification"
+msgstr "Уведомление родителям"
+
+msgid ""
+"Your child’s %(g)s lesson on %(d)s at %(t)s will be taught by a substitute "
+"teacher in Room %(room)s."
+msgstr ""
+"Урок %(g)s %(d)s в %(t)s проведёт учитель на замене в кабинете %(room)s."
+
+msgid "Your lessons, student progress and teaching tasks, all in one place."
+msgstr "Уроки, успехи учеников и задачи — в одном месте."
+
+msgid "Report sick leave"
+msgstr "Сообщить о болезни"
+
+msgid "Open my timetable"
+msgstr "Моё расписание"
+
+msgid "Your sick notice for %(d)s is with the scheduling team."
+msgstr "Ваше сообщение о болезни на %(d)s передано в учебную часть."
+
+msgid "Families will be notified when cover is confirmed."
+msgstr "Семьи узнают, когда замена будет подтверждена."
+
+msgid "View notice"
+msgstr "Открыть"
+
+msgid "Your teaching week"
+msgstr "Ваша неделя"
+
+msgid "No lessons"
+msgstr "Нет уроков"
+
+msgid "Lesson plan"
+msgstr "План урока"
+
+msgid "Lessons on"
+msgstr "Уроки на"
+
+msgid "Open a lesson to mark attendance, topic and homework"
+msgstr "Откройте урок, чтобы отметить посещаемость, тему и ДЗ"
+
+msgid "Recent exam results"
+msgstr "Последние результаты"
+
+msgid "Only your assigned groups"
+msgstr "Только ваши группы"
+
+msgid "No results yet."
+msgstr "Результатов пока нет."
+
+msgid "Attendance to finish"
+msgstr "Нужно заполнить посещаемость"
+
+msgid "Review all"
+msgstr "Проверить всех:"
+
+msgid "students"
+msgstr "учеников"
+
+msgid "Teaching reminders"
+msgstr "Напоминания"
+
+msgid "Submit attendance for"
+msgstr "Отправить посещаемость:"
+
+msgid "Certificates: submit eligible students for approval"
+msgstr "Сертификаты: отправьте допущенных учеников на одобрение"
+
+msgid "Prepare cover notes for your substitute"
+msgstr "Подготовьте заметки для замены"
+
+msgid "Open mobile lesson form"
+msgstr "Открыть форму урока"
+
+msgid "Eligible students and certificates"
+msgstr "Допущенные ученики и сертификаты"
+
+msgid "Lesson saved at"
+msgstr "Урок сохранён в"
+
+msgid "Mark all present"
+msgstr "Отметить всех присутствующими"
+
+msgid "parent"
+msgstr "родитель"
+
+msgid ""
+"The scheduling team finds a substitute. Families are notified only after "
+"cover is confirmed."
+msgstr ""
+"Учебная часть найдёт замену. Семьи узнают только после её подтверждения."
+
+msgid "Reminder sent to the parent of %(name)s."
+msgstr "Напоминание отправлено родителю ученика %(name)s."
+
+msgid "Reminder sent to %(n)s parents."
+msgstr "Напоминание отправлено родителям: %(n)s."
+
+msgid "%(n)s days overdue"
+msgstr "просрочено %(n)s дн."
+
+msgid "%(n)s unexplained absences"
+msgstr "пропусков без причины: %(n)s"
+
+msgid "%(n)s enrolment decisions pending"
+msgstr "решений по заявкам ждут: %(n)s"
+
+msgid "Cover needed"
+msgstr "Нужна замена"
+
+msgid "%(n)s place"
+msgid_plural "%(n)s places"
+msgstr[0] "%(n)s место"
+msgstr[1] "%(n)s места"
+msgstr[2] "%(n)s мест"
+
+msgid "%(n)s day"
+msgid_plural "%(n)s days"
+msgstr[0] "%(n)s день"
+msgstr[1] "%(n)s дня"
+msgstr[2] "%(n)s дней"
+
+msgid "%(n)s student"
+msgid_plural "%(n)s students"
+msgstr[0] "%(n)s ученик"
+msgstr[1] "%(n)s ученика"
+msgstr[2] "%(n)s учеников"
+
+msgid "%(n)s lesson affected"
+msgid_plural "%(n)s lessons affected"
+msgstr[0] "затронут %(n)s урок"
+msgstr[1] "затронуто %(n)s урока"
+msgstr[2] "затронуто %(n)s уроков"
+
+msgid "Overdue %(n)s day"
+msgid_plural "Overdue %(n)s days"
+msgstr[0] "Просрочка %(n)s день"
+msgstr[1] "Просрочка %(n)s дня"
+msgstr[2] "Просрочка %(n)s дней"
+
+msgid "%(n)s place available"
+msgid_plural "%(n)s places available"
+msgstr[0] "%(n)s свободное место"
+msgstr[1] "%(n)s свободных места"
+msgstr[2] "%(n)s свободных мест"
+
+msgid "%(n)s lesson scheduled"
+msgid_plural "%(n)s lessons scheduled"
+msgstr[0] "%(n)s урок"
+msgstr[1] "%(n)s урока"
+msgstr[2] "%(n)s уроков"
+
+msgid "%(n)s open item · ordered by urgency"
+msgid_plural "%(n)s open items · ordered by urgency"
+msgstr[0] "%(n)s задача · по срочности"
+msgstr[1] "%(n)s задачи · по срочности"
+msgstr[2] "%(n)s задач · по срочности"
+
+msgid "%(n)s lesson this week"
+msgid_plural "%(n)s lessons this week"
+msgstr[0] "%(n)s урок на неделе"
+msgstr[1] "%(n)s урока на неделе"
+msgstr[2] "%(n)s уроков на неделе"
+
+msgid ""
+"Send an SMS to the parents of %(n)s student with an unexplained absence."
+msgid_plural ""
+"Send an SMS to the parents of %(n)s students with unexplained absences."
+msgstr[0] "Отправьте SMS родителям %(n)s ученика с пропуском без причины."
+msgstr[1] "Отправьте SMS родителям %(n)s учеников с пропуском без причины."
+msgstr[2] "Отправьте SMS родителям %(n)s учеников с пропуском без причины."
+
+msgid "Sent to %(n)s family by SMS after confirmation."
+msgid_plural "Sent to %(n)s families by SMS after confirmation."
+msgstr[0] "После подтверждения SMS получит %(n)s семья."
+msgstr[1] "После подтверждения SMS получат %(n)s семьи."
+msgstr[2] "После подтверждения SMS получат %(n)s семей."
+
+msgid "%(n)s group"
+msgid_plural "%(n)s groups"
+msgstr[0] "%(n)s группа"
+msgstr[1] "%(n)s группы"
+msgstr[2] "%(n)s групп"

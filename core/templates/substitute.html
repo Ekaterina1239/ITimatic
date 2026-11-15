@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n itmatic %}
+{% block c %}
+<div class="ph"><div>
+  <div class="eyebrow">{% trans "Schedule" %} · {% trans "Teacher absence" %} · {{ l.date|date:"l, d.m.Y" }}</div>
+  <h1>{% trans "Keep every lesson covered." %}</h1>
+  <p class="lead">{% trans "Choose a substitute and a free room. Only families of this lesson are notified." %}</p></div>
+  <div class="actions"><a class="btn" href="{% url 'schedule' %}?lesson={{ l.pk }}">← {% trans "Schedule" %}</a></div>
+</div>
+<div class="split">
+  <form method="post" class="card">{% csrf_token %}
+    <h2 style="font-size:17px">{{ l.group }}</h2>
+    <div class="mu">{{ l.date|date:"D d.m" }} · {{ l.start|time:"H:i" }}–{{ l.end|time:"H:i" }} · {% blocktrans count n=l.group.enrolled %}{{ n }} student{% plural %}{{ n }} students{% endblocktrans %} · {% trans "Teacher" %}: {{ l.group.teacher.get_full_name }}</div>
+    <label style="color:var(--ink)">{% trans "Choose a substitute" %}</label>
+    <select name="sub">{% for u, b in subs %}<option value="{{ u.pk }}" {% if b %}disabled{% endif %} {% if u == l.substitute %}selected{% endif %}>{{ u.get_full_name }} · {% if b %}{% trans "Busy at this time" %}{% else %}{% trans "Available" %}{% endif %}</option>{% endfor %}</select>
+    <label style="color:var(--ink)">{% trans "Room" %}</label>
+    {# changing the room only re-checks for a clash (GET), it does not confirm #}
+    <select name="room" onchange="location='?room='+this.value">{% for r in rooms %}<option {% if r == room %}selected{% endif %}>{{ r }}</option>{% endfor %}</select>
+    {% if clash %}<div class="alert bad" style="margin-top:10px">{% icon "alert" %}<div><b>{% trans "Room already booked" %}</b><br>
+      <span class="mu">{% blocktrans with g=clash.group %}Room {{ room }} overlaps with {{ g }}. Choose another room.{% endblocktrans %} {% trans "Free" %}: {{ free_rooms|join:", " }}</span></div></div>
+    {% else %}<p class="ok-t" style="font-size:12px">{% icon "check" 14 %} {% trans "Room" %} {{ room }} · {% trans "Available" %}</p>{% endif %}
+    <div class="cols c2" style="margin-top:14px"><button class="btn pri" {% if clash %}disabled{% endif %}>{% trans "Confirm substitute" %}</button>
+      <button class="btn danger" name="cancel" value="1">{% trans "Cancel lesson" %}</button></div>
+    <p class="fa">{% trans "Only parents of students in this lesson are notified after confirmation." %}</p>
+  </form>
+  <div class="card" style="background:var(--pri-soft);border-color:transparent">
+    <h3>{% trans "Parent notification" %}</h3>
+    <p class="mu">{% blocktrans with g=l.group d=l.date|date:"d.m" t=l.start|time:"H:i" %}Your child’s {{ g }} lesson on {{ d }} at {{ t }} will be taught by a substitute teacher in Room {{ room }}.{% endblocktrans %}</p>
+    <p class="fa">{% blocktrans count n=families %}Sent to {{ n }} family by SMS after confirmation.{% plural %}Sent to {{ n }} families by SMS after confirmation.{% endblocktrans %}</p>
+  </div>
+</div>
+{% endblock %}

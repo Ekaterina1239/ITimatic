@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load i18n itmatic %}
+{% block c %}
+<div class="ph">
+  <div>
+    <div class="eyebrow">{% trans "Admissions" %} / {% trans "Applicant" %} · {{ a.branch }}</div>
+    <h1>{{ a.name }}</h1>
+    <p class="lead">EN-{{ a.pk|add:1047 }} · {% trans a.subject %} {{ a.level }} · {% trans "Parent" %}: {{ a.parent_name|default:"–" }} · {{ a.phone }}</p>
+  </div>
+  <div class="actions">
+    <span class="pill {% if a.waiting %}warn{% else %}{{ a.stage|pill }}{% endif %}">{% if a.waiting %}{% trans "Waiting list" %}{% else %}{% trans a.stage %}{% endif %}</span>
+    {% if a.stage != "Lost" %}<button class="btn" type="button" onclick="document.getElementById('lost').showModal()">{% trans "Close as Lost" %}</button>{% endif %}
+  </div>
+</div>
+
+{% if a.stage == "Lost" %}
+  <div class="alert bad">{% icon "info" %}<div><b>{% trans "Application closed as Lost" %}</b><br><span class="mu">{% trans a.lost_reason %} {{ a.lost_note }}</span></div></div>
+{% else %}
+<div class="split">
+  <div class="stack">
+    <div class="step"><span class="n">1</span><div class="card">
+      <h2>{% trans "Level test" %}</h2>
+      <form method="post">{% csrf_token %}<input type="hidden" name="act" value="test">
+        <div class="cols c2">
+          <div><label>{% trans "Score · 0–100" %}</label><input name="score" value="{{ a.score|default:'' }}" inputmode="numeric"></div>
+          <div><label>{% trans "Test date" %}</label><input type="date" name="test_date" value="{{ a.test_date|date:'Y-m-d' }}"></div>
+          <div><label>{% trans "Recommended level" %}</label><input name="rec_level" value="{{ a.rec_level }}"></div>
+          <div><label>{% trans "Reason required if skipped" %}</label><input name="skip_reason" value="{{ a.skip_reason }}" placeholder="{% trans 'Previous placement certificate' %}"></div>
+        </div>
+        <div class="row" style="margin-top:12px"><button class="btn pri">{% trans "Save result" %}</button><button class="btn" name="score" value="">{% trans "Skip test" %}</button></div>
+      </form></div></div>
+
+    <div class="step"><span class="n">2</span><div class="card"><h2>{% trans "Teacher conversation" %}</h2>
+      <form method="post" class="seg" style="margin-top:10px">{% csrf_token %}<input type="hidden" name="act" value="conv">
+        <button class="btn {% if a.conv == 'Accepted' %}pri{% else %}soft{% endif %}" name="v" value="Accepted">{% trans "Accepted" %}</button>
+        <button class="btn {% if a.conv == 'Not suitable' %}pri{% else %}soft{% endif %}" name="v" value="Not suitable">{% trans "Not suitable" %}</button></form></div></div>
+    <div class="step"><span class="n">3</span><div class="card"><h2>{% trans "Trial lesson" %}</h2>
+      <form method="post" class="seg" style="margin-top:10px">{% csrf_token %}<input type="hidden" name="act" value="trial">
+        <button class="btn {% if a.trial == 'Attended' %}pri{% else %}soft{% endif %}" name="v" value="Attended">{% trans "Attended" %}</button>
+        <button class="btn {% if a.trial == 'Did not attend' %}pri{% else %}soft{% endif %}" name="v" value="Did not attend">{% trans "Did not attend" %}</button></form></div></div>
+    <div class="step"><span class="n">4</span><div class="card"><h2>{% trans "Student feedback" %}</h2>
+      <form method="post" class="seg" style="margin-top:10px">{% csrf_token %}<input type="hidden" name="act" value="feedback">
+        <button class="btn {% if a.feedback == 'Wants to join' %}pri{% else %}soft{% endif %}" name="v" value="Wants to join">{% trans "Wants to join" %}</button>
+        <button class="btn {% if a.feedback == 'Wants another group' %}pri{% else %}soft{% endif %}" name="v" value="Wants another group">{% trans "Wants another group" %}</button>
+        <button class="btn {% if a.feedback == 'Declines' %}pri{% else %}soft{% endif %}" name="v" value="Declines">{% trans "Declines" %}</button></form></div></div>
+
+    <div class="step"><span class="n">5</span><div class="card">
+      <div class="row between"><h2>{% trans "Contract" %}</h2><span class="pill {% if a.contract_recorded %}ok{% elif a.contract_status %}warn{% endif %}">{% if a.contract_status %}{% trans a.contract_status %}{% else %}{% trans "Not prepared" %}{% endif %}</span></div>
+      <form method="post" enctype="multipart/form-data">{% csrf_token %}<input type="hidden" name="act" value="contract">
+        <div class="cols c2">
+          <div><label>{% trans "Contract number" %}</label><input name="no" value="{{ a.contract_no|default:'' }}" placeholder="ITM-2026-{{ a.pk|add:1047 }}"></div>
+          <div><label>{% trans "Signing date" %}</label><input type="date" name="date" value="{{ a.signing_date|date:'Y-m-d' }}"></div>
+        </div>
+        <label class="btn soft block" style="margin-top:10px">{% icon "download" %}{% if a.scan %}{% trans "Signed scan uploaded" %} ✓ · {% trans "replace" %}{% else %}{% trans "Upload signed scan" %}{% endif %}
+          <input type="file" name="scan" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="this.parentNode.firstChild.nextSibling.textContent=this.files[0].name"></label>
+        <p class="fa">{% trans "PDF / JPG / PNG · Up to 10 MB" %}{% if not a.scan %} · {% trans "No signed file uploaded" %}{% endif %}</p>
+        <button class="btn pri block">{% trans "Record signed contract" %}</button>
+      </form>
+      {% if not a.contract_recorded %}<form method="post" style="margin-top:8px">{% csrf_token %}<input type="hidden" name="act" value="prepared"><button class="btn link">{% trans "Mark contract as prepared" %}</button></form>{% endif %}
+    </div></div>
+
+    <div class="step"><span class="n">6</span><div class="card"><h2>{% trans "Add to group" %}</h2>
+      <form method="post">{% csrf_token %}<input type="hidden" name="act" value="join">
+        <label>{% trans "Suggested group" %}</label>
+        <select name="group">{% for g in groups %}<option value="{{ g.pk }}" {% if g == rec %}selected{% endif %}>{{ g }} · {{ g.branch }} · {% blocktrans count n=g.free %}{{ n }} place{% plural %}{{ n }} places{% endblocktrans %}</option>{% endfor %}</select>
+        <button class="btn pri block" style="margin-top:10px" {% if not a.contract_recorded %}disabled{% endif %}>{% trans "Add to group" %}</button>
+      </form>
+      {% if not a.contract_recorded %}<p class="bad-t" style="font-size:12px">{% trans "This applicant cannot join a group until a signed contract is recorded." %}</p>{% endif %}
+    </div></div>
+  </div>
+
+  <div class="stack">
+    <div class="card">
+      <h2>{% trans "Applicant details" %}</h2>
+      <div class="mu" style="margin-top:6px">{% trans "Preferred branch" %}: {{ a.branch }}<br>{% trans "Course" %}: {% trans a.subject %}<br>{% trans "Assigned to" %}: {{ a.assigned.get_full_name|default:"–" }}</div>
+      {% if not a.contract_recorded %}<div class="pill pri" style="display:block;margin-top:10px;padding:6px 10px">{% trans "Contract required before placement" %}</div>{% endif %}
+      <h3 style="margin-top:16px">{% trans "No free group?" %}</h3>
+      <p class="mu">{% trans "Keep the applicant on the waiting list and notify the family when a place opens." %}</p>
+      <form method="post">{% csrf_token %}<input type="hidden" name="act" value="wait"><button class="btn soft block">{% trans "Move to waiting list" %}</button></form>
+      <h3 style="margin-top:16px">{% trans "Activity" %}</h3>
+      <div class="mu">{% for t, d in hist %}{% trans t %}{% if d %} · {% trans d %}{% endif %}<br>{% endfor %}</div>
+    </div>
+  </div>
+</div>
+
+<dialog id="lost" style="border:0;border-radius:12px;padding:24px;width:min(460px,92vw)">
+  <form method="post">{% csrf_token %}<input type="hidden" name="act" value="lost">
+    <h2 style="font-size:20px">{% trans "Close as Lost" %}</h2>
+    <p class="mu">{{ a.name }} · EN-{{ a.pk|add:1047 }}<br>{% trans "Choose a reason before closing this application." %}</p>
+    <label>{% trans "Reason" %} *</label>
+    <div class="seg col">{% for r in reasons %}<input type="radio" name="reason" value="{{ r }}" id="r{{ forloop.counter }}"><label for="r{{ forloop.counter }}">{% trans r %}</label>{% endfor %}</div>
+    <label>{% trans "Additional details · required for Other" %}</label><input name="note" placeholder="{% trans 'Explain the reason' %}">
+    <div class="cols c2" style="margin-top:16px"><button class="btn" type="button" onclick="this.closest('dialog').close()">{% trans "Cancel" %}</button>
+      <button class="btn pri">{% trans "Close as Lost" %}</button></div>
+  </form>
+</dialog>
+<script>if (location.hash === "#lost") document.getElementById("lost").showModal();</script>
+{% endif %}
+{% endblock %}

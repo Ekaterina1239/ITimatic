@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load i18n itmatic %}
+{% block c %}
+<div class="ph">
+  <div>
+    <div class="eyebrow">{% trans "Groups · Autumn term" %}</div>
+    <h1>{% trans "The right place to learn." %}</h1>
+    <p class="lead">{% trans "Balance levels, teachers and capacity across your center’s groups." %}</p>
+  </div>
+  {% if adm %}<div class="actions"><a class="btn" href="{% url 'schedule' %}">{% trans "Manage teachers" %}</a>
+    <button class="btn pri" type="button" onclick="document.getElementById('newgroup').showModal()">{% icon "plus" %}{% trans "Create group" %}</button></div>{% endif %}
+</div>
+
+<div class="cols c4">
+  <div class="stat"><div class="k">{% trans "Active groups" %}</div><div class="v">{{ n_active }}</div><div class="fa">{% blocktrans with n=n_archived %}{{ n }} inactive groups archived for this term{% endblocktrans %}</div></div>
+  <div class="stat"><div class="k">{% trans "Students enrolled" %}</div><div class="v">{{ enrolled }}</div><div class="fa">{% blocktrans with n=subjects_n %}Across {{ n }} subjects{% endblocktrans %}</div></div>
+  <div class="stat"><div class="k">{% trans "Available places" %}</div><div class="v">{{ free }}</div><div class="fa">{{ places }} {% trans "total places" %} · {{ util }}% {% trans "utilized" %}</div></div>
+  <div class="stat"><div class="k">{% trans "Waiting list demand" %}</div><div class="v">{{ waiting|length }}</div><div class="fa warn-t">{% for a in waiting|slice:":1" %}{{ a.name }} · {% trans a.subject %} {{ a.level }} — {% trans "review matches" %}{% endfor %}</div></div>
+</div>
+
+<div class="split wide" style="margin-top:14px">
+  <div class="stack">
+    <div class="card">
+      <div class="card-h"><h2>{% trans "All groups" %}</h2><form class="row"><input type="hidden" name="s" value="{{ st }}"><input name="q" value="{{ q }}" placeholder="{% trans 'Search groups' %}" style="width:180px"></form></div>
+      <div class="tabs">{% for code, name in sts %}<a href="?s={{ code }}" class="{% if st == code %}on{% endif %}">{% trans name %} · {% for k, v in counts.items %}{% if k == code %}{{ v }}{% endif %}{% endfor %}</a>{% endfor %}</div>
+      <div class="scroll"><table class="tbl">
+        <tr><th>{% trans "Group / level" %}</th><th>{% trans "Teacher" %}</th><th>{% trans "Schedule" %}</th><th>{% trans "Capacity" %}</th><th>{% trans "Status" %}</th></tr>
+        {% for g in gs %}
+          <tr class="{% if g == sel %}sel{% endif %}"><td><a href="?g={{ g.pk }}&amp;s={{ st }}" style="color:inherit">{{ g }}</a><span class="sub">{{ g.level }} · {% trans g.course %}</span></td>
+            <td>{{ g.teacher.first_name|slice:":1" }}. {{ g.teacher.last_name }}</td>
+            <td>{{ g.schedule|truncatechars:24 }}</td>
+            <td>{{ g.enrolled }} / {{ g.capacity }}<span class="sub">{% if g.free %}{% blocktrans count n=g.free %}{{ n }} place{% plural %}{{ n }} places{% endblocktrans %}{% else %}{% trans "Full" %}{% endif %}</span></td>
+            <td><span class="pill {{ g.status|pill }}">{{ g.status|tl }}</span></td></tr>
+        {% empty %}<tr><td colspan="5" class="mu">{% trans "No groups." %}</td></tr>{% endfor %}
+      </table></div>
+    </div>
+    {% if inactive %}<div class="card"><div class="card-h"><div><h2>{% trans "Inactive groups" %}</h2><div class="mu">{% trans "Retained for historical attendance and payments" %}</div></div><a href="?s=inactive">{% trans "View all" %} →</a></div>
+      {% for g in inactive %}<div class="row between"><span>{{ g }}<span class="sub fa">{{ g.level }} · {{ g.teacher.get_full_name }} · {{ g.schedule }}</span></span><span class="pill">{{ g.status|tl }}</span></div>{% endfor %}</div>{% endif %}
+    {% if full_groups and waiting %}<div class="alert">{% icon "info" %}<div class="grow"><b>{% trans "Plan from demand" %}</b><br><span class="mu">{% blocktrans with n=waiting|length g=full_groups.0 %}{{ n }} applicants are waiting, and {{ g }} is full.{% endblocktrans %}</span></div>
+      {% if adm %}<a href="#" onclick="document.getElementById('newgroup').showModal();return false">{% trans "Create group" %} →</a>{% endif %}</div>{% endif %}
+    {% if adm %}
+    <div class="card"><h2>{% trans "Leave requests" %}</h2>
+      {% for q in leaves %}<form method="post" class="row between" style="margin-top:10px">{% csrf_token %}<input type="hidden" name="act" value="leave"><input type="hidden" name="req" value="{{ q.pk }}">
+        <span>{{ q.teacher.get_full_name }} · {{ q.start|date:"d.m" }} → {{ q.end|date:"d.m.Y" }}<span class="sub fa">{% trans q.reason %}{% if q.note %} · {{ q.note }}{% endif %}</span></span>
+        <span class="row"><button name="d" value="approve" class="btn pri">{% trans "Approve" %}</button><button name="d" value="reject" class="btn">{% trans "Reject" %}</button></span></form>
+      {% empty %}<p class="mu">{% trans "No pending requests." %}</p>{% endfor %}</div>
+    {% endif %}
+  </div>
+
+  {% if sel %}
+  <div class="card">
+    <div class="row between"><div><h2 style="font-size:17px">{{ sel }}</h2><div class="mu">{% trans "Group" %} GR-{{ sel.pk|add:100 }} · {% trans "Autumn 2026" %}</div></div>
+      {% if adm %}<div class="row"><button class="btn" type="button" onclick="document.getElementById('editgroup').showModal()">{% trans "Edit group" %}</button>
+        <form method="post">{% csrf_token %}<input type="hidden" name="g" value="{{ sel.pk }}"><button class="btn danger" name="act" value="close" onclick="return confirm('{% trans "Close this group?" %}')">{% trans "Deactivate" %}</button></form></div>{% endif %}</div>
+    <span class="pill {{ sel.status|pill }}" style="margin:8px 0;display:inline-block">{{ sel.status|tl }}</span>
+    <div class="kv"><div><span class="mu">{% trans "Teacher" %}</span>{{ sel.teacher.get_full_name|default:"–" }}</div><div><span class="mu">{% trans "Schedule / room" %}</span>{{ sel.schedule }}</div></div>
+    <div class="row" style="margin-top:12px"><div class="bar" style="flex:1"><i style="width:{{ sel.enrolled|pct_of:sel.capacity }}%"></i></div><span class="mu">{{ sel.enrolled }} / {{ sel.capacity }} {% trans "enrolled" %}</span></div>
+    {% if leave %}<div class="alert warn" style="margin-top:12px">{% icon "alert" %}<div class="grow"><b>{% trans "Teacher change" %} · {{ leave.start|date:"D d.m" }}</b><br>
+      <span class="mu">{% blocktrans with t=leave.teacher.first_name %}{{ t }} asked for leave. Families will be notified after a substitute is approved.{% endblocktrans %}</span></div><a href="{% url 'schedule' %}">{% trans "Review" %} →</a></div>{% endif %}
+    {% for l in subs %}{% if adm %}<form method="post" class="alert warn" style="margin-top:10px">{% csrf_token %}<input type="hidden" name="act" value="sub"><input type="hidden" name="g" value="{{ sel.pk }}"><input type="hidden" name="lesson" value="{{ l.pk }}">
+      {% icon "clock" %}<div class="grow"><b>{% trans "Lessons needing a substitute" %}</b><br><span class="mu">{{ l.date|date:"D d.m" }} {{ l.start|time:"H:i" }} · <span class="pill warn">{% trans "Unassigned" %}</span></span>
+        <div class="row" style="margin-top:6px"><select name="teacher" style="width:auto">{% for t in teachers %}{% if t != sel.teacher %}<option value="{{ t.pk }}">{{ t.get_full_name }}</option>{% endif %}{% endfor %}</select>
+        <button class="btn pri">{% trans "Assign substitute" %}</button></div></div></form>{% endif %}{% endfor %}
+    <div class="row between" style="margin:16px 0 6px"><h3 style="margin:0">{% trans "Members" %} · {{ members|length }}</h3>{% if adm %}<a href="#add">{% trans "Add student" %} +</a>{% endif %}</div>
+    <table class="tbl"><tr><th>{% trans "Student" %}</th><th>{% trans "Attendance" %}</th><th>{% trans "Payment" %}</th></tr>
+      {% for s, pct, pay in members %}<tr><td>{{ s }}</td><td>{{ pct }}%</td>
+        <td><span class="pill {{ pay.status|pill }}">{% if pay.status == "Due" %}{% trans "Due" %} {{ pay.due|date:"d.m" }}{% else %}{% trans pay.status %}{% endif %}</span></td></tr>{% endfor %}</table>
+    <h3 style="margin-top:16px">{% trans "Waiting-list match" %}</h3>
+    {% for a in waiting %}<div class="mu">{{ a.name }} · {{ a.level }} · {% trans a.subject %}</div>{% empty %}<div class="mu">{% trans "Empty." %}</div>{% endfor %}
+    {% if adm %}<form method="post" class="row" id="add" style="margin-top:10px">{% csrf_token %}<input type="hidden" name="act" value="add"><input type="hidden" name="g" value="{{ sel.pk }}">
+      <select name="applicant" style="flex:1">{% for a in cands %}<option value="{{ a.pk }}">{{ a.name }}{% if a.waiting %} ({% trans "waiting" %}){% endif %}</option>{% empty %}<option value="">{% trans "No applicants with a signed contract" %}</option>{% endfor %}</select>
+      <button class="btn">{% trans "Offer place" %}</button></form>
+      <p class="fa">{% trans "Only applicants with a recorded signed contract can be added." %}</p>{% endif %}
+  </div>
+  {% endif %}
+</div>
+
+{% if adm %}
+<dialog id="newgroup" style="border:0;border-radius:12px;padding:24px;width:min(440px,92vw)"><form method="post">{% csrf_token %}<input type="hidden" name="act" value="create">
+  <h2 style="font-size:20px">{% trans "Create group" %}</h2>
+  <label>{% trans "Name" %}</label><input name="name" placeholder="English B1-04">
+  <div class="cols c2"><div><label>{% trans "Course" %}</label><input name="course" placeholder="English"></div><div><label>{% trans "Level" %}</label><input name="level" placeholder="B1"></div></div>
+  <label>{% trans "Capacity" %}</label><input name="capacity" value="12">
+  <div class="row" style="margin-top:16px"><button class="btn" type="button" onclick="this.closest('dialog').close()">{% trans "Cancel" %}</button><button class="btn pri">{% trans "Create group" %}</button></div></form></dialog>
+{% if sel %}<dialog id="editgroup" style="border:0;border-radius:12px;padding:24px;width:min(440px,92vw)"><form method="post">{% csrf_token %}<input type="hidden" name="act" value="save"><input type="hidden" name="g" value="{{ sel.pk }}">
+  <h2 style="font-size:20px">{% trans "Edit group" %}</h2>
+  <label>{% trans "Name" %}</label><input name="name" value="{{ sel.name }}">
+  <label>{% trans "Teacher" %}</label><select name="teacher"><option value="">–</option>{% for t in teachers %}<option value="{{ t.pk }}" {% if t == sel.teacher %}selected{% endif %}>{{ t.get_full_name }}</option>{% endfor %}</select>
+  <label>{% trans "Schedule (day, time, room)" %}</label><input name="schedule" value="{{ sel.schedule }}">
+  <label>{% trans "Capacity" %}</label><input name="capacity" value="{{ sel.capacity }}">
+  <div class="row" style="margin-top:16px"><button class="btn" type="button" onclick="this.closest('dialog').close()">{% trans "Cancel" %}</button><button class="btn pri">{% trans "Save" %}</button>
+  <button class="btn danger" name="act" value="archive" onclick="return confirm('{% trans "Archive this group?" %}')">{% trans "Archive group" %}</button></div></form></dialog>{% endif %}
+{% endif %}
+{% endblock %}

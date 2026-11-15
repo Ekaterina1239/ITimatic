@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load i18n itmatic %}
+{% block c %}
+<div class="mobile">
+  <a class="btn block" href="{% url 'dash' %}" style="margin-bottom:16px">← {% if role == "parent" %}{% trans "Parent account" %}{% else %}{% trans "My learning" %}{% endif %}</a>
+  {% if err %}<div class="alert bad" style="margin-bottom:12px">{% icon "alert" %}<div>{{ err }}</div></div>{% endif %}
+
+  {% if step == 1 %}
+    <h1>{% trans "Report absence" %}</h1>
+    <div class="mu">1 / 3 · {% trans "Choose a lesson" %}</div>
+    <div class="card" style="margin-top:14px;padding:12px 16px"><b style="font-weight:500">{{ s.name }}</b>{% if role == "parent" %} <a href="{% url 'children' %}" style="font-size:12px">▸</a>{% endif %}<div class="mu">{{ s.group }} · {{ s.branch }}</div></div>
+    {% for l, started, rep in ls %}
+      {% if started %}
+        <div class="card" style="margin-top:10px;text-align:center;opacity:.7"><span class="pri-t">{{ l.date|date:"D d.m" }} · {{ l.start|time:"H:i" }}</span><div class="mu">{% trans "Lesson already started" %}</div></div>
+      {% else %}
+        <a class="card" style="display:block;margin-top:10px;text-align:center" href="?lesson={{ l.pk }}">{{ l.date|date:"D d.m" }} · {{ l.start|time:"H:i" }}–{{ l.end|time:"H:i" }}
+          <div class="mu">{{ l.group }} · {% trans "Room" %} {{ l.room }}{% if rep %} · <span class="pill ok">{% trans "Reported" %}</span>{% endif %}</div></a>
+      {% endif %}
+    {% empty %}<p class="mu">{% trans "No upcoming lessons." %}</p>{% endfor %}
+    <p class="fa" style="text-align:center">{% trans "Reports must be sent before the lesson starts." %}</p>
+
+  {% elif step == 2 %}
+    {% if started %}
+      <h1>{% trans "Unable to report" %}</h1>
+      <div class="alert bad" style="margin-top:12px"><div class="bad-t">{% trans "The lesson has already started. Please call the administrator." %}</div></div>
+      <p>{{ s.branch }} {% trans "administrator" %}<br><a href="tel:+998900001010">+998 90 000 10 10</a></p>
+      <a class="btn pri block" href="?">{% trans "Choose a different lesson" %}</a>
+    {% else %}
+    <h1>{% trans "Absence details" %}</h1>
+    <div class="mu">2 / 3 · {{ s.name }} · {{ l.date|date:"D d.m" }}, {{ l.start|time:"H:i" }}</div>
+    <form method="post" style="margin-top:14px">{% csrf_token %}<input type="hidden" name="lesson" value="{{ l.pk }}">
+      <div class="seg"><input type="radio" name="kind" value="late" id="k1" {% if post.kind == "late" %}checked{% endif %}><label for="k1">{% trans "Late" %}</label>
+        <input type="radio" name="kind" value="absent" id="k2" {% if post.kind != "late" %}checked{% endif %}><label for="k2">{% trans "Absent" %}</label></div>
+      <div id="late-box" style="display:none"><label>{% trans "Late by · minutes" %}</label>
+        <div class="seg">{% for m in minutes %}<input type="radio" name="minutes" value="{{ m }}" id="m{{ m }}" {% if m == 15 %}checked{% endif %}><label for="m{{ m }}">{{ m }}</label>{% endfor %}</div></div>
+      <label>{% trans "Reason" %} *</label>
+      <div class="seg col">{% for r in reasons %}<input type="radio" name="reason" value="{{ r }}" id="r{{ forloop.counter }}" {% if post.reason == r or not post.reason and forloop.first %}checked{% endif %}><label for="r{{ forloop.counter }}">{% trans r %}</label>{% endfor %}</div>
+      <div class="card" style="margin-top:10px;padding:10px 14px"><label style="margin-top:0">{% trans "If Other, specify the reason" %}</label>
+        <input name="note" maxlength="200" value="{{ post.note|default:'' }}" placeholder="{% trans 'Add a short note for the teacher' %}" style="border:0;padding:4px 0"></div>
+      <div class="card" id="period" style="margin-top:10px;padding:12px 14px"><b style="font-weight:500">{% trans "Optional period · Up to 14 days" %}</b>
+        <div class="row" style="margin-top:6px"><span class="mu">{{ l.date|date:"d.m.Y" }} →</span><input type="date" name="until" min="{{ l.date|date:'Y-m-d' }}" max="{{ max_until|date:'Y-m-d' }}" style="width:auto"></div>
+        <div class="fa">{% trans "Leave empty to report only the selected lesson." %}</div></div>
+      <button class="btn pri block" style="margin-top:14px;padding:11px">{% trans "Confirm report" %}</button>
+      <a class="btn block" style="margin-top:10px" href="?">← {% trans "Choose another lesson" %}</a>
+    </form>
+    <script>
+      const late = document.getElementById("k1"), box = document.getElementById("late-box"), per = document.getElementById("period");
+      const sync = () => { box.style.display = late.checked ? "block" : "none"; per.style.display = late.checked ? "none" : "block"; };
+      document.querySelectorAll("[name=kind]").forEach((r) => r.addEventListener("change", sync)); sync();
+    </script>
+    {% endif %}
+
+  {% else %}
+    {% if done.withdrawn %}
+      <h1>{% trans "Report withdrawn" %}</h1>
+      <div class="mu">3 / 3 · {% trans "Confirmation" %}</div>
+      <div class="alert ok" style="margin-top:14px"><div><b class="ok-t" style="font-size:15px">{% trans "The report has been withdrawn" %}</b><br><span class="mu">{% trans "The teacher has been informed of the withdrawal." %}</span></div></div>
+    {% else %}
+      <h1>{% trans "Report sent" %}</h1>
+      <div class="mu">3 / 3 · {% trans "Confirmation" %}</div>
+      <div class="alert ok" style="margin-top:14px"><div><b class="ok-t" style="font-size:15px">{% trans "The teacher has been informed" %}</b><br>
+        <span class="mu">{% blocktrans with n=s.name d=done.lesson.date|date:"d.m" %}Your report is linked to {{ n }}’s lesson on {{ d }}. You can withdraw it before the lesson starts.{% endblocktrans %}</span></div></div>
+      <div class="card" style="margin-top:12px;padding:12px 16px"><b style="font-weight:500">{{ done.lesson.group }} · {{ done.lesson.date|date:"D d.m" }} {{ done.lesson.start|time:"H:i" }}</b>
+        <div class="mu">{% if done.kind == "late" %}{% trans "Late" %} · {{ done.minutes }} {% trans "min" %}{% else %}{% trans "Absent" %}{% endif %} · {% trans done.reason %}{% if done.until %} · {% trans "until" %} {{ done.until|date:"d.m" }}{% endif %}</div></div>
+      {% if not done.lesson.has_started %}<form method="post" style="margin-top:12px">{% csrf_token %}<input type="hidden" name="act" value="withdraw"><input type="hidden" name="report" value="{{ done.pk }}">
+        <button class="btn block">{% trans "Withdraw" %}</button></form>{% endif %}
+    {% endif %}
+    <a class="btn pri block" style="margin-top:12px;padding:11px" href="{% url 'dash' %}">{% trans "Done" %}</a>
+  {% endif %}
+</div>
+{% endblock %}

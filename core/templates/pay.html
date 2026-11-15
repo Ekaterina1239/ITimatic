@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n itmatic %}
+{% block c %}
+<div class="split" style="grid-template-columns:minmax(0,520px) minmax(0,1fr)">
+  <form method="post" class="card" style="padding:24px">{% csrf_token %}
+    <h1 style="font-size:26px">{% trans "Take payment" %}</h1>
+    <select name="student" onchange="location='?student='+this.value" style="margin:6px 0 2px">{% for x in students %}<option value="{{ x.pk }}" {% if x == s %}selected{% endif %}>{{ x }}</option>{% endfor %}</select>
+    {% if s %}<div class="mu">{{ s }} · {{ s.group|default:"–" }} · {{ s.branch }}{% if info %} · {% trans "Outstanding" %}: <b>{{ info.owed|som }}</b> <span class="pill {{ stat|pill }}">{% trans stat %}</span>{% endif %}</div>{% endif %}
+    {% if err %}<div class="msg error" style="margin-top:10px">{{ err }}</div>{% endif %}
+    <div class="cols c2">
+      <div><label>{% trans "Amount, so‘m" %}</label><input name="amount" value="{{ info.owed|default:'' }}" inputmode="numeric"></div>
+      <div><label>{% trans "Month" %}</label><select name="month">{% for m in months %}<option value="{{ m|date:'Y-m' }}" {% if forloop.counter == 2 %}selected{% endif %}>{{ m|date:"F Y" }}</option>{% endfor %}</select></div>
+    </div>
+    <label>{% trans "Payment method" %}</label>
+    <div class="seg">{% for m in methods %}<input type="radio" name="method" value="{{ m }}" id="m{{ forloop.counter }}" {% if forloop.first %}checked{% endif %}><label for="m{{ forloop.counter }}">{% trans m %}</label>{% endfor %}</div>
+    <label>{% trans "Optional discount" %}</label>
+    <div class="seg">
+      <input type="radio" name="discount" value="None" id="d1" checked><label for="d1">{% trans "None" %}</label>
+      <input type="radio" name="discount" value="One-off" id="d2"><label for="d2">{% trans "One-off" %}</label>
+      <input type="radio" name="discount" value="Bring-a-friend" id="d3"><label for="d3">{% trans "Bring-a-friend" %}</label></div>
+    <div class="alert ok" style="margin-top:10px;font-size:12px"><b class="ok-t">{% trans "Discounts are given by the director" %}</b></div>
+    <div class="cols c2"><div><label>{% trans "Payment date" %}</label><input type="date" name="date" value="{{ today|date:'Y-m-d' }}"></div>
+      <div><label>{% trans "Notes" %}</label><input name="note" placeholder="{% trans 'Tuition payment' %}"></div></div>
+    <div style="background:#f3f2ee;border-radius:8px;padding:12px 14px;margin-top:14px;font-size:12px">
+      <b style="font-weight:500">{% trans "Partial payment" %}</b><div class="mu">{% trans "If less is paid, the remainder stays as debt." %}</div>
+      <b style="font-weight:500;display:block;margin-top:6px">{% trans "Overpayment" %}</b><div class="mu">{% trans "If more is paid, the extra becomes credit for next month." %}</div></div>
+    <div class="cols c2" style="margin-top:16px"><a class="btn" href="{% url 'debtors' %}">{% trans "Cancel" %}</a><button class="btn pri">{% trans "Issue receipt" %}</button></div>
+  </form>
+  {% if rec %}
+    <div class="card" style="padding:24px">
+      <div class="alert ok">{% icon "check" %}<div><b>{% trans "Payment receipt issued" %}</b><br><span class="mu">{% trans "The balance is updated and the debtors list is refreshed." %}</span></div></div>
+      <h2 style="margin-top:16px">{% trans "Receipt" %} {{ rec.receipt_no }}</h2>
+      <div class="kv" style="margin-top:10px">
+        <div><span class="mu">{% trans "Student" %}</span>{{ rec.student }}</div><div><span class="mu">{% trans "Amount" %}</span>{{ rec.amount|som }}</div>
+        <div><span class="mu">{% trans "Method" %}</span>{% trans rec.method %}</div><div><span class="mu">{% trans "Date" %}</span>{{ rec.paid_on|date:"d.m.Y" }}</div>
+        <div><span class="mu">{% trans "Month" %}</span>{{ rec.month|date:"F Y" }}</div><div><span class="mu">{% trans "Status" %}</span><span class="pill {{ stat|pill }}">{% trans stat %}</span></div>
+      </div>
+      <div class="row" style="margin-top:16px"><a class="btn" href="{% url 'receipt' rec.pk %}">{% trans "Print receipt" %}</a><a class="btn" href="{% url 'receipt' rec.pk %}?dl=1">{% icon "download" %}{% trans "Download receipt" %}</a></div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

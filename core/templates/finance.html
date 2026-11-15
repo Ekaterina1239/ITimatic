@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load i18n itmatic %}
+{% block c %}
+<div class="ph">
+  <div>
+    <div class="eyebrow">{% trans "Finance" %} · {{ month|date:"F Y" }}</div>
+    <h1>{% trans "Collections, without the guesswork." %}</h1>
+    <p class="lead">{% trans "Track received payments separately from scheduled charges, and prepare your monthly reports." %}</p>
+  </div>
+  <form class="actions"><input type="month" name="month" value="{{ month|date:'Y-m' }}" style="width:auto" onchange="this.form.submit()">
+    <a class="btn pri" href="{% url 'pay' %}">{% icon "card" %}{% trans "Take payment" %}</a></form>
+</div>
+
+<div class="cols c4">
+  <div class="stat"><div class="k">{% trans "Received" %} · {{ received_n }} {% trans "payments" %}</div><div class="v">{{ received|som }}</div><div class="fa ok-t">{{ received|pct_of:total }}% {% trans "of scheduled total" %}</div></div>
+  <div class="stat"><div class="k">{% trans "Total scheduled" %} · {{ all_n }} {% trans "charges" %}</div><div class="v">{{ total|som }}</div><div class="fa">{% trans "Includes received" %}</div></div>
+  <div class="stat"><div class="k">{% trans "Overdue" %} · {{ overdue_n }} {% trans "charges" %}</div><div class="v">{{ overdue|som }}</div><div class="fa bad-t">{% blocktrans with n=overdue_n %}Due before today · {{ n }} parents to remind{% endblocktrans %}</div></div>
+  <div class="stat"><div class="k">{% trans "Upcoming" %} · {{ upcoming_n }} {% trans "charges" %}</div><div class="v">{{ upcoming|som }}</div><div class="fa warn-t">{% trans "Not yet due · not received" %}</div></div>
+</div>
+
+<div class="cols c2" style="margin-top:14px">
+  <div class="card"><div class="card-h"><div><h2>{% trans "Received payment trend" %}</h2><div class="mu">{% trans "Actual receipts · last 6 months, million so‘m" %}</div></div></div>
+    {% linechart trend_vals 440 160 trend_labels %}</div>
+  <div class="card"><div class="card-h"><div><h2>{% trans "Payment schedule" %} · {{ month|date:"F" }}</h2><div class="mu">{{ total|som }} {% trans "total scheduled" %} · {{ all_n }} {% trans "student charges" %}</div></div></div>
+    <div class="bar" style="height:10px"><i style="width:{{ received|pct_of:total }}%"></i><i style="width:{{ overdue|pct_of:total }}%;background:var(--bad)"></i><i style="width:{{ upcoming|pct_of:total }}%;background:#e9d9b9"></i></div>
+    <div class="cols c3" style="margin-top:14px">
+      <div><span class="mu"><span class="pri-t">●</span> {% trans "Received" %}</span><div style="font-size:20px">{{ received|som }}</div><span class="fa">{{ received_n }} {% trans "charges settled" %}</span></div>
+      <div><span class="mu"><span class="bad-t">●</span> {% trans "Overdue" %}</span><div style="font-size:20px">{{ overdue|som }}</div><span class="fa">{{ overdue_n }} {% trans "unpaid charges" %}</span></div>
+      <div><span class="mu"><span class="warn-t">●</span> {% trans "Upcoming" %}</span><div style="font-size:20px">{{ upcoming|som }}</div><span class="fa">{{ upcoming_n }} {% trans "future charges" %}</span></div>
+    </div>
+    <form method="post" class="row between" style="margin-top:16px;border-top:1px solid var(--line2);padding-top:12px">{% csrf_token %}
+      <span class="fa">{% trans "Last reminder batch" %}: {% if last_reminder %}{{ last_reminder.created|date:"d.m H:i" }} · SMS{% else %}—{% endif %}</span>
+      <button class="btn" name="act" value="remind_all">{% icon "send" %}{% trans "Remind overdue parents" %}</button></form>
+  </div>
+</div>
+
+<div class="card" style="margin-top:14px">
+  <div class="card-h"><div><h2>{% trans "Payment ledger" %}</h2><div class="mu">{% trans "Student charges and receipts" %} · {{ month|date:"F Y" }}</div></div></div>
+  <div class="row between">
+    <div class="tabs">
+      <a href="?month={{ month|date:'Y-m' }}&amp;tab=all" class="{% if tab == 'all' %}on{% endif %}">{% trans "All" %} · {{ all_n }}</a>
+      <a href="?month={{ month|date:'Y-m' }}&amp;tab=received" class="{% if tab == 'received' %}on{% endif %}">{% trans "Received" %} · {{ received_n }}</a>
+      <a href="?month={{ month|date:'Y-m' }}&amp;tab=overdue" class="{% if tab == 'overdue' %}on{% endif %}">{% trans "Overdue" %} · {{ overdue_n }}</a>
+      <a href="?month={{ month|date:'Y-m' }}&amp;tab=scheduled" class="{% if tab == 'scheduled' %}on{% endif %}">{% trans "Scheduled" %} · {{ upcoming_n }}</a>
+    </div>
+    <form class="row"><input type="hidden" name="month" value="{{ month|date:'Y-m' }}"><input type="hidden" name="tab" value="{{ tab }}">
+      <input name="q" value="{{ q }}" placeholder="{% trans 'Search student' %}" style="width:200px"></form>
+  </div>
+  <div class="scroll"><table class="tbl">
+    <tr><th>{% trans "Student / payer" %}</th><th>{% trans "Group" %}</th><th>{% trans "Due date" %}</th><th>{% trans "Scheduled" %}</th><th>{% trans "Received" %}</th><th>{% trans "Status" %}</th><th>{% trans "Action" %}</th></tr>
+    {% for x in rows %}
+      <tr><td><div class="who"><span class="av">{{ x.s.name|initials }}</span><span>{{ x.s }}<span class="sub">{{ x.s.parent.get_full_name|default:"–" }} · {{ x.inv }}</span></span></div></td>
+        <td>{{ x.s.group|default:"–" }}</td><td>{{ x.c.due|date:"d.m.Y" }}</td><td>{{ x.c.amount|som }}</td>
+        <td>{{ x.paid|som }}{% if x.pay %}<span class="sub">{{ x.pay.paid_on|date:"d.m" }} · {% trans x.pay.method %}</span>{% endif %}</td>
+        <td><span class="pill {{ x.tone }}">{% trans x.status %}</span></td>
+        <td>{% if x.tone == "ok" and x.pay %}<a href="{% url 'receipt' x.pay.pk %}">{% trans "View receipt" %} ↗</a>
+          {% elif x.tone == "bad" %}<form method="post">{% csrf_token %}<input type="hidden" name="act" value="remind"><input type="hidden" name="student" value="{{ x.s.pk }}"><button class="btn link">{% trans "Send reminder" %} →</button></form>
+          {% else %}<a href="{% url 'pay' %}?student={{ x.s.pk }}">{% trans "Take payment" %} →</a>{% endif %}</td></tr>
+    {% empty %}<tr><td colspan="7" class="mu">{% trans "No charges." %}</td></tr>{% endfor %}
+  </table></div>
+  <div class="row between"><span class="fa">{% blocktrans with a=page.object_list|length b=shown_n %}Showing {{ a }} of {{ b }} charges{% endblocktrans %} · {% trans "All amounts in so‘m" %}</span>
+    <div class="pager">{% if page.has_previous %}<a href="?month={{ month|date:'Y-m' }}&amp;tab={{ tab }}&amp;q={{ q }}&amp;page={{ page.previous_page_number }}">← {% trans "Previous" %}</a>{% endif %}
+      {% for n in page.paginator.page_range %}<a class="{% if n == page.number %}on{% endif %}" href="?month={{ month|date:'Y-m' }}&amp;tab={{ tab }}&amp;q={{ q }}&amp;page={{ n }}">{{ n }}</a>{% endfor %}
+      {% if page.has_next %}<a href="?month={{ month|date:'Y-m' }}&amp;tab={{ tab }}&amp;q={{ q }}&amp;page={{ page.next_page_number }}">{% trans "Next" %} →</a>{% endif %}</div></div>
+</div>
+<a class="linkrow" href="{% url 'debtors' %}">{% trans "Monthly debtors" %} · {{ month|date:"F Y" }}</a>
+<a class="linkrow" href="{% url 'pay' %}">{% trans "Take payment" %}</a>
+{% endblock %}

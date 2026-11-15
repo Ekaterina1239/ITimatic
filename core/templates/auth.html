@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load i18n itmatic %}
+{% block body %}
+<style>
+  .auth-top { height: 64px; background: #fff; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 16px; padding: 0 32px; }
+  .auth-top .brand { padding: 0; }
+  .auth { display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100vh - 64px - 52px); }
+  .auth-l { background: var(--side); padding: 48px 48px 32px; display: flex; flex-direction: column; }
+  .auth-r { padding: 40px 48px; display: flex; justify-content: center; }
+  .auth-r .box { width: 100%; max-width: 420px; }
+  .auth h1 { font-size: 34px; font-weight: 500; }
+  .feat { display: grid; grid-template-columns: 34px 1fr; gap: 12px; padding: 10px 0; }
+  .feat .i { width: 30px; height: 30px; border-radius: 7px; background: var(--pri-soft); color: var(--pri); display: grid; place-items: center; }
+  .feat b { font-weight: 500; font-size: 13px; display: block; }
+  .steps { display: flex; gap: 12px; align-items: center; font-size: 12px; color: var(--muted); margin-bottom: 26px; }
+  .steps .on { color: var(--pri); } .steps hr { flex: 0 0 40px; border: 0; border-top: 1px solid var(--line); }
+  .phone { display: flex; border: 1px solid var(--line); border-radius: 7px; background: #fff; }
+  .phone span { padding: 10px 12px; border-right: 1px solid var(--line); font-size: 13px; white-space: nowrap; }
+  .phone input { border: 0; }
+  .code { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .code input { text-align: center; font-size: 20px; padding: 10px 0; }
+  .auth-f { height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; font-size: 11px; color: var(--muted);
+            border-top: 1px solid var(--line); }
+  .roles { max-width: 480px; margin: 56px auto; padding: 0 16px; }
+  .roles .btn { width: 100%; margin-bottom: 10px; color: var(--pri); padding: 11px; }
+  @media (max-width: 860px) { .auth { grid-template-columns: 1fr; } .auth-l { display: none; } .auth-r { padding: 28px 18px; } .auth-top { padding: 0 16px; } .auth-top .hide-s { display: none; } }
+</style>
+<div class="auth-top">
+  <div class="brand"><span class="mark">{% icon "book" 18 %}</span><div><b>ITmatic</b><small>{% trans "Learning center" %}</small></div></div>
+  <span class="mu hide-s" style="margin-left:auto">Chilonzor / Yunusobod</span>
+  <span class="rolechip hide-s">{% trans "Secure sign-in" %}</span>
+  <span style="margin-left:auto"></span>
+  {% include "_language.html" %}
+</div>
+
+{% if step == "role" %}
+  <div class="roles">
+    <h1>{% trans "Select role" %}</h1>
+    <p class="lead" style="margin-bottom:22px">{% trans "Several roles are linked to this phone number. Choose an assigned workspace. A user with one role goes directly to that workspace." %}</p>
+    <form method="post">
+      {% csrf_token %}
+      {% for code, name in roles %}
+        <button class="btn" name="role" value="{{ code }}">{% trans name %} →</button>
+      {% endfor %}
+    </form>
+    <a class="btn" style="width:100%;color:var(--pri)" href="{% url 'login' %}">{% trans "Change phone number" %}</a>
+  </div>
+{% else %}
+<div class="auth">
+  <section class="auth-l">
+    <div class="eyebrow pri-t">{% trans "ITmatic · Student management" %}</div>
+    <h1>{% trans "One account. Every part of your learning." %}</h1>
+    <p class="lead" style="max-width:420px">{% trans "English, Russian, IELTS, IT and Mathematics. Two branches, one connected learning center." %}</p>
+    <div class="card" style="max-width:420px;margin-top:26px">
+      <div class="eyebrow">{% trans "After you sign in" %}</div>
+      <div class="feat"><span class="i">{% icon "users" %}</span><div><b>{% trans "Learning and family accounts" %}</b><span class="mu">{% trans "Students and parents stay connected to their lessons." %}</span></div></div>
+      <div class="feat"><span class="i">{% icon "calendar" %}</span><div><b>{% trans "A workspace for every role" %}</b><span class="mu">{% trans "Staff see only their authorized groups and branch." %}</span></div></div>
+      <div class="feat"><span class="i">{% icon "message" %}</span><div><b>{% trans "One verified identity" %}</b><span class="mu">{% trans "Your assigned roles appear after SMS verification." %}</span></div></div>
+    </div>
+    <div class="mu" style="margin-top:auto">{% icon "shield" 14 %} {% trans "Access is limited to your assigned roles and records." %}</div>
+  </section>
+
+  <section class="auth-r"><div class="box">
+    <div class="steps">
+      <span class="{% if step == 'phone' %}on{% endif %}">01 {% trans "Phone number" %}</span><hr>
+      <span class="{% if step == 'verify' %}on{% endif %}">02 {% trans "SMS verification" %}</span>
+    </div>
+    {% for x in messages %}<div class="msg {{ x.tags }}">{{ x }}</div>{% endfor %}
+
+    {% if step == "phone" %}
+      <div class="eyebrow pri-t">{% trans "Welcome to ITmatic" %}</div>
+      <h1>{% trans "Phone login" %}</h1>
+      <p class="lead">{% trans "Use the phone number registered with ITmatic." %}</p>
+      <form method="post">
+        {% csrf_token %}
+        <label style="color:var(--ink)">{% trans "Phone number" %}</label>
+        <div class="phone"><span>UZ +998 ▾</span><input name="phone" value="90 000 14 48" inputmode="tel" autocomplete="tel"></div>
+        <p class="fa">{% trans "We’ll send a one-time SMS code. No password needed." %}</p>
+        <button class="btn pri block" style="justify-content:space-between;padding:12px 16px">{% trans "Continue with phone" %} {% icon "arrow" %}</button>
+      </form>
+      {% if err %}<div class="alert bad" style="margin-top:14px"><div><b>{% trans "Unregistered number" %}</b><br><span class="mu">{{ err }}</span></div></div>{% endif %}
+      <p class="fa" style="margin-top:18px">{% trans "Your number is used to verify your identity and find your assigned account. Standard SMS rates may apply." %}</p>
+      <p class="fa">{% trans "One role? Go straight to your workspace." %}</p>
+
+    {% elif step == "verify" %}
+      <div class="eyebrow pri-t">{% trans "Welcome to ITmatic" %}</div>
+      <h1>{% trans "SMS verification" %}</h1>
+      <p class="lead">{% blocktrans %}Enter the 6-digit code sent to +998 {{ phone }}{% endblocktrans %} <span class="fa">(demo: 482619)</span></p>
+      <form method="post" id="codeform">
+        {% csrf_token %}
+        <label style="color:var(--ink)">{% trans "Verification code" %}</label>
+        <input type="hidden" name="code" id="code">
+        <div class="code">{% for i in "123456" %}<input maxlength="1" inputmode="numeric" aria-label="digit {{ i }}">{% endfor %}</div>
+        {% if err %}<p class="bad-t" style="font-size:12px">{{ err }}</p>{% endif %}
+        <br><button class="btn pri block" style="justify-content:space-between;padding:12px 16px">{% trans "Verify and sign in" %} {% icon "arrow" %}</button>
+      </form>
+      <div class="row between" style="margin-top:14px">
+        <a href="{% url 'login' %}" class="mu">{% trans "Change phone number" %}</a>
+        <span class="fa">{% trans "Resend code in" %} 0:59</span>
+      </div>
+      <script>
+        const boxes = [...document.querySelectorAll(".code input")];
+        boxes.forEach((b, i) => {
+          b.addEventListener("input", () => { b.value = b.value.replace(/\D/g, "").slice(0, 1); if (b.value && boxes[i + 1]) boxes[i + 1].focus(); });
+          b.addEventListener("keydown", (e) => { if (e.key === "Backspace" && !b.value && boxes[i - 1]) boxes[i - 1].focus(); });
+          b.addEventListener("paste", (e) => { const t = (e.clipboardData.getData("text") || "").replace(/\D/g, "");
+            if (t.length > 1) { e.preventDefault(); t.split("").slice(0, 6).forEach((c, k) => boxes[k].value = c); boxes[Math.min(5, t.length - 1)].focus(); } });
+        });
+        document.getElementById("codeform").addEventListener("submit", () => { document.getElementById("code").value = boxes.map((b) => b.value).join(""); });
+        boxes[0].focus();
+      </script>
+    {% endif %}
+  </div></section>
+</div>
+<div class="auth-f"><span>ITmatic · Chilonzor / Yunusobod · {% trans "Autumn 2026" %}</span><span><a href="tel:+998900001010">{% trans "Need help? Contact the center" %} ↗</a> &nbsp; {% trans "Privacy" %}</span></div>
+{% endif %}
+{% endblock %}

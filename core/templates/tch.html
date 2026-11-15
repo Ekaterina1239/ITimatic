@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+{% load i18n itmatic %}
+{% block c %}
+
+{% if page == "today" %}
+<div class="ph">
+  <div>
+    <div class="eyebrow">{{ today|date:"l, d.m.Y" }}</div>
+    <h1>{% trans greeting %}, {{ request.user.first_name }}.</h1>
+    <p class="lead">{% trans "Your lessons, student progress and teaching tasks, all in one place." %}</p>
+  </div>
+  <div class="actions"><a class="btn" href="{% url 'leave' %}">{% icon "coffee" %}{% trans "Report sick leave" %}</a>
+    <a class="btn" href="{% url 'schedule' %}">{% icon "calendar" %}{% trans "Open my timetable" %}</a></div>
+</div>
+{% if leave %}<div class="alert warn" style="margin-bottom:14px">{% icon "alert" %}<div class="grow"><b>{% blocktrans with d=leave.start|date:"D d.m" %}Your sick notice for {{ d }} is with the scheduling team.{% endblocktrans %}</b><br>
+  <span class="mu">{% trans "Status" %}: {% trans leave.status %}. {% trans "Families will be notified when cover is confirmed." %}</span></div><a href="{% url 'leave' %}">{% trans "View notice" %} →</a></div>{% endif %}
+
+<div class="split">
+  <div class="stack">
+    <div class="card">
+      <div class="card-h"><div><h2>{% trans "Your teaching week" %}</h2><div class="mu">{{ week.0.0|date:"d.m" }}–{{ week.4.0|date:"d.m" }} · {% blocktrans count n=groups|length %}{{ n }} group{% plural %}{{ n }} groups{% endblocktrans %}</div></div>
+        <a href="{% url 'schedule' %}">{% trans "Full timetable" %} →</a></div>
+      <div class="cols" style="grid-template-columns:repeat(5,minmax(0,1fr))">
+        {% for d, l, tag in week %}
+          <a href="?d={{ d|date:'Y-m-d' }}" style="color:inherit;text-decoration:none;border-radius:8px;padding:10px;background:{% if d == today %}var(--pri-soft){% else %}#f6f5f2{% endif %}">
+            <div class="fa" style="text-transform:uppercase">{{ d|date:"D d" }}</div>
+            <div style="font-size:22px">{% if l %}{{ l.start|time:"H:i" }}{% else %}–{% endif %}</div>
+            <div class="mu" style="font-size:11px">{% if l %}{{ l.group }}<br>{% trans "Room" %} {{ l.room }}{% else %}{% trans "No lessons" %}{% endif %}</div>
+            {% if tag %}<div style="font-size:11px;margin-top:4px" class="{% if tag == 'Sick leave' %}bad-t{% elif tag == 'Next lesson' %}pri-t{% else %}mu{% endif %}">{% trans tag %}</div>{% endif %}</a>
+        {% endfor %}
+      </div>
+      {% if next_lesson %}<div class="row between" style="margin-top:14px"><div><b style="font-weight:500">{% trans "Next lesson" %} · {{ next_lesson.group }}</b>
+        <div class="mu">{{ next_lesson.date|date:"D d.m" }} · {{ next_lesson.start|time:"H:i" }}–{{ next_lesson.end|time:"H:i" }} · {% blocktrans count n=next_lesson.group.enrolled %}{{ n }} student{% plural %}{{ n }} students{% endblocktrans %}</div></div>
+        <a class="btn" href="{% url 'tatt' next_lesson.pk %}">{% icon "doc" %}{% trans "Lesson plan" %}</a></div>{% endif %}
+    </div>
+
+    <div class="card">
+      <div class="card-h"><div><h2>{% trans "Lessons on" %} {{ d|date:"D d.m.Y" }}</h2><div class="mu">{% trans "Open a lesson to mark attendance, topic and homework" %}</div></div>
+        <div class="row"><a class="btn" href="?d={{ p|date:'Y-m-d' }}">‹</a><a class="btn" href="?d={{ n|date:'Y-m-d' }}">›</a></div></div>
+      <table class="tbl">
+        <tr><th>{% trans "Time" %}</th><th>{% trans "Group" %}</th><th>{% trans "Room" %}</th><th>{% trans "Status" %}</th><th></th></tr>
+        {% for l in ls %}
+          <tr><td>{{ l.start|time:"H:i" }}</td><td>{{ l.group }}<span class="sub">{% blocktrans count n=l.group.students.count %}{{ n }} student{% plural %}{{ n }} students{% endblocktrans %}</span></td><td>{{ l.room }}</td>
+            <td><span class="pill {% if l.cancelled %}bad{% elif l.completed %}ok{% else %}warn{% endif %}">{% if l.cancelled %}{% trans "Cancelled" %}{% elif l.completed %}{% trans "Completed" %}{% else %}{% trans "Scheduled" %}{% endif %}</span>
+              {% if l.substitute %}<span class="pill pri">{% trans "Substitute" %}</span>{% endif %}</td>
+            <td><a href="{% url 'tatt' l.pk %}" data-lesson-link>{% trans "Open attendance" %} →</a></td></tr>
+        {% empty %}<tr><td colspan="5" class="mu">{% trans "No lessons on this day." %}</td></tr>{% endfor %}
+      </table>
+      <div class="row" style="margin-top:12px"><button type="button" class="btn" id="download">{% icon "download" %}{% trans "Download today’s groups for offline use" %}</button><span class="mu" id="download-status"></span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><div><h2>{% trans "Recent exam results" %}</h2><div class="mu">{% trans "Only your assigned groups" %}</div></div></div>
+      <table class="tbl"><tr><th>{% trans "Student" %}</th><th>{% trans "Assessment" %}</th><th>{% trans "Score" %}</th><th>{% trans "Date" %}</th></tr>
+        {% for a in results %}<tr><td><div class="who"><span class="av">{{ a.student.name|initials }}</span><span>{{ a.student }}<span class="sub">{{ a.student.group }}</span></span></div></td>
+          <td>{{ a.name }}</td><td><b style="font-weight:500">{{ a.score }} / {{ a.max_score }}</b></td><td>{{ a.date|date:"d.m.Y" }}</td></tr>
+        {% empty %}<tr><td colspan="4" class="mu">{% trans "No results yet." %}</td></tr>{% endfor %}</table>
+    </div>
+  </div>
+
+  <div class="stack">
+    {% if to_finish %}
+    <div class="card">
+      <h2>{% trans "Attendance to finish" %}</h2>
+      <div class="mu">{{ to_finish.date|date:"D d.m" }} · {{ to_finish.group }} · {{ to_finish.start|time:"H:i" }}–{{ to_finish.end|time:"H:i" }}</div>
+      <div class="row" style="margin:10px 0;gap:6px">{% for k, v in finish_counts.items %}<span class="pill {{ k|pill }}">{{ v }} {{ k|tl|lower }}</span>{% endfor %}</div>
+      {% for st, status in finish_rows %}<div class="row between" style="padding:6px 0;border-bottom:1px solid var(--line2)"><div class="who"><span class="av">{{ st.name|initials }}</span><span>{{ st }}<span class="sub">{{ status|tl }}</span></span></div></div>{% endfor %}
+      <a class="btn pri block" style="margin-top:12px" href="{% url 'tatt' to_finish.pk %}">{% trans "Review all" %} {{ to_finish.group.enrolled }} {% trans "students" %}</a>
+    </div>
+    {% endif %}
+    <div class="card">
+      <h2>{% trans "Teaching reminders" %}</h2>
+      <div class="list" style="margin-top:6px">
+        {% if to_finish and not to_finish.completed %}<div class="mu">{% icon "check" 14 %} {% trans "Submit attendance for" %} {{ to_finish.group }} · {{ to_finish.date|date:"d.m" }}</div>{% endif %}
+        <div class="mu">{% icon "doc" 14 %} {% trans "Certificates: submit eligible students for approval" %}</div>
+        {% if leave %}<div class="mu">{% icon "message" 14 %} {% trans "Prepare cover notes for your substitute" %}</div>{% endif %}
+      </div>
+    </div>
+    <a class="linkrow" href="{% if next_lesson %}{% url 'tatt' next_lesson.pk %}{% else %}#{% endif %}" style="margin-top:0">{% trans "Open mobile lesson form" %}</a>
+    <a class="linkrow" href="{% url 'reports' %}">{% trans "Eligible students and certificates" %}</a>
+  </div>
+</div>
+<script>
+  // NFR-03: open every lesson form once so the service worker keeps a copy.
+  document.getElementById("download").onclick = async function () {
+    const links = [...document.querySelectorAll("[data-lesson-link]")];
+    for (const a of links) { await fetch(a.href, { credentials: "same-origin" }); }
+    document.getElementById("download-status").textContent = "{% trans 'Saved on this device' %}: " + links.length;
+  };
+</script>
+
+{% elif page == "form" %}
+<div class="mobile">
+  <a href="/teacher/?d={{ l.date|date:'Y-m-d' }}" class="btn block" style="margin-bottom:14px">← {% trans "My workspace" %}</a>
+  <h1>{% trans "Lesson form" %}</h1>
+  <div class="mu">{{ l.group }} · {{ l.group.branch }}<br>{{ l.date|date:"d.m.Y" }} · {{ l.start|time:"H:i" }}–{{ l.end|time:"H:i" }} · {% trans "Room" %} {{ l.room }}</div>
+  <div class="row" style="margin:8px 0"><span class="pill {% if l.completed %}ok{% elif l.draft %}warn{% endif %}">{% if l.completed %}{% trans "Submitted" %}{% elif l.draft %}{% trans "Draft" %}{% else %}{% trans "Not started" %}{% endif %}</span></div>
+  {% if times.recorded %}<div class="alert ok" style="margin-bottom:10px;font-size:12px">{% icon "check" 14 %}<div>{% trans "Lesson saved at" %} {{ times.synced|date:"H:i" }}<br><span class="mu">{% trans "Recorded" %}: {{ times.recorded|date:"d.m.Y H:i" }} · {% trans "Sent to server" %}: {{ times.synced|date:"d.m.Y H:i" }}</span></div></div>{% endif %}
+  <div id="sync-status"></div>
+
+  <form method="post" enctype="multipart/form-data" id="lesson-form" data-lesson="{{ l.pk }}">
+    {% csrf_token %}
+    <button type="button" class="btn soft block" id="all-present">{% trans "Mark all present" %}</button>
+    <h2 style="margin:16px 0 8px">{% trans "Attendance" %} · {% blocktrans count n=rows|length %}{{ n }} student{% plural %}{{ n }} students{% endblocktrans %}</h2>
+    {% for s, st, rep in rows %}
+      <div class="card" style="padding:12px 14px;margin-bottom:10px">
+        <b style="font-weight:500">{{ forloop.counter }}. {{ s }}</b>
+        {% if rep %}<div class="pill warn" style="display:block;margin:6px 0;padding:5px 8px">{% trans "Absent" %}: {% trans rep.reason %} ({% trans "parent" %}, {{ rep.created|date:"H:i" }})</div>{% endif %}
+        <div class="seg" style="margin-top:8px">
+          {% for o in opts %}<input type="radio" name="s{{ s.pk }}" value="{{ o }}" id="s{{ s.pk }}{{ o }}" data-student="{{ s.pk }}" {% if st == o %}checked{% endif %}><label for="s{{ s.pk }}{{ o }}">{{ o|tl }}</label>{% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+    <div class="card" style="padding:14px">
+      <label style="margin-top:0">{% trans "Lesson topic" %}</label><input name="topic" value="{{ l.topic }}">
+      <label>{% trans "Homework" %}</label><textarea name="homework" rows="2">{{ l.homework }}</textarea>
+      <label>{% trans "Due date" %}</label><input type="date" name="due" value="{{ l.homework_due|date:'Y-m-d' }}">
+      <label>{% trans "Attach file" %}</label><input type="file" name="file">
+    </div>
+    <div class="cols c2" style="margin-top:12px;grid-template-columns:1fr 1fr">
+      <button class="btn" name="draft" value="1">{% trans "Save draft" %}</button>
+      <button class="btn pri" name="submit" value="1">{% trans "Submit attendance" %}</button>
+    </div>
+  </form>
+</div>
+<script>
+  // NFR-03 offline attendance entry.
+  // Offline: the whole group is kept on this device as ONE batch with the time
+  // it was recorded. When the internet returns the batch is sent to
+  // /api/attendance/sync/; the server accepts it whole or rejects it whole.
+  (function () {
+    const KEY = "itmatic-outbox";
+    const T = {
+      saved: "{% trans 'No internet. Saved on this device at' %}",
+      sent: "{% trans 'Sent to server.' %}",
+      recorded: "{% trans 'Recorded' %}",
+      server: "{% trans 'Sent to server' %}",
+      failed: "{% trans 'Not sent' %}",
+    };
+    const form = document.getElementById("lesson-form");
+    const status = document.getElementById("sync-status");
+    const csrf = form.querySelector("[name=csrfmiddlewaretoken]").value;
+    const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) { return []; } };
+    const save = (q) => { try { localStorage.setItem(KEY, JSON.stringify(q)); } catch (e) {} };
+    const show = (text, kind) => { status.innerHTML = '<div class="msg ' + kind + '"></div>'; status.firstChild.textContent = text; };
+
+    document.getElementById("all-present").onclick = () =>
+      form.querySelectorAll('input[type=radio][value=present]').forEach((r) => { r.checked = true; });
+
+    let pressed = null;
+    form.querySelectorAll("button[name]").forEach((b) => b.addEventListener("click", () => { pressed = b.name; }));
+
+    form.addEventListener("submit", function (e) {
+      if (navigator.onLine) return;            // online: normal form post
+      e.preventDefault();
+      const marks = {};
+      form.querySelectorAll("input[data-student]:checked").forEach((r) => { marks[r.dataset.student] = r.value; });
+      const batch = {
+        lesson: form.dataset.lesson, marks: marks,
+        topic: form.topic.value, homework: form.homework.value, due: form.due.value,
+        submit: pressed === "submit", recorded_at: new Date().toISOString(),
+      };
+      const q = load().filter((b) => b.lesson !== batch.lesson);
+      q.push(batch); save(q);
+      const now = new Date(), pad = (n) => String(n).padStart(2, "0");
+      show(T.saved + " " + pad(now.getHours()) + ":" + pad(now.getMinutes()), "warn");
+    });
+
+    async function flush() {
+      if (!navigator.onLine) return;
+      const q = load(); const left = [];
+      for (const batch of q) {
+        try {
+          const r = await fetch("{% url 'sync_attendance' %}", {
+            method: "POST", credentials: "same-origin",
+            headers: { "Content-Type": "application/json", "X-CSRFToken": csrf },
+            body: JSON.stringify(batch),
+          });
+          const data = await r.json();
+          if (data.ok) {
+            if (batch.lesson === form.dataset.lesson)
+              show(T.sent + " " + T.recorded + ": " + data.recorded_at + " · " + T.server + ": " + data.synced_at, "success");
+          } else {
+            show(T.failed + ": " + data.error, "error");   // rejected as a whole
+          }
+        } catch (err) {
+          left.push(batch);                       // connection dropped: keep it
+          show(T.failed + ": " + err, "error");
+        }
+      }
+      save(left);
+    }
+    addEventListener("online", flush);
+    flush();
+  })();
+</script>
+
+{% else %}
+<div class="ph"><div><div class="eyebrow">{% trans "My workspace" %}</div><h1>{% trans "Absence / sick leave request" %}</h1>
+  <p class="lead">{% trans "The scheduling team finds a substitute. Families are notified only after cover is confirmed." %}</p></div></div>
+<div class="split">
+  <form method="post" enctype="multipart/form-data" class="card">{% csrf_token %}
+    <div class="cols c2"><div><label>{% trans "Start date" %}</label><input type="date" name="start"></div><div><label>{% trans "End date" %}</label><input type="date" name="end"></div></div>
+    <label>{% trans "Reason" %}</label>
+    <div class="seg"><input type="radio" name="reason" value="Sick leave" id="rs" checked><label for="rs">{% trans "Sick leave" %}</label>
+      <input type="radio" name="reason" value="Other" id="ro"><label for="ro">{% trans "Other" %}</label></div>
+    <label>{% trans "Short note" %}</label><input name="note">
+    <label>{% trans "Attachment (optional)" %}</label><input type="file" name="file">
+    <div class="row" style="margin-top:14px"><button class="btn pri">{% trans "Submit request" %}</button><a class="btn" href="{% url 'teacher' %}">{% trans "Back" %}</a></div>
+  </form>
+  <div class="card"><h2>{% trans "My requests" %}</h2>
+    <div class="list" style="margin-top:6px">
+      {% for q, n in reqs %}<div class="row between"><span>{{ q.start|date:"d.m.Y" }} → {{ q.end|date:"d.m.Y" }}<span class="sub">{% trans q.reason %} · {% blocktrans count n=n %}{{ n }} lesson affected{% plural %}{{ n }} lessons affected{% endblocktrans %}</span></span>
+        <span class="pill {{ q.status|pill }}">{% trans q.status %}</span></div>
+      {% empty %}<div class="mu">{% trans "None yet." %}</div>{% endfor %}
+    </div></div>
+</div>
+{% endif %}
+{% endblock %}

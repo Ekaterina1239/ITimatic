@@ -1,0 +1,8 @@
+{% load i18n %}{% get_current_language as LANG %}
+<form method="post" action="{% url 'set_language' %}" class="lang" title="{% trans 'Interface language' %}">
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+  {% for code, name in languages %}
+    <button name="language" value="{{ code }}" class="{% if code == LANG %}on{% endif %}" type="submit">{{ code|upper }}</button>
+  {% endfor %}
+</form>
