@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Receipt" %}{% endblock %}{% block crumb %}{% t "Finance" %}{% endblock %}
+{% block content %}
+<div class="receipt card"><p class="eyebrow">ITmatic · {% t "Receipt" %}</p><h1>{{ p.receipt_no }}</h1>
+<dl><dt>{% t "Date" %}</dt><dd>{{ p.created_at|date:"d.m.Y H:i" }}</dd><dt>{% t "Student" %}</dt><dd>{{ p.student.name }}</dd><dt>{% t "Group" %}</dt><dd>{{ p.student.group.name }}</dd>
+<dt>{% t "Method" %}</dt><dd>{% t p.get_method_display %}{% if p.reference %} · {{ p.reference }}{% endif %}</dd><dt>{% t "Amount" %}</dt><dd><b style="font-size:1.3rem">{{ p.amount|som }}</b></dd>
+<dt>{% t "Remaining due" %}</dt><dd>{{ due|som }}</dd>{% if credit %}<dt>{% t "Credit" %}</dt><dd class="good">{{ credit|som }}</dd>{% endif %}<dt>{% t "Received by" %}</dt><dd>{{ p.received_by.first_name|default:p.received_by.username }}</dd></dl>
+<button class="btn big noprint" onclick="window.print()">{% t "Print" %}</button></div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{{ g.name }}{% endblock %}{% block crumb %}{% t "Groups" %}{% endblock %}
+{% block content %}
+<div class="row"><div><p class="eyebrow">{{ g.course }} · {% t g.get_level_display %} · {% t g.get_kind_display %}</p><h1>{{ g.name }}</h1>
+<p class="sub">{{ g.teacher.first_name|default:"-" }} · {% t "Room" %} {{ g.room|default:"-" }} · {{ studs|length }}/{{ g.capacity }} {% t "seats" %}{% if waiting %} · {{ waiting }} {% t "on waiting list" %}{% endif %}</p></div>
+</div>
+<div class="card tw"><table><tr><th>{% t "Student" %}</th><th>{% t "Attendance" %}</th></tr>
+{% for s in studs %}<tr><td>{% if role != 'teacher' %}<a href="{% url 'student_finance' s.pk %}">{{ s.name }}</a>{% else %}{{ s.name }}{% endif %}</td><td>{% if s.att_pct is not None %}{{ s.att_pct }}%{% else %}-{% endif %}</td></tr>{% empty %}<tr><td colspan="2" class="muted">{% t "Nothing here" %}</td></tr>{% endfor %}</table></div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Monthly debtors" %}{% endblock %}{% block crumb %}{% t "Debtors" %}{% endblock %}
+{% block content %}
+<div class="row"><div><p class="eyebrow">{% t "Finance" %} · {{ month|date:"F Y" }}</p><h1>{% t "Monthly debtors" %}</h1></div><a class="btn" href="{% url 'payment_new' %}">{% t "Take payment" %}</a></div>
+<div class="msg"><b>{% t "Debtors list for" %} {{ month|date:"F Y" }} {% t "is ready" %}:</b> {{ rows|length }} {% t "students" %}, {{ total|som }}.</div>
+<div class="row" style="margin-bottom:.8rem"><div></div>
+ <form class="inline" style="flex:none"><input type="month" name="month" value="{{ month|date:'Y-m' }}"><input type="search" name="q" value="{{ q }}" placeholder="{% t 'Student or phone' %}"><button class="btn alt">{% t "Apply filters" %}</button></form></div>
+<div class="card tw"><table><tr><th>{% t "Student" %}</th><th>{% t "Group" %}</th><th>{% t "Parent" %} / {% t "Phone" %}</th><th>{% t "Amount due" %}</th><th>{% t "Due" %}</th><th>{% t "Last payment" %}</th><th>{% t "Follow-up action" %}</th></tr>
+{% for r in rows %}<tr class="{% if r.overdue >= 10 %}hot{% endif %}"><td><a href="{% url 'student_finance' r.s.pk %}"><b>{{ r.s.name }}</b></a></td><td>{{ r.s.group.name }}</td><td>{{ r.s.parent.first_name }}<br><small class="muted">+{{ r.phone }}</small></td>
+<td><b>{{ r.due|som }}</b></td><td>{{ r.due_date|date:"d.m.Y" }}<br><small style="color:var(--bad)">{% t "Overdue" %} {{ r.overdue }} {% t "days" %}</small></td><td>{{ r.last_payment|date:"d.m.Y"|default:"-" }}</td>
+<td><div class="inline" style="flex-wrap:nowrap;gap:.3rem"><a class="btn sm" href="{% url 'payment_new' %}?student={{ r.s.pk }}">{% t "Take payment" %}</a>
+ <form method="post">{% csrf_token %}<input type="hidden" name="student" value="{{ r.s.pk }}"><button class="btn sm alt" name="remind" value="1">{% t "Remind" %}</button></form></div>
+ {% if r.note %}<span class="pill {% if r.note.outcome == 'leaving' %}bad{% elif r.note.outcome == 'promised' %}info{% else %}warn{% endif %}">{% t r.note.get_outcome_display %}{% if r.note.promised_by %} {{ r.note.promised_by|date:"d.m" }}{% endif %}</span>{% endif %}
+ {% if can_note %}<form method="post" class="inline" style="margin-top:.3rem;flex-wrap:nowrap;gap:.3rem">{% csrf_token %}<input type="hidden" name="student" value="{{ r.s.pk }}"><select name="outcome" style="min-height:32px;padding:.1rem .3rem">{% for k,v in outcomes %}<option value="{{ k }}">{% t v %}</option>{% endfor %}</select><input type="date" name="promised_by" style="min-height:32px;padding:.1rem .3rem"><button class="btn sm alt">{% t "Save" %}</button></form>{% endif %}</td></tr>
+{% empty %}<tr><td colspan="7" class="muted">{% t "Nothing here" %}</td></tr>{% endfor %}</table></div>
+{% endblock %}

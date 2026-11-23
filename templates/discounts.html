@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Discounts" %}{% endblock %}{% block crumb %}{% t "Discounts" %}{% endblock %}
+{% block content %}
+<h1>{% t "Discounts" %}</h1><p class="sub">{% t "Discounts are requested by the accountant and approved by the administrator." %}</p>
+<div class="card tw"><table><tr><th>{% t "Student" %}</th><th>{% t "Month" %}</th><th>{% t "Amount" %}</th><th>{% t "Reason" %}</th><th>{% t "Status" %}</th><th></th></tr>
+{% for d in items %}<tr><td><b>{{ d.student.name }}</b><br><small class="muted">{{ d.requested_by.first_name|default:d.requested_by.username }}</small></td><td>{{ d.fee.month|date:"F Y" }}</td><td>{{ d.amount|som }}</td><td>{{ d.reason }}</td><td><span class="pill {{ d.status }}">{% t d.get_status_display %}</span></td>
+<td>{% if d.status == 'pending' and can %}<form method="post" class="inline" style="flex-wrap:nowrap">{% csrf_token %}<input type="hidden" name="id" value="{{ d.pk }}"><button class="btn sm" name="decision" value="approve">{% t "Approve" %}</button><button class="btn sm alt" name="decision" value="reject">{% t "Reject" %}</button></form>{% endif %}</td></tr>
+{% empty %}<tr><td colspan="6" class="muted">{% t "Nothing here" %}</td></tr>{% endfor %}</table></div>
+{% endblock %}

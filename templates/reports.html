@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Reports" %}{% endblock %}{% block crumb %}{% t "Reports" %}{% endblock %}
+{% block content %}
+<h1>{% t "Reports" %}</h1>
+<div class="grid g2">
+ {% if role != 'accountant' %}<div class="card"><h2>{% t "Attendance trend" %}</h2><small class="muted">{% t "Last 5 weeks · all active groups" %}</small><div class="bars">{% for w in trend %}<div><b>{% if w.pct is not None %}{{ w.pct }}%{% else %}-{% endif %}</b><i style="height:{{ w.pct|default:0 }}%"></i>{{ w.label }}</div>{% endfor %}</div>
+ <a href="{% url 'missing' %}">{% t "Missing attendance" %} ({{ missing }}) →</a></div>{% endif %}
+ <div class="card"><h2>{% t "Payment collections" %}</h2><small class="muted">{% t "Received payments · last 6 months" %}</small><div class="bars">{% for m in money %}<div><b>{{ m.sum|floatformat:0 }}</b><i style="height:{{ m.h }}%"></i>{{ m.label }}</div>{% endfor %}</div></div>
+ {% if funnel %}<div class="card"><h2>{% t "Enrolment funnel" %}</h2>{% for k, n in funnel %}<div class="funnel"><span>{% t k %}</span><i style="width:{% widthratio n 100 100 %}%;max-width:100%;min-width:2px"></i><b>{{ n }}</b></div>{% endfor %}</div>
+ <div class="card"><h2>{% t "Why applicants were lost" %}</h2>{% for k, n in lost %}<div class="funnel"><span>{% t k %}</span><i style="width:{% widthratio n 100 100 %}%;max-width:100%;min-width:2px"></i><b>{{ n }}</b></div>{% endfor %}</div>
+ <div class="card"><h2>{% t "Students by course" %}</h2>{% for c in by_course %}<div class="mini"><span>{{ c.group__course__name }}</span><b>{{ c.n }}</b></div>{% endfor %}</div>{% endif %}
+</div>
+{% endblock %}

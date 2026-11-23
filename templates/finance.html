@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Finance" %}{% endblock %}{% block crumb %}{% t "Finance" %}{% endblock %}
+{% block content %}
+<div class="row"><div><p class="eyebrow">{% t "Finance" %} · {{ month|date:"F Y" }}</p><h1>{% t "Finance and reports" %}</h1></div>
+ <div>{% if role == 'admin' or role == 'accountant' %}<a class="btn" href="{% url 'payment_new' %}">{% t "Take payment" %}</a> <a class="btn alt" href="{% url 'debtors' %}">{% t "Monthly debtors" %}</a>{% endif %} <a class="btn alt" href="?month={{ month|date:'Y-m' }}&csv=1">CSV</a></div></div>
+<form class="inline" style="max-width:260px;margin-bottom:1rem"><input type="month" name="month" value="{{ month|date:'Y-m' }}"><button class="btn alt">{% t "Show" %}</button></form>
+<div class="grid g4"><div class="stat"><span>{% t "Collected this month" %}</span><b>{{ total|som }}</b></div><div class="stat"><span>{% t "Scheduled" %}</span><b>{{ charged|som }}</b></div>
+ <a class="stat {% if debt %}warn{% endif %}" href="{% url 'debtors' %}?month={{ month|date:'Y-m' }}"><span>{% t "Amount due" %}</span><b>{{ debt|som }}</b></a><a class="stat" href="{% url 'discounts' %}"><span>{% t "Discounts" %}</span><b>{{ pending }}</b><small class="muted">{% t "Pending" %}</small></a></div>
+<div class="grid g2"><div class="card"><h2>{% t "By method" %}</h2>{% for k, v in by %}<div class="mini"><span>{% t k %}</span><b>{{ v|som }}</b></div>{% endfor %}</div>
+ <div class="card tw"><table><tr><th>{% t "Receipt" %}</th><th>{% t "Student" %}</th><th>{% t "Amount" %}</th></tr>{% for p in pays %}<tr><td><a href="{% url 'receipt' p.pk %}">{{ p.receipt_no }}</a></td><td>{{ p.student.name }}</td><td>{{ p.amount|som }}</td></tr>{% empty %}<tr><td colspan="3" class="muted">{% t "Nothing here" %}</td></tr>{% endfor %}</table></div></div>
+{% endblock %}

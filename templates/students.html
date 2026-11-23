@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Students" %}{% endblock %}{% block crumb %}{% t "Students" %}{% endblock %}
+{% block content %}
+<h1>{% t "Students" %}</h1>
+<form class="inline" style="max-width:460px;margin-bottom:.8rem"><input type="search" name="q" value="{{ q }}" placeholder="{% t 'Name, phone or group' %}"><button class="btn alt">{% t "Search" %}</button></form>
+<div class="card tw"><table><tr><th>{% t "Student" %}</th><th>{% t "Group" %}</th><th>{% t "Parent" %} / {% t "Phone" %}</th></tr>
+{% for s in page %}<tr><td><a href="{% url 'student_finance' s.pk %}"><b>{{ s.name }}</b></a></td><td>{{ s.group.name }}</td><td>+{{ s.parent.profile.phone|default:"-" }}</td></tr>{% empty %}<tr><td colspan="3" class="muted">{% t "Nothing here" %}</td></tr>{% endfor %}</table></div>
+<div class="row">{% if page.has_previous %}<a class="btn alt sm" href="?q={{ q }}&page={{ page.previous_page_number }}">‹</a>{% endif %}<span class="muted">{{ page.number }} / {{ page.paginator.num_pages }}</span>{% if page.has_next %}<a class="btn alt sm" href="?q={{ q }}&page={{ page.next_page_number }}">›</a>{% endif %}</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% load static i18n_tags %}{% block title %}{% t "Attendance" %}{% endblock %}{% block crumb %}{% t "Attendance" %}{% endblock %}
+{% block content %}
+<div style="max-width:640px"><div id="net" class="msg">…</div><div id="list"></div><div id="form" hidden></div></div>
+{% endblock %}
+{% block js %}<script>
+window.T={online:"{% t 'Online' %}",offline:"{% t 'Offline mode: no internet connection. Attendance is saved on this device and will be sent automatically when the connection returns.' %}",pending:"{% t 'pending' %}",lastSync:"{% t 'Last sync' %}",
+conflict:"{% t 'Conflict: a newer version already exists on the server' %}",rejected:"{% t 'Some records were rejected by the server (form closed or lesson cancelled)' %}",
+pendingSave:"{% t 'Saved on device' %}",saved:"{% t 'Saved' %}",opens:"{% t 'Opens 15 min before' %}",open:"{% t 'Open' %}",none:"{% t 'No lessons' %}",notStarted:"{% t 'Not started' %}",
+back:"{% t 'My workspace' %}",locked:"{% t 'The form opens 15 minutes before the lesson' %}",allPresent:"{% t 'Mark all present' %}",pre:"{% t 'Pre-notified absence' %}",
+present:"{% t 'Present' %}",late:"{% t 'Late' %}",absent:"{% t 'Absent' %}",topic:"{% t 'Lesson topic' %}",homework:"{% t 'Homework' %}",due:"{% t 'Due date' %}",min:"{% t 'min' %}",
+attachment:"{% t 'Attach files' %} ({% t 'up to 3' %})",submit:"{% t 'Submit attendance' %}",draft:"{% t 'Save draft' %}",draftSaved:"{% t 'Draft saved on this device' %}",room:"{% t 'Room' %}",
+savedLocal:"{% t 'Saved on this device, will be sent automatically' %}",students:"{% t 'students' %}",attendance:"{% t 'Attendance' %}",
+reasons:{illness:"{% t 'Illness' %}",family:"{% t 'Family' %}",travel:"{% t 'Travel' %}",exam:"{% t 'School exam' %}",other:"{% t 'Other' %}"}};
+</script><script src="{% static 'core/attendance.js' %}"></script>{% endblock %}

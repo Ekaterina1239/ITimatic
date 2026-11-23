@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Lesson form" %}{% endblock %}{% block crumb %}{% t "Schedule" %}{% endblock %}
+{% block content %}
+<div style="max-width:640px">
+<h1>{% t "Lesson form" %}</h1><p class="sub">{{ lesson.group.name }} · {{ lesson.start|date:"D d.m.Y H:i" }}–{{ lesson.end|date:"H:i" }} · {% t "Room" %} {{ lesson.room|default:"-" }}</p>
+{% if locked %}<div class="msg warning">{% if lesson.status == 'cancelled' %}{% t "Cancelled" %}{% else %}{% t "Read-only: the form is open from 15 minutes before the lesson until 23:59 of the lesson day." %}{% endif %}</div>{% endif %}
+<form method="post" enctype="multipart/form-data" class="form">{% csrf_token %}
+<div class="bar" style="margin-bottom:.6rem"><button type="button" class="btn alt" id="all-present" {% if locked %}disabled{% endif %}>{% t "Mark all present" %}</button></div>
+{% for s in students %}<div class="card stu"><div><b>{{ forloop.counter }}. {{ s.name }}</b>{% if s.pre %} <span class="pill bad">{% t "Pre-notified absence" %}{% if s.pre.kind == 'late' %}: {% t "Late" %} {{ s.pre.minutes }} {% t "min" %}{% else %}: {% t s.pre.get_reason_display %}{% endif %}</span>{% endif %}</div>
+ <div class="seg">{% for k,label in "present:Present,late:Late,absent:Absent"|split_pairs %}<label><input type="radio" name="status_{{ s.id }}" value="{{ k }}" {% if s.current == k %}checked{% endif %} {% if locked %}disabled{% endif %}><span class="{{ k }}">{% t label %}</span></label>{% endfor %}</div></div>
+{% empty %}<p class="muted">{% t "Nothing here" %}</p>{% endfor %}
+<div class="card"><label>{% t "Lesson topic" %}<input type="text" name="topic" value="{{ lesson.topic }}" required {% if locked %}disabled{% endif %}></label>
+<label>{% t "Homework" %}<textarea name="homework" rows="3" {% if locked %}disabled{% endif %}>{{ lesson.homework }}</textarea></label>
+<label>{% t "Due date" %}<input type="date" name="homework_due" value="{{ lesson.homework_due|date:'Y-m-d' }}" {% if locked %}disabled{% endif %}></label>
+<label>{% t "Attach files" %} ({% t "up to 3" %})<input type="file" name="homework_file" multiple {% if locked %}disabled{% endif %}></label>
+{% for f in files %}<div><a href="{{ f.file.url }}" target="_blank">📎 {{ f.file.name }}</a></div>{% endfor %}</div>
+{% if not locked %}<div class="inline"><button class="btn big">{% t "Submit attendance" %}</button>{% if role == 'admin' %}<button class="btn alt" name="notify" value="1">{% t "Save & notify parents" %}</button>{% endif %}</div>{% endif %}
+</form></div>
+{% endblock %}
+{% block js %}<script>document.getElementById('all-present').onclick=()=>document.querySelectorAll('input[value=present]:not(:disabled)').forEach(r=>r.checked=true);</script>{% endblock %}

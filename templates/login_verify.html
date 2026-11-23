@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "SMS verification" %}{% endblock %}
+{% block guest %}
+<div style="margin-top:3rem"><h1>{% t "SMS verification" %}</h1><p class="sub">{% t "Enter the code sent to" %} +{{ phone }}</p>
+{% if error %}<div class="msg error">{% t "The code is wrong or expired" %}</div>{% endif %}
+{% if demo_code %}<div class="msg warning"><b>{% t "Demo mode" %}:</b> {% t "your code is" %} <b>{{ demo_code }}</b></div>{% endif %}
+<form method="post" class="card form">{% csrf_token %}
+ <label>{% t "Code" %}<input name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" required autofocus style="font-size:1.6rem;letter-spacing:.4em;text-align:center"></label>
+ <button class="btn big">{% t "Verify" %}</button></form>
+<a class="btn alt big" href="{% url 'login_phone' %}">{% t "Change phone number" %}</a></div>
+{% endblock %}

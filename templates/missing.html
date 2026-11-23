@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Missing attendance" %}{% endblock %}{% block crumb %}{% t "Reports" %}{% endblock %}
+{% block content %}
+<h1>{% t "Missing attendance" %}</h1><p class="sub">{% t "Lessons where no attendance was recorded 30 minutes after the start." %}</p>
+<div class="card tw"><table><tr><th>{% t "Lesson" %}</th><th>{% t "Teacher" %}</th><th>{% t "Time" %}</th><th></th></tr>
+{% for l in items %}<tr><td><b>{{ l.group.name }}</b></td><td>{{ l.teacher.first_name|default:l.teacher.username }}</td><td>{{ l.start|date:"d.m H:i" }}</td><td><span class="pill bad">{% t "Not recorded" %}</span></td></tr>
+{% empty %}<tr><td colspan="4" class="muted">{% t "Nothing here" %}</td></tr>{% endfor %}</table></div>
+{% endblock %}

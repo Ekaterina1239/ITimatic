@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{{ s.name }}{% endblock %}{% block crumb %}{% t "Students" %}{% endblock %}
+{% block content %}
+<div class="row"><div><p class="eyebrow">{{ s.group.name }}</p><h1>{{ s.name }}</h1><p class="sub">{% t "Parent" %}: +{{ s.parent.profile.phone|default:"-" }} · {% t "Contract" %} {{ s.contract_number }}{% if s.contract_scan %} · <a href="{{ s.contract_scan.url }}" target="_blank">{% t "View scan" %}</a>{% endif %}</p></div>
+{% if can_edit %}<a class="btn" href="{% url 'payment_new' %}?student={{ s.pk }}">{% t "Take payment" %}</a>{% endif %}</div>
+{% if True %}
+<div class="grid g4"><div class="stat {% if due %}warn{% endif %}"><span>{% t "Amount due" %}</span><b>{{ due|som }}</b></div><div class="stat"><span>{% t "Credit" %}</span><b>{{ credit|som }}</b></div></div>
+<div class="grid g2"><div><h2>{% t "Monthly fees" %}</h2>{% for f in fees %}<div class="card row"><span>{{ f.month|date:"F Y" }} · {{ f.net|som }}{% if f.discount %} <small class="muted">(−{{ f.discount|som }})</small>{% endif %}</span><span class="pill {% if f.due %}bad{% else %}ok{% endif %}">{% if f.due %}{% t "Due" %} {{ f.due|som }}{% else %}{% t "Paid" %}{% endif %}</span></div>{% endfor %}
+ {% if role == 'accountant' and open_fees %}<form method="post" action="{% url 'discount_request' s.pk %}" class="card form">{% csrf_token %}<h3>{% t "Request a discount" %}</h3><p class="muted"><small>{% t "Discounts must be approved by the administrator." %}</small></p>
+  <div class="inline"><select name="fee">{% for f in open_fees %}<option value="{{ f.pk }}">{{ f.month|date:"F Y" }}</option>{% endfor %}</select><input type="number" name="amount" min="1" placeholder="so'm" required><input name="reason" placeholder="{% t 'Reason' %}" required><button class="btn alt">{% t "Send" %}</button></div></form>{% endif %}
+ {% for d in discounts %}<div class="mini"><span>{{ d.amount|som }} · {{ d.reason }}</span><span class="pill {{ d.status }}">{% t d.get_status_display %}</span></div>{% endfor %}</div>
+ <div><h2>{% t "Payments" %}</h2>{% for p in payments %}<div class="card row"><span><b>{{ p.amount|som }}</b> · {% t p.get_method_display %}<br><small class="muted">{{ p.created_at|date:"d.m.Y H:i" }} · {{ p.received_by.first_name|default:p.received_by.username }}</small></span><a href="{% url 'receipt' p.pk %}">{% t "Receipt" %}</a></div>{% empty %}<p class="muted">{% t "Nothing here" %}</p>{% endfor %}</div></div>
+{% else %}<p class="muted">{% t "Attendance" %}: {{ att }}</p>{% endif %}
+{% endblock %}

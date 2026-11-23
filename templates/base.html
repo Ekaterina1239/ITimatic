@@ -1,0 +1,55 @@
+{% load static i18n_tags %}<!doctype html>
+<html lang="{{ lang }}"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}ITmatic{% endblock %} · ITmatic</title><meta name="theme-color" content="#5553a9">
+<link rel="stylesheet" href="{% static 'core/style.css' %}"></head>
+<body>
+{% if user.is_authenticated and role %}
+{% with u=request.resolver_match.url_name %}
+<div class="app">
+<aside class="side">
+  <a class="brand" href="{% url 'dashboard' %}"><span class="logo">{% icon 'book' 22 %}</span><span><b>ITmatic</b><small>{% t "Learning center" %}</small></span></a>
+  <div class="ws"><b>{% t "Center workspace" %}</b><small class="muted">ITmatic</small></div>
+  <nav class="nav">
+    <a href="{% url 'dashboard' %}" class="{% if u == 'dashboard' %}on{% endif %}">{% icon 'grid' %}<span class="lbl">{% if role == 'teacher' %}{% t "My workspace" %}{% else %}{% t "Overview" %}{% endif %}</span></a>
+    {% if role == 'admin' %}<a href="{% url 'applicants' %}" class="{% if u == 'applicants' or u == 'applicant_detail' or u == 'applicant_new' or u == 'followup' %}on{% endif %}">{% icon 'userplus' %}<span class="lbl">{% t "Enrolment" %}</span></a>{% endif %}
+    {% if role == 'teacher' %}<a href="{% url 'attendance_app' %}" class="{% if u == 'attendance_app' %}on{% endif %}">{% icon 'check' %}<span class="lbl">{% t "Attendance" %}</span></a>{% endif %}
+    {% if role == 'admin' or role == 'teacher' %}<a href="{% url 'schedule' %}" class="{% if u == 'schedule' or u == 'teacher_absence' or u == 'lesson_new' %}on{% endif %}">{% icon 'calendar' %}<span class="lbl">{% if role == 'teacher' %}{% t "My timetable" %}{% else %}{% t "Schedule" %}{% endif %}</span></a>
+    <a href="{% url 'groups' %}" class="{% if u == 'groups' or u == 'group_detail' or u == 'group_new' %}on{% endif %}">{% icon 'users' %}<span class="lbl">{% t "Groups" %}</span></a>{% endif %}
+    {% if role == 'admin' or role == 'accountant' %}<a href="{% url 'finance' %}" class="{% if u == 'finance' or u == 'payment_new' or u == 'receipt' or u == 'student_finance' %}on{% endif %}">{% icon 'wallet' %}<span class="lbl">{% t "Finance" %}</span></a>{% endif %}
+    {% if role == 'admin' or role == 'accountant' %}<a href="{% url 'debtors' %}" class="{% if u == 'debtors' %}on{% endif %}">{% icon 'card' %}<span class="lbl">{% t "Debtors" %}</span></a>{% endif %}
+    {% if role == 'admin' or role == 'accountant' %}<a href="{% url 'discounts' %}" class="{% if u == 'discounts' %}on{% endif %}">{% icon 'list' %}<span class="lbl">{% t "Discounts" %}</span></a>{% endif %}
+    {% if role == 'admin' or role == 'accountant' %}<a href="{% url 'students' %}" class="{% if u == 'students' %}on{% endif %}">{% icon 'users' %}<span class="lbl">{% t "Students" %}</span></a>{% endif %}
+    {% if role == 'admin' or role == 'accountant' %}<a href="{% url 'reports' %}" class="{% if u == 'reports' or u == 'missing' %}on{% endif %}">{% icon 'chart' %}<span class="lbl">{% t "Reports" %}</span></a>{% endif %}
+    {% if role == 'parent' or role == 'student' %}<a href="{% url 'records' %}" class="{% if u == 'records' or u == 'absence_choose' or u == 'absence_form' %}on{% endif %}">{% icon 'home' %}<span class="lbl">{% if role == 'parent' %}{% t "Parent account" %}{% else %}{% t "Student account" %}{% endif %}</span></a>{% endif %}
+  </nav>
+  <div class="help"><b>{% t "A little help, when you need it." %}</b><small class="muted">{% t "Call the center" %}</small></div>
+  <div class="me"><span class="avatar">{{ user.first_name|default:user.username|slice:":2"|upper }}</span><div><b>{{ user.first_name|default:user.username }}</b><small class="muted">{% t role_label %}</small></div>
+    <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="iconbtn" title="{% t 'Log out' %}">{% icon 'logout' 18 %}</button></form></div>
+</aside>
+<div class="main">
+  <header class="topbar">
+    <span class="crumb">{% t "Workspace" %} / <b>{% block crumb %}{% endblock %}</b></span>
+    {% if role != 'parent' and role != 'student' %}<form class="searchbox" action="{% url 'search' %}">{% icon 'search' 16 %}<input type="search" name="q" placeholder="{% t 'Search students, groups...' %}" value="{{ request.GET.q }}"></form>{% endif %}
+    <div class="top-r">
+      {% if roles|length > 1 %}<a class="chip" href="{% url 'select_role' %}" title="{% t 'Select role' %}">{% t role_label %} ⇄</a>{% else %}<span class="chip">{% t role_label %}</span>{% endif %}
+      <a class="bell" href="{% url 'notifications' %}" title="{% t 'Notifications' %}">{% icon 'bell' 20 %}{% if unread %}<i>{{ unread }}</i>{% endif %}</a>
+      <span class="langs">{% for c in LANGS %}<a class="lang {% if c == lang %}on{% endif %}" href="{% url 'lang' c %}">{{ c|upper }}</a>{% endfor %}</span>
+    </div>
+  </header>
+  <div id="sync" class="sync" hidden></div>
+  <main class="page">
+    {% for m in messages %}<div class="msg {{ m.tags }}">{% t m %}</div>{% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+</div></div>
+{% endwith %}
+{% else %}
+<div class="gtop"><a class="brand" href="/"><span class="logo">{% icon 'book' 22 %}</span><span><b>ITmatic</b><small>{% t "Learning center" %}</small></span></a>
+  <span class="langs">{% for c in LANGS %}<a class="lang {% if c == lang %}on{% endif %}" href="{% url 'lang' c %}">{{ c|upper }}</a>{% endfor %}</span></div>
+<main class="guest">{% for m in messages %}<div class="msg {{ m.tags }}">{% t m %}</div>{% endfor %}{% block guest %}{% endblock %}</main>
+{% endif %}
+{% if role == 'teacher' %}<script src="{% static 'core/offline.js' %}"></script>{% endif %}
+<script src="{% static 'core/app.js' %}"></script>
+{% block js %}{% endblock %}
+</body></html>

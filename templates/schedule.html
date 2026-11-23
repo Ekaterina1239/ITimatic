@@ -1,0 +1,37 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Schedule" %}{% endblock %}{% block crumb %}{% t "Schedule" %}{% endblock %}
+{% block content %}
+<div class="row"><div><p class="eyebrow">{% t "Scheduling & attendance" %}</p><h1>{% t "Every lesson, accounted for." %}</h1><p class="sub">{% t "Plan the week, record attendance and keep families informed when things change." %}</p></div>
+ <div>{% if can_plan %}<a class="btn alt" href="{% url 'lesson_new' %}">+ {% t "Schedule lesson" %}</a> <a class="btn alt" href="{% url 'teacher_absence' %}">{% icon 'users' 16 %} {% t "Teacher absence" %}</a>{% endif %}</div></div>
+<div class="row" style="margin:.4rem 0 .8rem">
+ <div class="inline" style="flex:none"><a class="btn alt" href="?week={{ prev|date:'Y-m-d' }}&teacher={{ tid|default:'' }}&room={{ rid|default:'' }}">‹</a><b style="font-size:1.15rem;align-self:center">{{ mon|date:"d.m" }}–{{ days.5|date:"d.m.Y" }}</b>
+ <a class="btn alt" href="?week={{ next|date:'Y-m-d' }}&teacher={{ tid|default:'' }}&room={{ rid|default:'' }}">›</a><a class="btn alt" href="?">{% t "Today" %}</a></div>
+ {% if role != 'teacher' %}<form class="inline" style="flex:none"><input type="hidden" name="week" value="{{ mon|date:'Y-m-d' }}">
+ <select name="teacher" onchange="this.form.submit()"><option value="">{% t "All teachers" %}</option>{% for u in teachers %}<option value="{{ u.pk }}" {% if tid == u.pk|stringformat:'s' %}selected{% endif %}>{{ u.first_name|default:u.username }}</option>{% endfor %}</select>
+ <select name="room" onchange="this.form.submit()"><option value="">{% t "All rooms" %}</option>{% for rm in rooms %}<option value="{{ rm.pk }}" {% if rid == rm.pk|stringformat:'s' %}selected{% endif %}>{{ rm.name }}</option>{% endfor %}</select></form>{% endif %}</div>
+<div class="split">
+ <div class="card tw" style="padding:1rem;overflow-x:auto"><div class="week">
+  <div></div>{% for d in days %}<div class="wd {% if d == today %}today{% endif %}">{{ d|date:"D j" }}</div>{% endfor %}
+  {% for row in grid %}<div class="wt">{{ row.time }}</div>{% for col in row.cols %}<div class="wc">{% for l in col %}
+   <a class="ls {{ l.flag }} {% if panel and panel.l.id == l.id %}sel{% endif %}" href="?week={{ mon|date:'Y-m-d' }}&teacher={{ tid|default:'' }}&room={{ rid|default:'' }}&lesson={{ l.pk }}"><b>{{ l.group.name }}</b>{{ l.teacher.last_name|default:l.teacher.first_name|default:l.teacher.username }} · {{ l.room|default:"-" }}<br>{{ l.start|date:"H:i" }}–{{ l.end|date:"H:i" }}
+   {% if l.flag == 'conflict' %}<small class="tag">{% if l.conflict_kind == 'room' %}{% t "Room conflict" %}{% else %}{% t "Teacher conflict" %}{% endif %}</small>{% elif l.flag == 'cover' %}<small class="tag">{% t "Cover pending" %}</small>{% elif l.flag == 'makeup' %}<small class="tag">{% t "Make-up" %}</small>{% elif l.flag == 'cancelled' %}<small class="tag">{% t "Cancelled" %}</small>{% endif %}
+   {% if l.substitute %}<small class="tag" style="color:var(--p)">{% t "Substitute" %}: {{ l.substitute.first_name }}</small>{% endif %}</a>{% endfor %}</div>{% endfor %}{% endfor %}
+  </div>
+  {% if not grid %}<p class="muted" style="padding:1rem">{% t "No lessons" %}</p>{% endif %}
+  <div class="legend"><span><i class="dot" style="background:var(--p)"></i>{% t "Selected" %}</span><span><i class="dot" style="background:var(--warn)"></i>{% t "Cover pending" %}</span><span><i class="dot" style="background:var(--bad)"></i>{% t "Conflict" %}</span><span><i class="dot" style="background:var(--ok)"></i>{% t "Make-up" %}</span><span style="margin-left:auto">{{ n }} {% t "lessons this week" %} · Tashkent (UTC+5)</span></div></div>
+ <div>{% if panel %}<div class="card"><h2>{{ panel.l.group.name }}</h2>
+  <p class="muted">{{ panel.l.start|date:"D d.m · H:i" }}–{{ panel.l.end|date:"H:i" }} · {% t "Room" %} {{ panel.l.room|default:"-" }}<br>{{ panel.l.teacher.first_name|default:panel.l.teacher.username }} · {{ panel.studs|length }} {% t "students" %}
+  {% if panel.l.attendance_saved_at %}<br><span class="pill ok">{% t "Saved" %}</span>{% elif panel.not_marked %}<br><span class="pill">{{ panel.not_marked }} {% t "not marked" %}</span>{% endif %}</p>
+  {% if panel.editable and panel.l.status == 'scheduled' and not panel.future %}
+  <form method="post" action="{% url 'lesson' panel.l.pk %}" class="form">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}"><input type="hidden" name="topic" value="{{ panel.l.topic }}"><input type="hidden" name="homework" value="{{ panel.l.homework }}">
+   {% for s in panel.studs %}<div class="mini"><span>{{ s.name }}{% if s.pre %} <span class="pill bad">{% t "Pre-notified absence" %}</span>{% endif %}</span>
+    <select name="status_{{ s.id }}"><option value="" disabled {% if not s.current %}selected{% endif %}>{% t "Not marked" %}</option>{% for k,v in "present:Present,late:Late,absent:Absent"|split_pairs %}<option value="{{ k }}" {% if s.current == k %}selected{% endif %}>{% t v %}</option>{% endfor %}</select></div>{% endfor %}
+   <div class="inline" style="margin-top:.8rem"><button class="btn">{% t "Save attendance" %}</button><button class="btn alt" name="notify" value="1">{% icon 'send' 15 %} {% t "Save & notify parents" %}</button></div></form>
+  {% else %}{% for s in panel.studs %}<div class="mini"><span>{{ s.name }}</span>{% if s.pre %}<span class="pill bad">{% t "Pre-notified absence" %}</span>{% elif s.current %}<span class="pill {{ s.current }}">{% t s.current|capfirst %}</span>{% endif %}</div>{% endfor %}
+   {% if panel.future and panel.editable %}<p class="muted" style="margin-top:.6rem"><small>{% t "Attendance opens 15 minutes before the lesson." %}</small></p>{% endif %}{% endif %}
+ </div>{% else %}<div class="card muted">{% t "Select a lesson to see its students." %}</div>{% endif %}</div>
+</div>
+<div class="alerts">
+ {% for l in cover_list %}<div class="alert warn row"><div><b>{% t "Substitute approval needed" %}</b><br><small>{{ l.start|date:"D d.m" }} · {{ l.group.teacher.first_name }}</small></div>{% if can_plan %}<a href="{% url 'teacher_absence' %}?teacher={{ l.group.teacher_id }}&from={{ l.start|date:'Y-m-d' }}&to={{ l.start|date:'Y-m-d' }}">{% t "Review" %} →</a>{% endif %}</div>{% endfor %}
+ {% for l in conflict_list %}<div class="alert bad"><b>{% t "Resolve room conflict" %}</b><br><small>{{ l.start|date:"D d.m H:i" }} · {% t "Room" %} {{ l.room|default:"-" }}: {{ l.group.name }}</small></div>{% endfor %}
+</div>
+{% endblock %}

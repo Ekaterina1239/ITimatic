@@ -1,0 +1,65 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{{ a.name }}{% endblock %}{% block crumb %}{% t "Enrolment" %}{% endblock %}
+{% block content %}
+<div class="row"><div><p class="eyebrow">{% t "Admissions" %} / {% t "Applicant" %}</p><h1>{{ a.name }}</h1>
+<p class="sub">{{ a.code }} · {{ a.course }} {% t a.get_level_display %} · {% t "Parent" %}: {{ a.parent_name|default:"-" }} · +{{ a.parent_phone }}</p></div>
+<div><span class="pill s-{{ a.status }}">{% t a.get_status_display %}</span></div></div>
+{% if a.status == 'new' %}{% if can_edit %}<form method="post" class="card">{% csrf_token %}<input type="hidden" name="action" value="start"><button class="btn">{% t "Start enrolment" %}</button></form>{% endif %}{% endif %}
+{% if a.status == 'lost' %}<div class="msg error">{% t "Closed as Lost" %}: {% t a.get_lost_reason_display %} {{ a.lost_note }}<br><small>{% t "On follow-up list" %}</small>
+ {% if can_edit %}<form method="post" class="inline" style="margin-top:.5rem">{% csrf_token %}{% if a.follow_up %}<button class="btn sm" name="action" value="contacted">{% t "Mark contacted" %}</button>{% endif %}<button class="btn sm alt" name="action" value="reopen">{% t "Re-open" %}</button></form>{% endif %}</div>{% endif %}
+{% if a.status == 'completed' %}<div class="msg success">{% t "Student record created" %}: {{ a.group }} <a href="{% url 'student_finance' a.student.pk %}">→</a></div>{% endif %}
+{% if a.status == 'in_progress' or a.status == 'waiting' or a.status == 'completed' %}
+<div class="split"><div class="steps">
+ <div class="step {% if a.placement_done %}done{% endif %}"><b>1</b><div class="card"><h2>{% t "Level test" %}</h2>
+  {% if a.placement_done %}<p>{% if a.placement_skipped %}<span class="pill warn">{% t "Skipped" %}</span> {{ a.skip_reason }}{% else %}<span class="pill ok">{{ a.placement_score }} / 100</span> {% t a.get_level_display %} · {{ a.test_date|date:"d.m.Y" }}{% endif %}</p>{% endif %}
+  {% if can_edit and a.status != 'completed' %}<form method="post" class="form">{% csrf_token %}<input type="hidden" name="action" value="placement">
+   <div class="inline"><label>{% t "Score" %} · 0–100<input type="number" name="score" min="0" max="100" value="{{ a.placement_score|default_if_none:'' }}"></label>
+   <label>{% t "Test date" %}<input type="date" name="test_date" value="{{ a.test_date|date:'Y-m-d' }}"></label>
+   <label>{% t "Recommended level" %}<select name="level">{% for k,v in levels %}<option value="{{ k }}" {% if k == a.level %}selected{% endif %}>{% t v %}</option>{% endfor %}</select></label></div>
+   <label style="margin-top:.6rem">{% t "Reason required if skipped" %}<input name="skip_reason" value="{{ a.skip_reason }}" placeholder="{% t 'Beginner / previous placement certificate' %}"></label>
+   <button class="btn">{% t "Save result" %}</button> <button class="btn alt" name="skip" value="1">{% t "Skip test" %}</button></form>{% endif %}</div></div>
+
+ <div class="step {% if a.conversation_result == 'accepted' %}done{% endif %} {% if not a.placement_done %}lock{% endif %}"><b>2</b><div class="card"><h2>{% t "Teacher conversation" %}</h2>
+  {% if a.conversation_result %}<p><span class="pill {% if a.conversation_result == 'accepted' %}ok{% else %}bad{% endif %}">{% t a.get_conversation_result_display %}</span> {{ a.conversation_note }}</p>
+   {% if a.conversation_result == 'not_suitable' and can_edit %}<form method="post">{% csrf_token %}<button class="btn sm alt" name="action" value="reset_conversation">{% t "Repeat with another teacher / level" %}</button></form>{% endif %}
+  {% elif a.placement_done and a.status == 'in_progress' and not a.conversation_result %}
+   <form method="post" class="form">{% csrf_token %}<input type="hidden" name="action" value="conversation"><label>{% t "Note" %}<input name="note"></label>
+   <div class="seg2"><button class="btn" name="result" value="accepted">{% t "Accepted" %}</button><button class="btn alt" name="result" value="not_suitable">{% t "Not suitable" %}</button></div></form>{% endif %}</div></div>
+
+ <div class="step {% if a.trial_attended %}done{% endif %} {% if a.conversation_result != 'accepted' %}lock{% endif %}"><b>3</b><div class="card"><h2>{% t "Trial lesson" %}</h2>
+  {% if a.trial_attended is not None %}<p><span class="pill {% if a.trial_attended %}ok{% else %}bad{% endif %}">{% if a.trial_attended %}{% t "Attended" %}{% else %}{% t "Did not attend" %}{% endif %}</span></p>{% endif %}
+  {% if can_edit and a.conversation_result == 'accepted' and a.status == 'in_progress' %}<div class="seg2"><form method="post">{% csrf_token %}<input type="hidden" name="action" value="trial"><button class="btn {% if a.trial_attended is not True %}alt{% endif %}" name="value" value="yes">{% t "Attended" %}</button></form>
+   <form method="post">{% csrf_token %}<input type="hidden" name="action" value="trial"><button class="btn alt" name="value" value="no">{% t "Did not attend" %}</button></form></div>{% endif %}</div></div>
+
+ <div class="step {% if a.feedback == 'wants_join' %}done{% endif %} {% if not a.trial_attended %}lock{% endif %}"><b>4</b><div class="card"><h2>{% t "Student feedback" %}</h2>
+  {% if a.feedback %}<p><span class="pill {% if a.feedback == 'wants_join' %}ok{% else %}warn{% endif %}">{% t a.get_feedback_display %}</span></p>{% endif %}
+  {% if can_edit and a.trial_attended and a.status == 'in_progress' %}<div class="seg2">{% for k,v in a.FEEDBACK %}<form method="post">{% csrf_token %}<input type="hidden" name="action" value="feedback"><button class="btn {% if a.feedback != k %}alt{% endif %}" name="value" value="{{ k }}">{% t v %}</button></form>{% endfor %}</div>{% endif %}</div></div>
+
+ <div class="step {% if a.contract_done %}done{% endif %} {% if a.feedback != 'wants_join' %}lock{% endif %}"><b>5</b><div class="card"><div class="row"><h2>{% t "Contract" %}</h2>{% if a.contract_done %}<span class="pill ok">{% t "Signed" %}</span>{% elif a.contract_prepared %}<span class="pill warn">{% t "Prepared" %}</span>{% endif %}</div>
+  {% if a.contract_done %}<p>{{ a.contract_number }} · {{ a.contract_date|date:"d.m.Y" }} · <a href="{{ a.contract_scan.url }}" target="_blank">{% t "View scan" %}</a></p>{% endif %}
+  {% if can_edit and a.feedback == 'wants_join' and a.status == 'in_progress' %}
+   <form method="post" enctype="multipart/form-data" class="form">{% csrf_token %}<input type="hidden" name="action" value="contract">
+   <div class="inline"><label>{% t "Contract number" %}<input name="number" value="{{ a.contract_number|default:a.suggested_contract_number }}" required></label>
+   <label>{% t "Signing date" %}<input type="date" name="date" value="{{ a.contract_date|date:'Y-m-d' }}" required></label></div>
+   <label style="margin-top:.6rem">{% t "Upload signed scan" %} <small>(PDF / JPG / PNG · {% t "up to" %} 10 MB)</small><input type="file" name="scan" accept=".pdf,.jpg,.jpeg,.png"></label>
+   <button class="btn big">{% t "Record signed contract" %}</button></form>
+   {% if not a.contract_prepared %}<form method="post">{% csrf_token %}<button class="btn sm alt" name="action" value="prepare_contract" style="margin-top:.5rem">{% t "Mark contract as prepared" %}</button></form>{% endif %}{% endif %}</div></div>
+
+ <div class="step {% if a.status == 'completed' %}done{% endif %} {% if a.stage < 6 %}lock{% endif %}"><b>6</b><div class="card"><h2>{% t "Add to group" %}</h2>
+  {% if a.status == 'completed' %}<p><span class="pill ok">{{ a.group }}</span></p>
+  {% elif can_edit %}
+   {% if groups %}<form method="post" class="inline">{% csrf_token %}<input type="hidden" name="action" value="add_to_group"><label>{% t "Suggested group" %}<select name="group">{% for g in groups %}<option value="{{ g.pk }}">{{ g.name }}{% if g.branch %} · {{ g.branch }}{% endif %} · {{ g.places_left }} {% t "places" %}</option>{% endfor %}</select></label>
+    <button class="btn" {% if a.stage < 6 %}disabled{% endif %}>{% t "Add to group" %}</button></form>
+    {% if a.stage < 6 %}<p class="hint">{% t "This applicant cannot join a group until a signed contract is recorded." %}</p>{% endif %}
+   {% elif a.placement_done %}<p class="muted">{% t "No suitable group available" %}</p>{% endif %}{% endif %}</div></div>
+</div>
+<aside><div class="card"><h2>{% t "Applicant details" %}</h2><dl class="kv"><dt>{% t "Course" %}</dt><dd>{{ a.course }}</dd><dt>{% t "Phone" %}</dt><dd>{{ a.phone|default:"-" }}</dd><dt>{% t "Age" %}</dt><dd>{{ a.age }}</dd><dt>{% t "Group type" %}</dt><dd>{% t a.get_kind_display %}</dd></dl></div>
+ {% if can_edit and a.status != 'completed' and a.status != 'lost' and a.placement_done %}
+ <div class="card"><h3>{% t "No free group?" %}</h3><p class="muted">{% t "Keep the applicant on the waiting list and notify the family when a place opens." %}</p>
+  {% if a.status == 'waiting' %}<span class="pill s-waiting">{% t "Waiting list" %}</span>{% else %}<form method="post">{% csrf_token %}<button class="btn alt big" name="action" value="waitlist">{% t "Move to waiting list" %}</button></form>{% endif %}</div>{% endif %}
+ <div class="card"><h3>{% t "Activity" %}</h3><ul class="log">{% for k, v in log %}<li>{% t k %} · {{ v }}</li>{% endfor %}</ul></div>
+ {% if can_edit and a.status == 'in_progress' or can_edit and a.status == 'waiting' %}<form method="post" class="card form" id="lost">{% csrf_token %}<input type="hidden" name="action" value="lost"><h3>{% t "Close as Lost" %}</h3>
+  <label>{% t "Reason" %}<select name="reason">{% for k,v in reasons %}<option value="{{ k }}" {% if a.feedback == 'declines' and k == 'other' %}selected{% endif %}>{% t v %}</option>{% endfor %}</select></label>
+  <label>{% t "Note" %} ({% t "required for Other" %})<input name="note"></label><button class="btn bad big">{% t "Close as Lost" %}</button></form>{% endif %}
+</aside></div>
+{% endif %}
+{% endblock %}

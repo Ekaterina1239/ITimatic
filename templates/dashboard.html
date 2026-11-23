@@ -1,0 +1,56 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Overview" %}{% endblock %}{% block crumb %}{% t "Overview" %}{% endblock %}
+{% block content %}
+<p class="eyebrow">{{ today|date:"l, d.m.Y" }}</p>
+{% if role == 'admin' %}
+<h1>{% t "A clear view of your center." %}</h1><p class="sub">{% t "Here is what needs your attention today." %}</p>
+<div class="grid g4">
+  <a class="stat" href="{% url 'students' %}"><span>{% t "Active students" %}</span><b>{{ students }}</b><small class="good">{% t "in" %} {{ groups_n }} {% t "groups" %}</small></a>
+  <a class="stat" href="{% url 'groups' %}"><span>{% t "Active groups" %}</span><b>{{ groups_n }}</b><small class="muted">{{ teachers_n }} {% t "teachers" %}</small></a>
+  <div class="stat"><span>{% t "Seat utilization" %}</span><b>{{ util }}%</b><small class="muted">{{ students }} / {{ seats }} {% t "places filled" %}</small></div>
+  <div class="stat"><span>{% t "Collected this month" %}</span><b>{{ collected|som }}</b><small class="good">{{ collected_pct }}% {% t "of scheduled" %} {{ scheduled|som }}</small></div>
+</div>
+{% for r in ready %}<div class="msg warning row"><span>{% t "Enough applicants waiting to open a group" %}: {{ r.course__name }} / {{ r.level }} · {{ r.kind }} ({{ r.n }})</span>
+  <a class="btn sm" href="{% url 'group_new' %}?course={{ r.course }}&level={{ r.level }}&kind={{ r.kind }}">{% t "Create group" %}</a></div>{% endfor %}
+<div class="split">
+ <div>
+  <div class="card tw"><div class="row" style="padding:1rem 1.2rem 0"><div><h2>{% t "Today's lessons" %}</h2><small class="muted">{{ lessons|length }} {% t "lessons scheduled" %}</small></div><a href="{% url 'schedule' %}">{% t "Open schedule" %} →</a></div>
+   <table style="margin-top:.8rem"><tr><th>{% t "Time" %}</th><th>{% t "Group" %}</th><th>{% t "Teacher" %}</th><th>{% t "Room" %}</th><th>{% t "Status" %}</th></tr>
+   {% for l in lessons %}<tr><td>{{ l.start|date:"H:i" }}–{{ l.end|date:"H:i" }}</td><td><a href="{% url 'schedule' %}?week={{ l.start|date:'Y-m-d' }}&lesson={{ l.pk }}">{{ l.group.name }}</a></td><td>{{ l.teacher.first_name|default:l.teacher.username }}</td><td>{{ l.room|default:"-" }}</td>
+    <td>{% if l.status == 'cancelled' %}<span class="pill bad">{% t "Cancelled" %}</span>{% elif l.attendance_saved_at %}<span class="pill ok">{% t "Saved" %}</span>{% elif l.overdue %}<span class="pill bad">{% t "Not recorded" %}</span>{% else %}<span class="pill warn">{% t "Attendance due" %}</span>{% endif %}</td></tr>
+   {% empty %}<tr><td colspan="5" class="muted">{% t "No lessons" %}</td></tr>{% endfor %}</table></div>
+  <div class="grid g2">
+   <div class="card"><h2>{% t "Attendance trend" %}</h2><small class="muted">{% t "Last 5 weeks · all active groups" %}</small>
+    <div class="bars">{% for w in trend %}<div><b>{% if w.pct is not None %}{{ w.pct }}%{% else %}-{% endif %}</b><i style="height:{{ w.pct|default:0 }}%"></i>{{ w.label }}</div>{% endfor %}</div>
+    <a href="{% url 'missing' %}">{% t "Missing attendance" %} ({{ missing }}) →</a></div>
+   <div class="card"><h2>{% t "Payment collections" %}</h2><small class="muted">{% t "Received payments · last 6 months" %}</small>
+    <div class="bars">{% for m in money %}<div><b>{{ m.sum|floatformat:0 }}</b><i style="height:{{ m.h }}%"></i>{{ m.label }}</div>{% endfor %}</div>
+    <a href="{% url 'finance' %}">{% t "Finance" %} →</a></div>
+  </div>
+ </div>
+ <div class="card"><h2>{% t "Needs attention" %}</h2>
+  {% for a in deciding %}<div class="mini"><div><b>{% t "Enrolment decisions pending" %}</b><br><small class="muted">{{ a.name }} · {% if a.stage == 5 %}{% t "Contract" %}{% else %}{% t "Add to group" %}{% endif %}</small></div><a href="{% url 'applicant_detail' a.pk %}">{% t "Review" %} →</a></div>{% endfor %}
+  {% for l in cover %}<div class="mini"><div><b>{% t "Cover needed" %} · {{ l.start|date:"d.m H:i" }}</b><br><small class="muted">{{ l.group.name }} · {{ l.group.teacher.first_name }}</small></div>{% if role == 'admin' %}<a href="{% url 'teacher_absence' %}?teacher={{ l.group.teacher_id }}&from={{ l.start|date:'Y-m-d' }}&to={{ l.start|date:'Y-m-d' }}">{% t "Confirm substitute" %} →</a>{% endif %}</div>{% endfor %}
+  {% if pending_discounts %}<div class="mini"><div><b>{{ pending_discounts }} {% t "Discounts" %}</b></div><a href="{% url 'discounts' %}">{% t "Review" %} →</a></div>{% endif %}
+  {% if not deciding and not cover and not pending_discounts %}<p class="muted">{% t "Nothing here" %}</p>{% endif %}
+  {% if role == 'admin' %}<p style="margin-top:1rem"><a class="btn big" href="{% url 'applicant_new' %}">+ {% t "New enquiry" %}</a></p>{% endif %}</div>
+</div>
+{% elif role == 'accountant' %}
+<h1>{% t "Finance" %}</h1><p class="sub">{% t "Payments, debtors and discounts." %}</p>
+<div class="grid g4">
+ <div class="stat"><span>{% t "Received today" %}</span><b>{{ paid_today|som }}</b></div>
+ <div class="stat"><span>{% t "Collected this month" %}</span><b>{{ collected|som }}</b></div>
+ <a class="stat {% if debt %}warn{% endif %}" href="{% url 'debtors' %}"><span>{% t "Amount due" %}</span><b>{{ debt|som }}</b></a>
+ <a class="stat" href="{% url 'discounts' %}"><span>{% t "Discounts" %}</span><b>{{ pending_discounts }}</b><small class="muted">{% t "Pending" %}</small></a></div>
+<p><a class="btn" href="{% url 'payment_new' %}">{% t "Take payment" %}</a> <a class="btn alt" href="{% url 'debtors' %}">{% t "Monthly debtors" %}</a></p>
+<div class="card"><h2>{% t "Payment collections" %}</h2><div class="bars">{% for m in money %}<div><b>{{ m.sum|floatformat:0 }}</b><i style="height:{{ m.h }}%"></i>{{ m.label }}</div>{% endfor %}</div></div>
+{% elif role == 'teacher' %}
+<h1>{% t "My workspace" %}</h1><p class="sub">{% t "Today's lessons" %}</p>
+{% for l in lessons %}<a class="card row" href="{% url 'attendance_app' %}?lesson={{ l.pk }}#{{ l.pk }}"><div><b>{{ l.group.name }}</b><br><small class="muted">{{ l.start|date:"H:i" }}–{{ l.end|date:"H:i" }} · {% t "Room" %} {{ l.room|default:"-" }}</small></div>
+ <span class="pill {% if l.status == 'cancelled' %}bad{% elif l.attendance_saved_at %}ok{% elif l.overdue %}bad{% else %}warn{% endif %}">{% if l.status == 'cancelled' %}{% t "Cancelled" %}{% elif l.attendance_saved_at %}{% t "Saved" %}{% else %}{% t "Open lesson form" %}{% endif %}</span></a>
+{% empty %}<p class="muted">{% t "No lessons" %}</p>{% endfor %}
+{% if upcoming %}<h2 style="margin-top:1.2rem">{% t "Next 7 days" %}</h2>{% for l in upcoming %}<div class="card row"><span><b>{{ l.group.name }}</b> · {{ l.start|date:"D d.m H:i" }}</span><small class="muted">{{ l.room|default:"" }}</small></div>{% endfor %}{% endif %}
+<h2 style="margin-top:1.2rem">{% t "My groups" %}</h2>
+<div class="grid g2">{% for g in my_groups %}<a class="card row" href="{% url 'group_detail' g.pk %}"><b>{{ g.name }}</b><span class="pill">{{ g.size }}/{{ g.capacity }}</span></a>{% endfor %}</div>
+{% if to_meet %}<h2>{% t "Applicants to meet" %}</h2>{% for a in to_meet %}<a class="card row" href="{% url 'applicant_detail' a.pk %}"><b>{{ a.name }}</b><small class="muted">{{ a.course }}</small></a>{% endfor %}{% endif %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Groups" %}{% endblock %}{% block crumb %}{% t "Groups" %}{% endblock %}
+{% block content %}
+<div class="row"><div><p class="eyebrow">{% t "Groups management" %}</p><h1>{% t "Groups" %}</h1></div>{% if role == 'admin' %}<a class="btn" href="{% url 'group_new' %}">+ {% t "Create group" %}</a>{% endif %}</div>
+{% for r in ready %}<div class="msg warning row"><span>{% t "Enough applicants waiting to open a group" %}: {{ r.course__name }} / {{ r.level }} · {{ r.kind }} ({{ r.n }})</span>{% if role == 'admin' %}<a class="btn sm" href="{% url 'group_new' %}?course={{ r.course }}&level={{ r.level }}&kind={{ r.kind }}">{% t "Create group" %}</a>{% endif %}</div>{% endfor %}
+<div class="card tw"><table><tr><th>{% t "Group" %}</th><th>{% t "Course" %}</th><th>{% t "Type" %}</th><th>{% t "Teacher" %}</th><th>{% t "Room" %}</th><th>{% t "Seats" %}</th></tr>
+{% for g in items %}<tr><td><a href="{% url 'group_detail' g.pk %}"><b>{{ g.name }}</b></a></td><td>{{ g.course }} · {% t g.get_level_display %}</td><td>{% t g.get_kind_display %}</td><td>{{ g.teacher.first_name|default:g.teacher.username|default:"-" }}</td><td>{{ g.room|default:"-" }}</td>
+<td><span class="pill {% if g.n >= g.capacity %}bad{% endif %}">{{ g.n }}/{{ g.capacity }}</span></td></tr>{% empty %}<tr><td colspan="6" class="muted">{% t "Nothing here" %}</td></tr>{% endfor %}</table></div>
+{% endblock %}

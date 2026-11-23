@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Select role" %}{% endblock %}
+{% block guest %}
+<div style="margin-top:3rem"><h1>{% t "Select role" %}</h1>
+<p class="sub">{% t "Several roles are linked to this phone number. Choose an assigned workspace." %}</p>
+{% for k, label in options %}<form method="post">{% csrf_token %}<input type="hidden" name="role" value="{{ k }}"><button class="btn alt big" style="margin-bottom:.6rem">{% t label %} →</button></form>{% endfor %}
+<form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn alt big">{% t "Change phone number" %}</button></form></div>
+{% endblock %}

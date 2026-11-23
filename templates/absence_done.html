@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Report absence" %}{% endblock %}{% block crumb %}{% t "Parent account" %}{% endblock %}
+{% block content %}
+<div style="max-width:560px"><h1>{% if withdrawn %}{% t "Notice withdrawn" %}{% else %}{% t "Report sent" %}{% endif %}</h1><p class="sub">3 / 3 · {{ s.name }}</p>
+{% if withdrawn %}<div class="msg">{{ l.start|date:"D d.m H:i" }}: {% t "The absence notice was withdrawn." %}</div>
+{% else %}<div class="msg success"><b>{% if kind == 'late' %}{% t "Late" %} {{ minutes }} {% t "min" %}{% else %}{% t "Absent" %}{% endif %}</b> · {% t "The teacher can see your notice before the lesson." %}</div>
+{% for x in covered %}<div class="mini"><span>{{ x.start|date:"D d.m H:i" }}</span><span class="pill bad">{% if kind == 'late' %}{% t "Late" %}{% else %}{% t "Absent" %}{% endif %}</span></div>{% endfor %}{% endif %}
+<p style="margin-top:1rem"><a class="btn big" href="{% url 'records' %}?child={{ s.pk }}">{% t "Parent account" %}</a></p></div>
+{% endblock %}

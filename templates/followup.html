@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Follow-up list" %}{% endblock %}{% block crumb %}{% t "Enrolment" %}{% endblock %}
+{% block content %}
+<h1>{% t "Follow-up list" %}</h1><p class="sub">{% t "Applicants closed as Lost, with the reason they gave." %}</p>
+{% for a in items %}<a class="card" href="{% url 'applicant_detail' a.pk %}"><div class="row"><b>{{ a.name }}</b><span class="pill {% if a.follow_up %}warn{% else %}ok{% endif %}">{% if a.follow_up %}{% t "Follow-up" %}{% else %}{% t "Mark contacted" %}{% endif %}</span></div>
+ <small class="muted">{{ a.course }} · +{{ a.parent_phone }}</small><p style="margin:.3rem 0 0">{% t "Refusal reason" %}: {% t a.get_lost_reason_display %} {{ a.lost_note }}</p></a>
+{% empty %}<p class="muted">{% t "Nothing here" %}</p>{% endfor %}
+{% endblock %}

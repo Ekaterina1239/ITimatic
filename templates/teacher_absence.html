@@ -1,0 +1,20 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Teacher absence" %}{% endblock %}{% block crumb %}{% t "Schedule" %}{% endblock %}
+{% block content %}
+<p class="eyebrow">{% t "Schedule" %} / UC-4</p><h1>{% t "Teacher absence" %}</h1><p class="sub">{% t "Choose the absent teacher and dates. Find a substitute or cancel; parents are notified automatically." %}</p>
+<form class="card inline form" method="get"><label>{% t "Teacher" %}<select name="teacher">{% for u in teachers %}<option value="{{ u.pk }}" {% if tid == u.pk %}selected{% endif %}>{{ u.first_name|default:u.username }}</option>{% endfor %}</select></label>
+ <label>{% t "From" %}<input type="date" name="from" value="{{ d1|date:'Y-m-d' }}"></label><label>{% t "To" %}<input type="date" name="to" value="{{ d2|date:'Y-m-d' }}"></label><button class="btn">{% t "Show lessons" %}</button></form>
+{% if tid %}
+<form method="post" class="inline" style="margin-bottom:.8rem">{% csrf_token %}<input type="hidden" name="mode" value="register"><input type="hidden" name="teacher" value="{{ tid }}"><input type="hidden" name="from" value="{{ d1|date:'Y-m-d' }}"><input type="hidden" name="to" value="{{ d2|date:'Y-m-d' }}">
+ <input name="reason" placeholder="{% t 'Reason (sick leave...)' %}"><button class="btn alt">{% t "Register absence" %}</button></form>
+{% for l in lessons %}<div class="card"><div class="row"><div><b>{{ l.group.name }}</b> · {{ l.start|date:"D d.m H:i" }}–{{ l.end|date:"H:i" }} · {% t "Room" %} {{ l.room|default:"-" }}
+ {% if l.status == 'cancelled' %}<span class="pill bad">{% t "Cancelled" %}</span>{% elif l.substitute %}<span class="pill ok">{% t "Substitute" %}: {{ l.substitute.first_name }}</span>{% else %}<span class="pill warn">{% t "Cover pending" %}</span>{% endif %}</div></div>
+ {% if l.status == 'scheduled' and not l.substitute %}
+ <div class="inline" style="margin-top:.7rem">
+ <form method="post" class="inline" style="flex:2">{% csrf_token %}<input type="hidden" name="lesson" value="{{ l.pk }}"><input type="hidden" name="mode" value="substitute"><input type="hidden" name="teacher" value="{{ tid }}"><input type="hidden" name="from" value="{{ d1|date:'Y-m-d' }}"><input type="hidden" name="to" value="{{ d2|date:'Y-m-d' }}">
+  <select name="substitute">{% for u in teachers %}{% if u.pk != tid %}<option value="{{ u.pk }}">{{ u.first_name|default:u.username }}</option>{% endif %}{% endfor %}</select>
+  <select name="room">{% for rm in rooms %}<option value="{{ rm.pk }}" {% if l.room_id == rm.pk %}selected{% endif %}>{{ rm.name }}</option>{% endfor %}</select><button class="btn">{% t "Assign substitute" %}</button></form>
+ <form method="post" class="inline" style="flex:1">{% csrf_token %}<input type="hidden" name="lesson" value="{{ l.pk }}"><input type="hidden" name="mode" value="cancel"><input type="hidden" name="teacher" value="{{ tid }}"><input type="hidden" name="from" value="{{ d1|date:'Y-m-d' }}"><input type="hidden" name="to" value="{{ d2|date:'Y-m-d' }}">
+  <input name="reason" placeholder="{% t 'Reason' %}"><button class="btn alt">{% t "Cancel lesson" %}</button></form></div>{% endif %}</div>
+{% empty %}<p class="muted">{% t "No lessons" %}</p>{% endfor %}{% endif %}
+{% if absences %}<h2 style="margin-top:1.2rem">{% t "Registered absences" %}</h2>{% for ab in absences %}<div class="card row"><span><b>{{ ab.teacher.first_name|default:ab.teacher.username }}</b> · {{ ab.start_date|date:"d.m" }}–{{ ab.end_date|date:"d.m" }}</span><small class="muted">{{ ab.reason }}</small></div>{% endfor %}{% endif %}
+{% endblock %}

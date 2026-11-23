@@ -1,0 +1,20 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "My account" %}{% endblock %}{% block crumb %}{% if role == 'parent' %}{% t "Parent account" %}{% else %}{% t "Student account" %}{% endif %}{% endblock %}
+{% block content %}
+{% if not child %}<p class="muted">{% t "Nothing here" %}</p>{% else %}
+<p class="eyebrow">{% if role == 'parent' %}{% t "Parent account" %}{% else %}{% t "Student account" %}{% endif %}</p><h1>{{ child.name }}</h1><p class="sub">{{ child.group.name }} · {{ child.group.course }} · {{ child.group.teacher.first_name|default:"" }}</p>
+{% if studs|length > 1 %}<div class="chips">{% for s in studs %}<a class="{% if s.id == child.id %}on{% endif %}" href="?child={{ s.id }}">{{ s.name }}</a>{% endfor %}</div>{% endif %}
+<div class="grid g4">
+ <div class="stat"><span>{% t "Attendance" %}</span><b>{% if att_pct is not None %}{{ att_pct }}%{% else %}-{% endif %}</b></div>
+ <div class="stat {% if due %}warn{% endif %}"><span>{% t "Payment status" %}</span><b>{% if due %}{{ due|som }}{% else %}{% t "Paid" %}{% endif %}</b><small class="muted">{% if credit %}{% t "Credit" %}: {{ credit|som }}{% elif due %}{% t "Due" %}{% else %}&nbsp;{% endif %}</small></div>
+ {% if can_report %}<a class="stat" href="{% url 'absence_choose' child.pk %}"><span>{% t "Report absence" %}</span><b>{% icon 'send' 26 %}</b><small class="muted">{% t "Late or absent, up to 14 days ahead" %}</small></a>{% endif %}</div>
+<form class="inline" style="max-width:420px;margin-bottom:1rem"><input type="hidden" name="child" value="{{ child.id }}"><input type="search" name="q" value="{{ q }}" placeholder="{% t 'Search topics, homework, results' %}"><button class="btn alt">{% t "Search" %}</button></form>
+<div class="grid g2">
+ <div><h2>{% t "Schedule" %}</h2>{% for l in upcoming %}<div class="card"><div class="row"><b>{{ l.start|date:"D d.m · H:i" }}–{{ l.end|date:"H:i" }}</b>{% if l.status == 'cancelled' %}<span class="pill bad">{% t "Cancelled" %}</span>{% elif l.pre %}<span class="pill bad">{% if l.pre.kind == 'late' %}{% t "Late" %} {{ l.pre.minutes }} {% t "min" %}{% else %}{% t "Absent" %}{% endif %}</span>{% endif %}</div>
+  <small class="muted">{% t "Room" %} {{ l.room|default:"-" }}{% if l.substitute %} · {% t "Substitute" %}: {{ l.substitute.first_name }}{% endif %}{% if l.is_makeup %} · {% t "Make-up" %}{% endif %}</small></div>{% empty %}<p class="muted">{% t "No lessons" %}</p>{% endfor %}
+ <h2 style="margin-top:1rem">{% t "Attendance" %}</h2>{% for l in past %}<div class="mini"><span>{{ l.start|date:"d.m H:i" }}{% if l.topic %} · {{ l.topic }}{% endif %}</span>{% if l.att %}<span class="pill {{ l.att }}">{% t l.att|capfirst %}</span>{% else %}<span class="muted">-</span>{% endif %}</div>{% empty %}<p class="muted">{% t "Nothing here" %}</p>{% endfor %}</div>
+ <div><h2>{% t "Lesson materials" %}</h2>{% for l in mats %}<div class="card"><b>{{ l.topic|default:"-" }}</b> <small class="muted">{{ l.start|date:"d.m" }}</small>{% if l.homework %}<p style="margin:.3rem 0">{% t "Homework" %}: {{ l.homework }}{% if l.homework_due %} <small class="muted">({% t "due" %} {{ l.homework_due|date:"d.m" }})</small>{% endif %}</p>{% endif %}
+  {% for f in l.files.all %}<a href="{{ f.file.url }}" target="_blank">📎 {{ f.file.name|slice:"9:" }}</a><br>{% endfor %}</div>{% empty %}<p class="muted">{% t "Nothing here" %}</p>{% endfor %}
+ <h2 style="margin-top:1rem">{% t "Payments" %}</h2>{% for f in fees %}<div class="mini"><span>{{ f.month|date:"F Y" }} · {{ f.net|som }}</span><span class="pill {% if f.due %}bad{% else %}ok{% endif %}">{% if f.due %}{% t "Due" %} {{ f.due|som }}{% else %}{% t "Paid" %}{% endif %}</span></div>{% endfor %}
+ {% for p in payments %}<div class="mini"><small class="muted">{{ p.created_at|date:"d.m.Y" }} · {{ p.amount|som }}</small><a href="{% url 'receipt' p.pk %}">{% t "Receipt" %}</a></div>{% endfor %}</div>
+</div>{% endif %}
+{% endblock %}

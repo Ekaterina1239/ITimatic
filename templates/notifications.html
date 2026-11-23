@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Notifications" %}{% endblock %}{% block crumb %}{% t "Notifications" %}{% endblock %}
+{% block content %}
+<h1>{% t "Notifications" %}</h1>
+{% for n in items %}<div class="card row"><span>{% note n %}</span><small class="muted">{{ n.created_at|date:"d.m H:i" }}</small></div>
+{% empty %}<p class="muted">{% t "Nothing here" %}</p>{% endfor %}
+{% endblock %}

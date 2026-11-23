@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Enrolment" %}{% endblock %}{% block crumb %}{% t "Enrolment" %}{% endblock %}
+{% block content %}
+<div class="row"><div><p class="eyebrow">{% t "Admissions" %}</p><h1>{% t "Enrolment workspace" %}</h1></div>
+ {% if role == 'admin' %}<div><a class="btn" href="{% url 'applicant_new' %}">+ {% t "New enquiry" %}</a> <a class="btn alt" href="{% url 'followup' %}">{% t "Follow-up list" %}</a></div>{% endif %}</div>
+{% for r in ready %}<div class="msg warning">{% t "Enough applicants waiting to open a group" %}: {{ r.course__name }} / {{ r.level }} ({{ r.n }})</div>{% endfor %}
+<div class="chips"><a class="{% if not status %}on{% endif %}" href="?">{% t "All" %}</a>{% for k,v in statuses %}<a class="{% if status == k %}on{% endif %}" href="?status={{ k }}">{% t v %} · {{ counts|get:k|default:0 }}</a>{% endfor %}</div>
+<form class="inline" style="margin-bottom:.8rem;max-width:420px"><input type="search" name="q" value="{{ q }}" placeholder="{% t 'Name or phone' %}">{% if status %}<input type="hidden" name="status" value="{{ status }}">{% endif %}<button class="btn alt">{% t "Search" %}</button></form>
+<div class="card tw"><table><tr><th>{% t "Applicant" %}</th><th>{% t "Course" %}</th><th>{% t "Level" %}</th><th>{% t "Stage" %}</th><th>{% t "Status" %}</th></tr>
+{% for a in items %}<tr><td><a href="{% url 'applicant_detail' a.pk %}"><b>{{ a.name }}</b></a><br><small class="muted">{{ a.age }} · {{ a.parent_phone }}</small></td><td>{{ a.course }}</td><td>{% t a.get_level_display %}</td>
+<td>{% if a.status == 'in_progress' or a.status == 'waiting' %}{{ a.stage }} / 6{% else %}-{% endif %}</td><td><span class="pill s-{{ a.status }}">{% t a.get_status_display %}</span></td></tr>
+{% empty %}<tr><td colspan="5" class="muted">{% t "Nothing here" %}</td></tr>{% endfor %}</table></div>
+{% endblock %}

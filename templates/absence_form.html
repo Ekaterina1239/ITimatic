@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Absence details" %}{% endblock %}{% block crumb %}{% t "Parent account" %}{% endblock %}
+{% block content %}
+<div style="max-width:560px"><p><a href="{% url 'absence_choose' s.pk %}">← {% t "Choose another lesson" %}</a></p>
+{% if refused %}<h1>{% t "Report absence" %}</h1><div class="msg error"><b>{% t "Too late: the lesson has already started" %}</b><br>{{ l.start|date:"D d.m H:i" }} · {% t "Contact the center" %}</div>
+{% else %}
+<h1>{% t "Absence details" %}</h1><p class="sub">2 / 3 · {{ s.name }} · {{ l.start|date:"D d.m, H:i" }}</p>
+{% if error %}<div class="msg error">{% t error %}</div>{% endif %}
+<form method="post" class="form" id="af">{% csrf_token %}
+ <div class="seg2" style="margin-bottom:1rem"><label style="flex:1"><input type="radio" name="kind" value="late" {% if pre.kind == 'late' %}checked{% endif %} hidden><span class="btn alt big" data-k="late">{% t "Late" %}</span></label>
+ <label style="flex:1"><input type="radio" name="kind" value="absent" {% if pre.kind != 'late' %}checked{% endif %} hidden><span class="btn big" data-k="absent">{% t "Absent" %}</span></label></div>
+ <div id="late" hidden><label>{% t "How late?" %}</label><div class="chips">{% for m in minutes %}<label class="chip" style="cursor:pointer"><input type="radio" name="minutes" value="{{ m }}" {% if pre.minutes == m %}checked{% endif %}>{{ m }} {% t "min" %}</label>{% endfor %}</div></div>
+ <div id="absent"><label>{% t "Reason" %} *</label><div class="chips">{% for k,v in reasons %}<label class="chip" style="cursor:pointer"><input type="radio" name="reason" value="{{ k }}" {% if pre.reason == k %}checked{% endif %}>{% t v %}</label>{% endfor %}</div>
+ <label>{% t "If Other, specify the reason" %}<input name="note" maxlength="200" value="{{ pre.note }}" placeholder="{% t 'Add a short note for the teacher' %}"></label>
+ <div class="card"><b>{% t "Optional period" %} · {% t "Up to 14 days" %}</b><br><small class="muted">{{ l.start|date:"d.m.Y" }} →</small><input type="date" name="until" min="{{ l.start|date:'Y-m-d' }}"><small class="muted">{% t "Leave empty to report only the selected lesson." %}</small></div></div>
+ <button class="btn big">{% t "Confirm report" %}</button></form>
+{% if pre %}<form method="post" style="margin-top:.6rem">{% csrf_token %}<button class="btn alt big" name="withdraw" value="1">{% t "Withdraw notice" %}</button></form>{% endif %}
+{% endif %}</div>
+{% endblock %}
+{% block js %}<script>
+const f=document.getElementById('af');
+if(f){const sync=()=>{const k=f.kind.value;document.getElementById('late').hidden=k!=='late';document.getElementById('absent').hidden=k!=='absent';
+ f.querySelectorAll('[data-k]').forEach(b=>b.classList.toggle('alt',b.dataset.k!==k));};
+ f.querySelectorAll('input[name=kind]').forEach(r=>r.addEventListener('change',sync));sync();}
+</script>{% endblock %}

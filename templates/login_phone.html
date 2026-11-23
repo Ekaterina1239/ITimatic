@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% load i18n_tags %}{% block title %}{% t "Sign in" %}{% endblock %}
+{% block guest %}
+<div style="margin-top:3rem"><span class="chip">{% t "Secure sign-in" %}</span>
+<h1 style="margin-top:.8rem">{% t "Sign in" %}</h1><p class="sub">{% t "Enter your phone number. We will send a 6-digit code by SMS." %}</p>
+<form method="post" class="card form">{% csrf_token %}
+ <label>{% t "Phone number" %}<input name="phone" type="tel" inputmode="tel" placeholder="+998 90 123 45 67" autocomplete="tel" required autofocus></label>
+ <button class="btn big">{% t "Send code" %}</button></form>
+<p class="muted"><small>{% t "Parents sign in with the phone number given to the administrator. One number can have several roles." %}</small></p></div>
+{% endblock %}
